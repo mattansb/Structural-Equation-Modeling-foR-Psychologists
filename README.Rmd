@@ -1,0 +1,109 @@
+---
+output: github_document
+---
+
+<img src='logo/BGUHex.png' align="right" height="139" />
+
+```{r setup, include=FALSE}
+library(knitr)
+opts_chunk$set(echo = TRUE)
+`%>%` <- dplyr::`%>%`
+
+```
+
+# Structural Equation Modeling foR Psychologists
+
+<sub>*Last updated `r Sys.Date()`.*</sub>
+
+This Github repo contains all lesson files used in the graduate-level course: *Structural Equation Modeling foR Psychologists - Practical Applications in R*, taught at Ben-Gurion University on the Negev (spring 2019 semester).
+
+The goal is to impart students with the basic tools to construct, evaluate and compare structural equation models (SEM; w/ plots), using [`lavaan`](http://lavaan.ugent.be/).
+
+**Notes:**  
+
+- This repo contains only materials relating to *Practical Applications in R*, and does not contain any theoretical or introductory materials.  
+- Please note that some code does not work *on purpose*, to force students to learn to debug.
+
+## Setup
+
+You will need:
+
+1. A fresh installation of [**`R`**](https://cran.r-project.org/) (preferably version 3.6 or above).
+2. [RStudio](https://www.rstudio.com/products/rstudio/download/) (optional - but I recommend using an IDE).
+3. The following packages, listed by lesson:
+
+```{r, echo=FALSE}
+
+r_list <- list.files(path = ".", pattern = ".(R|r)$", recursive = TRUE, full.names = TRUE)
+r_list <- r_list[!stringr::str_detect(r_list, pattern = "(SOLUTION|logo)")]
+
+r_names <- stringr::str_extract(r_list, pattern = "(?<=(/)).{1,}(?=(/))")
+
+r_list <- split(r_list, r_names)
+
+extract_pkgs <- function(fl) {
+  if (length(fl)>1) {
+    return(unique(unlist(sapply(fl, extract_pkgs), recursive = TRUE)))
+  }
+  
+  txt <- read.delim(fl, header = FALSE)
+  txt <- paste0(txt[[1]], collapse = "\n")
+  
+  pkg_lib <- stringr::str_extract_all(txt, pattern = "(?<=library\\().{1,}(?=\\))")
+  
+  pkg2 <- stringr::str_extract_all(txt, pattern = "[a-z|A-Z|0-9]{1,}(?=\\:\\:)")
+  
+  pkg <- unique(unlist(c(pkg_lib, pkg2), recursive = TRUE))
+}
+
+pkgs <- lapply(r_list, extract_pkgs)
+
+
+print_pkgs <- vector("list", length = length(pkgs))
+
+for (i in seq_along(pkgs)) {
+  if (length(pkgs[[i]]) > 0) {
+    link <- paste0("[",names(pkgs)[i],"](/",names(pkgs)[i],")")
+    ps <- paste0(paste0("`", pkgs[[i]], "`"), collapse = ", ")
+    
+    print_pkgs[[i]] <- paste0("|",link,"|", ps, "|\n")
+    # print_pkgs[[i]] <- paste0("    - *", link, "*: ", ps, "\n")
+  } else {
+    print_pkgs[[i]] <- ""
+  }
+}
+
+print_pkgs <- c("|Lesson|Packages|\n|----|----|\n", print_pkgs)
+print_pkgs <- paste0(print_pkgs, collapse = "")
+
+pkgs <- unique(unlist(pkgs, recursive = TRUE))
+
+```
+
+`r print_pkgs`
+
+You can install all the packages used by running:
+
+```{r echo=FALSE, comment = "", warning=FALSE}
+pkgs <- pkgs %>% unique() %>% sort()
+
+cat("# in alphabetical order:")
+
+pkgs %>% {
+  capture.output(dput(.))
+} %>% {
+  capture.output(cat("pkgs <-", ., fill = 80))
+} %>%
+  styler::style_text()
+
+```
+
+```{r eval=FALSE}
+install.packages(pkgs, dependencies = TRUE)
+```
+
+The package versions used here:
+```{r, echo=FALSE}
+packinfo <- installed.packages(fields = c("Package", "Version"))
+packinfo[packinfo[,"Package"] %in% pkgs,"Version"]
+```
