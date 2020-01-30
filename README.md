@@ -3,7 +3,7 @@
 
 # Structural Equation Modeling foR Psychologists
 
-<sub>*Last updated 2020-01-23.*</sub>
+<sub>*Last updated 2020-01-30.*</sub>
 
 This Github repo contains all lesson files used in the graduate-level
 course: *Structural Equation Modeling foR Psychologists - Practical
@@ -32,15 +32,16 @@ You will need:
     (optional - but I recommend using an IDE).
 3.  The following packages, listed by lesson:
 
-| Lesson          | Packages                          |
-| --------------- | --------------------------------- |
-| [other](/other) | `emmeans`, `lavaan`, `lavaanPlot` |
+| Lesson                                    | Packages                                        |
+| ----------------------------------------- | ----------------------------------------------- |
+| [01 path analysis](/01%20path%20analysis) | `lavaan`, `semPlot`, `lavaanPlot`, `parameters` |
+| [other](/other)                           | `emmeans`, `lavaan`, `lavaanPlot`               |
 
 You can install all the packages used by running:
 
     # in alphabetical order:
 
-    pkgs <- c("emmeans", "lavaan", "lavaanPlot")
+    pkgs <- c("emmeans", "lavaan", "lavaanPlot", "parameters", "semPlot")
 
 ``` r
 install.packages(pkgs, dependencies = TRUE)
@@ -48,5 +49,5 @@ install.packages(pkgs, dependencies = TRUE)
 
 The package versions used here:
 
-    ##    emmeans     lavaan lavaanPlot 
-    ## "1.4.3.01"    "0.6-5"    "0.5.1"
+    ##    emmeans     lavaan lavaanPlot parameters    semPlot 
+    ## "1.4.3.01"    "0.6-5"    "0.5.1"    "0.4.1"    "1.1.2"
