@@ -35,13 +35,13 @@ You will need:
 | Lesson                                    | Packages                                        |
 | ----------------------------------------- | ----------------------------------------------- |
 | [01 path analysis](/01%20path%20analysis) | `lavaan`, `semPlot`, `lavaanPlot`, `parameters` |
-| [other](/other)                           | `emmeans`, `lavaan`, `lavaanPlot`               |
+| [03 CFA](/03%20CFA)                       | `lavaan`, `lavaanPlot`                          |
 
 You can install all the packages used by running:
 
     # in alphabetical order:
 
-    pkgs <- c("emmeans", "lavaan", "lavaanPlot", "parameters", "semPlot")
+    pkgs <- c("lavaan", "lavaanPlot", "parameters", "semPlot")
 
 ``` r
 install.packages(pkgs, dependencies = TRUE)
@@ -49,5 +49,5 @@ install.packages(pkgs, dependencies = TRUE)
 
 The package versions used here:
 
-    ##    emmeans     lavaan lavaanPlot parameters    semPlot 
-    ## "1.4.3.01"    "0.6-5"    "0.5.1"    "0.4.1"    "1.1.2"
+    ##     lavaan lavaanPlot parameters    semPlot 
+    ##    "0.6-5"    "0.5.1"    "0.4.1"    "1.1.2"
