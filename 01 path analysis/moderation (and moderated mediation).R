@@ -2,6 +2,9 @@ library(lavaan)
 
 income_psych <- read.csv("income_psych.csv")
 
+
+# Moderation --------------------------------------------------------------
+
 # Note that you cannot use "*" for the interaction term!
 # you must write out the whole thing!
 
@@ -20,8 +23,12 @@ moderation_model <- '
   '
 
 fit <- sem(moderation_model, data = income_psych)
-summary(fit)
+summary(fit, standardize = TRUE)
 
-# For moderated mediation:
-# https://ademos.people.uic.edu/Chapter15.html#5_moderated_mediation_analyses_using_%E2%80%9Clavaan%E2%80%9D_package
-# https://psu-psychology.github.io/psy-597-SEM/11_mediation_moderation/mediation_moderation_demo.html#first-stage-moderated-mediation
+
+# Moderated Mediation -----------------------------------------------------
+
+# For first / second step mod-med:
+#   https://psu-psychology.github.io/psy-597-SEM/11_mediation_moderation/mediation_moderation_demo.html
+# For full mod-med:
+#   https://ademos.people.uic.edu/Chapter15.html
