@@ -3,7 +3,7 @@
 
 # Structural Equation Modeling foR Psychologists
 
-<sub>*Last updated 2020-01-30.*</sub>
+<sub>*Last updated 2020-01-31.*</sub>
 
 This Github repo contains all lesson files used in the graduate-level
 course: *Structural Equation Modeling foR Psychologists - Practical
@@ -32,16 +32,17 @@ You will need:
     (optional - but I recommend using an IDE).
 3.  The following packages, listed by lesson:
 
-| Lesson                                    | Packages                                        |
-| ----------------------------------------- | ----------------------------------------------- |
-| [01 path analysis](/01%20path%20analysis) | `lavaan`, `semPlot`, `lavaanPlot`, `parameters` |
-| [03 CFA](/03%20CFA)                       | `lavaan`, `lavaanPlot`                          |
+| Lesson                                                            | Packages                          |
+| ----------------------------------------------------------------- | --------------------------------- |
+| [01 path analysis](/01%20path%20analysis)                         | `lavaan`, `semPlot`, `lavaanPlot` |
+| [02 cross-lagged panel model](/02%20cross-lagged%20panel%20model) | `lavaan`, `semPlot`, `bayestestR` |
+| [03 CFA](/03%20CFA)                                               | `lavaan`, `lavaanPlot`            |
 
 You can install all the packages used by running:
 
     # in alphabetical order:
 
-    pkgs <- c("lavaan", "lavaanPlot", "parameters", "semPlot")
+    pkgs <- c("bayestestR", "lavaan", "lavaanPlot", "semPlot")
 
 ``` r
 install.packages(pkgs, dependencies = TRUE)
@@ -49,5 +50,5 @@ install.packages(pkgs, dependencies = TRUE)
 
 The package versions used here:
 
-    ##     lavaan lavaanPlot parameters    semPlot 
-    ##    "0.6-5"    "0.5.1"    "0.4.1"    "1.1.2"
+    ## bayestestR     lavaan lavaanPlot    semPlot 
+    ##    "0.5.1"    "0.6-5"    "0.5.1"    "1.1.2"
