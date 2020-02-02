@@ -37,6 +37,7 @@ You will need:
 | [01 path analysis](/01%20path%20analysis)                                           | `lavaan`, `semPlot`, `lavaanPlot`                        |
 | [02 cross-lagged panel model](/02%20cross-lagged%20panel%20model)                   | `lavaan`, `semPlot`, `bayestestR`                        |
 | [03 latent variable structural model](/03%20latent%20variable%20structural%20model) | `lavaan`, `semPlot`, `dplyr`, `bayestestR`, `psychTools` |
+| [04 multiple group analysis](/04%20multiple%20group%20analysis)                     | `lavaan`, `semPlot`, `bayestestR`, `semTools`            |
 
 You can install all the packages used by running:
 
@@ -44,7 +45,7 @@ You can install all the packages used by running:
 
     pkgs <- c(
       "bayestestR", "dplyr", "lavaan", "lavaanPlot", "psychTools",
-      "semPlot"
+      "semPlot", "semTools"
     )
 
 ``` r
@@ -53,5 +54,5 @@ install.packages(pkgs, dependencies = TRUE)
 
 The package versions used here:
 
-    ## bayestestR      dplyr     lavaan lavaanPlot psychTools    semPlot 
-    ##    "0.5.1"    "0.8.3"    "0.6-5"    "0.5.1"   "1.9.12"    "1.1.2"
+    ## bayestestR      dplyr     lavaan lavaanPlot psychTools    semPlot   semTools 
+    ##    "0.5.1"    "0.8.4"    "0.6-5"    "0.5.1"   "1.9.12"    "1.1.2"    "0.5-2"
