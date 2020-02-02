@@ -17,7 +17,13 @@ opts_chunk$set(echo = TRUE)
 
 This Github repo contains all lesson files used in the graduate-level course: *Structural Equation Modeling foR Psychologists - Practical Applications in R*, taught at Ben-Gurion University on the Negev (spring 2019 semester).
 
-The goal is to impart students with the basic tools to construct, evaluate and compare structural equation models (SEM; w/ plots), using [`lavaan`](http://lavaan.ugent.be/).
+The goal is to impart students with the basic tools to construct, evaluate and compare structural equation models (SEM; w/ plots), using [**`lavaan`**](http://lavaan.ugent.be/).
+
+**Some useful resources:**
+
+- [`lavaan` toutorials](http://lavaan.ugent.be/tutorial/index.html).  
+- Sacha Epskamp's [online course](http://sachaepskamp.com/SEM2019).  
+- Michael Hallquist's [course](https://psu-psychology.github.io/psy-597-SEM/).  
 
 **Notes:**  
 

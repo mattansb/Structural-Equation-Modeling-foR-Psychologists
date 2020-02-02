@@ -12,7 +12,14 @@ Applications in R*, taught at Ben-Gurion University on the Negev (spring
 
 The goal is to impart students with the basic tools to construct,
 evaluate and compare structural equation models (SEM; w/ plots), using
-[`lavaan`](http://lavaan.ugent.be/).
+[**`lavaan`**](http://lavaan.ugent.be/).
+
+**Some useful resources:**
+
+  - [`lavaan` toutorials](http://lavaan.ugent.be/tutorial/index.html).  
+  - Sacha Epskamp’s [online course](http://sachaepskamp.com/SEM2019).  
+  - Michael Hallquist’s
+    [course](https://psu-psychology.github.io/psy-597-SEM/).
 
 **Notes:**
 
