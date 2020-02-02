@@ -13,11 +13,11 @@ cl_model <- "
 
   # Covariances
   BAI_t1 ~~ t1cov * DBI_t1
-  BAI_t2 ~~ t2cov * DBI_t2 # this is the resigual cov, so it is set by default anyway
 "
 
 fit <- sem(cl_model, dep_anx_CL)
 summary(fit, standardize = TRUE)
+# Note that by default lavaan estimates covariance between residuals of endogenous variables.
 
 library(semPlot)
 semPaths(fit, whatLabels = "std", style = "lisrel", 
@@ -25,6 +25,29 @@ semPaths(fit, whatLabels = "std", style = "lisrel",
          edge.label.cex = 1.5, sizeMan = 15, 
          edge.label.position = 0.45, rotation = 2)
 
+
+# Compare paths -----------------------------------------------------------
+
+# We can test directly which cross-lagged effect is larger:
+
+cl_model <- "
+  # Regression
+  BAI_t2 ~ BAI_t1 + cross1 * DBI_t1
+  DBI_t2 ~ DBI_t1 + cross2 * BAI_t1
+
+  # Covariances
+  BAI_t1 ~~ t1cov * DBI_t1
+  BAI_t2 ~~ t2cov * DBI_t2
+  
+  # Test
+  CL_diff := cross1 - cross2
+"
+
+fit <- sem(cl_model, dep_anx_CL)
+
+# look at "Defined Parameters" 
+parameterEstimates(fit, output = "text") # for the raw diff
+standardizedSolution(fit, output = "text") # foe the std diff
 
 # Fixing parameters -------------------------------------------------------
 

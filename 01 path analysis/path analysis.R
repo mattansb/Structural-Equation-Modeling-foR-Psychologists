@@ -1,5 +1,9 @@
 
 income_psych <- read.csv("income_psych.csv")
+
+sapply(income_psych, sd)
+
+# NEED TO CHANGE THE VARIANCE OF SOME VARS SO STD AND RAW ARE DIFFERENT!
 head(income_psych)
 
 # Testing mediation:
@@ -41,6 +45,7 @@ fit <- sem(mediation_model, data = income_psych)
 
 summary(fit)
 summary(fit, standardize = TRUE) # look at Std.all for beta
+summary(fit, rsquare = TRUE) # See regression R2
 # Note that by default, lavaan estimates all residual errors.
 
 
@@ -62,7 +67,7 @@ mediation_model <- '
 '
 fit <- sem(mediation_model, data = income_psych)
 
-summary(fit, standardize = TRUE)
+summary(fit, standardize = TRUE) # look at "Defined Parameters" 
 mediation_by_hand
 cor(income_psych$anxiety, income_psych$income)
 
@@ -74,6 +79,30 @@ standardizedSolution(fit, ci = TRUE) # ci for the std estimates
 fit_with_boot <- sem(mediation_model, data = income_psych,
                      se = "bootstrap", bootstrap = 200)
 summary(fit_with_boot, standardize = TRUE)
+
+
+# Compare paths -----------------------------------------------------------
+
+# We can also compare paths directly:
+mediation_model <- '
+  # regressions
+  mood_neg ~ a * anxiety
+    income ~ b * mood_neg + c * anxiety
+  
+
+  # effects
+     direct := c
+   indirect := a * b
+      total := direct + indirect
+      
+  path_diff := direct - indirect
+'
+fit <- sem(mediation_model, data = income_psych)
+
+# look at "Defined Parameters" 
+parameterEstimates(fit, output = "text") # summary gives these test values
+standardizedSolution(fit, output = "text")
+# Note that the tests from these 2 functions CAN BE DIFFERENT. Why?
 
 
 # Plotting ----------------------------------------------------------------
