@@ -1,27 +1,3 @@
-# https://www.theanalysisfactor.com/four-types-sem/
-
-{
-  library(lavaan)
-  dat <- within(HolzingerSwineford1939,{
-    BA_grade <- -scale(x1) + scale(x2) + -scale(x3) + scale(x4) + -scale(x5) + scale(x7)
-    BA_grade <- BA_grade + rt(length(BA_grade), df = 4)*sd(BA_grade)
-    
-    BA_grade2 <- -scale(x1) + scale(x5) + scale(x7) + scale(x9)
-    BA_grade2 <- BA_grade2 + rt(length(BA_grade), df = 4)*sd(BA_grade2)
-    
-    x2 <- x2 + rnorm(length(x2), sd = sd(x2)/2)
-  })
-  
-  colnames(dat)
-  dat <- dat[,7:17]
-  colnames(dat)
-  colnames(dat) <- c("adhd1","adhd2","adhd3","iq1","iq2","anx1","anx2","anx3",
-                     "sustained_attn", "inhibition")
-  
-  adhd_anx <- dat
-  write.csv(adhd_anx, "adhd_anx.csv", row.names = F)
-}
-
 
 #' Today we will explore the relationship between ADHD, IQ, and anxiety
 #' and their effects on sustained attention and inhibition
@@ -62,8 +38,11 @@ parameterEstimates(fit_meas, output = "text")
 standardizedSolution(fit_meas, output = "text")
 # By default the factor loading of the first indicator of a latent variable is fixed to 1,
 # thereby fixing the scale of the latent variable... Fixed parameters are not tested.
+# We can change this by setting the scale of latent vars to 1 via `std.lv = TRUE`:
 
-
+fit_meas <- cfa(mod_meas, data = dat, 
+                std.lv = TRUE)
+summary(fit_meas, standardize = TRUE)
 
 # Modification Indices ----------------------------------------------------
 
@@ -111,7 +90,8 @@ mod_struct <- '
   IQ ~~ 0*ANX
 '
 
-fit_struct <- sem(mod_struct, data = dat)
+fit_struct <- sem(mod_struct, data = dat,
+                  std.lv = TRUE)
 
 library(semPlot)
 semPaths(fit_struct, what = "std", fade = F, whatLabels = "std", style = "lisrel", layout = "tree")
