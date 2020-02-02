@@ -12,7 +12,11 @@ Applications in R*, taught at Ben-Gurion University on the Negev (spring
 
 The goal is to impart students with the basic tools to construct,
 evaluate and compare structural equation models (SEM; w/ plots), using
-[**`lavaan`**](http://lavaan.ugent.be/).
+[**`lavaan`**](http://lavaan.ugent.be/). This course assumes basic
+competence in R (importing, regression modeling, plotting, etc.), a long
+the lines of the prerequisite course, *Advanced Research Methods foR
+Psychologists*, which can be found
+[here](https://github.com/mattansb/Advanced-Research-Methods-foR-Psychologists).
 
 **Some useful resources:**
 

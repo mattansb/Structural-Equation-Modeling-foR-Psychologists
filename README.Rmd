@@ -17,7 +17,7 @@ opts_chunk$set(echo = TRUE)
 
 This Github repo contains all lesson files used in the graduate-level course: *Structural Equation Modeling foR Psychologists - Practical Applications in R*, taught at Ben-Gurion University on the Negev (spring 2019 semester).
 
-The goal is to impart students with the basic tools to construct, evaluate and compare structural equation models (SEM; w/ plots), using [**`lavaan`**](http://lavaan.ugent.be/).
+The goal is to impart students with the basic tools to construct, evaluate and compare structural equation models (SEM; w/ plots), using [**`lavaan`**](http://lavaan.ugent.be/). This course assumes basic competence in R (importing, regression modeling, plotting, etc.), a long the lines of the prerequisite course, *Advanced Research Methods foR Psychologists*, which can be found [here](https://github.com/mattansb/Advanced-Research-Methods-foR-Psychologists).
 
 **Some useful resources:**
 
