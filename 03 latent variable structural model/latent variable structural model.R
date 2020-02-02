@@ -25,7 +25,7 @@ mod_meas <- '
       inhibition ~~ ADHD + IQ + ANX
 '
 
-fit_meas <- cfa(mod_meas, data = dat)
+fit_meas <- cfa(mod_meas, data = adhd_anx)
 
 library(semPlot)
 semPaths(fit_meas, what = "std", fade = F, whatLabels = "std", style = "lisrel", layout = "tree")
@@ -39,10 +39,23 @@ standardizedSolution(fit_meas, output = "text")
 # By default the factor loading of the first indicator of a latent variable is fixed to 1,
 # thereby fixing the scale of the latent variable... Fixed parameters are not tested.
 # We can change this by setting the scale of latent vars to 1 via `std.lv = TRUE`:
-
-fit_meas <- cfa(mod_meas, data = dat, 
+fit_meas <- cfa(mod_meas, data = adhd_anx, 
                 std.lv = TRUE)
 summary(fit_meas, standardize = TRUE)
+
+
+# Reliability -------------------------------------------------------------
+
+mod_lat_only <- '
+  ## latent variable definitions (CFA)
+  ADHD =~ adhd1 + adhd2 + adhd3
+    IQ =~ iq1 + iq2
+   ANX =~ anx1 + anx2 + anx3
+'
+
+fit_lat_only <- cfa(mod_lat_only, data = adhd_anx)
+
+semTools::reliability(fit_lat_only) # see also semTools::reliabilityL2
 
 # Modification Indices ----------------------------------------------------
 
@@ -90,7 +103,7 @@ mod_struct <- '
   IQ ~~ 0*ANX
 '
 
-fit_struct <- sem(mod_struct, data = dat,
+fit_struct <- sem(mod_struct, data = adhd_anx,
                   std.lv = TRUE)
 
 library(semPlot)
