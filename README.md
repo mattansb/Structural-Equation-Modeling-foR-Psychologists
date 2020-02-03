@@ -3,7 +3,7 @@
 
 # Structural Equation Modeling foR Psychologists
 
-<sub>*Last updated 2020-02-02.*</sub>
+<sub>*Last updated 2020-02-03.*</sub>
 
 This Github repo contains all lesson files used in the graduate-level
 course: *Structural Equation Modeling foR Psychologists - Practical
@@ -43,13 +43,14 @@ You will need:
     (optional - but I recommend using an IDE).
 3.  The following packages, listed by lesson:
 
-| Lesson                                                                              | Packages                                                             |
-| ----------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| [01 path analysis](/01%20path%20analysis)                                           | `lavaan`, `semPlot`, `lavaanPlot`                                    |
-| [02 cross-lagged panel model](/02%20cross-lagged%20panel%20model)                   | `lavaan`, `semPlot`, `bayestestR`                                    |
-| [03 latent variable structural model](/03%20latent%20variable%20structural%20model) | `lavaan`, `semPlot`, `dplyr`, `semTools`, `bayestestR`, `psychTools` |
-| [04 multiple group analysis](/04%20multiple%20group%20analysis)                     | `lavaan`, `semPlot`, `bayestestR`, `semTools`                        |
-| [05 EFA](/05%20EFA)                                                                 | `parameters`, `psych`, `lavaan`, `semPlot`, `psychTools`             |
+| Lesson                                                                                              | Packages                                                             |
+| --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| [01 path analysis](/01%20path%20analysis)                                                           | `lavaan`, `semPlot`, `lavaanPlot`                                    |
+| [02 cross-lagged panel model](/02%20cross-lagged%20panel%20model)                                   | `lavaan`, `semPlot`, `bayestestR`                                    |
+| [03 CFA + latent variable structural model](/03%20CFA%20+%20latent%20variable%20structural%20model) | `lavaan`, `semPlot`, `dplyr`, `semTools`, `bayestestR`, `psychTools` |
+| [04 multiple group analysis](/04%20multiple%20group%20analysis)                                     | `lavaan`, `semPlot`, `bayestestR`, `semTools`                        |
+| [05 EFA](/05%20EFA)                                                                                 | `parameters`, `psych`, `lavaan`, `semPlot`, `psychTools`             |
+| [06 latent growth curve modeling](/06%20latent%20growth%20curve%20modeling)                         | `lavaan`, `semPlot`                                                  |
 
 You can install all the packages used by running:
 
