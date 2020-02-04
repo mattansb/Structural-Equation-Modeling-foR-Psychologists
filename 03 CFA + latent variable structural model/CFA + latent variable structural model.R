@@ -38,11 +38,14 @@ parameterEstimates(fit_meas, output = "text")
 standardizedSolution(fit_meas, output = "text")
 # By default the factor loading of the first indicator of a latent variable is fixed to 1,
 # thereby fixing the scale of the latent variable... Fixed parameters are not tested.
-# We can change this by setting the scale of latent vars to 1 via `std.lv = TRUE`:
 fit_meas <- cfa(mod_meas, data = adhd_anx, 
                 std.lv = TRUE)
 summary(fit_meas, standardize = TRUE)
 
+# we can also extract the scores of the latent variables,
+# but note that these mostly only make sense WITHIN a SEM model.
+cfa_scores <- as.data.frame(lavPredict(fit_meas, append.data = FALSE)) # set append.data = TRUE to also get the original data.
+head(cfa_scores)
 
 # Reliability -------------------------------------------------------------
 

@@ -14,6 +14,11 @@ efa <- fa(data, nfactors = 5, rotate = "varimax") # or rotate = "oblimin"
 summary(efa) # or
 model_parameters(efa, threshold = 0.55)
 
+# We can now use the factor scores just as we would any variable:
+data_scores <- efa$scores
+colnames(data_scores) <- c("N","E","C","A","O") # name the factors
+head(data_scores)
+
 # How many factors to retain in Factor Analysis (FA)? ---------------------
 
 # But what if we're not sure how many factors?
