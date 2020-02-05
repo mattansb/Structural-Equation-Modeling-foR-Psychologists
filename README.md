@@ -3,27 +3,19 @@
 
 # Structural Equation Modeling foR Psychologists
 
-<sub>*Last updated 2020-02-03.*</sub>
+<sub>*Last updated 2020-02-05.*</sub>
 
 This Github repo contains all lesson files used in the graduate-level
 course: *Structural Equation Modeling foR Psychologists - Practical
 Applications in R*, taught at Ben-Gurion University on the Negev (spring
-2019 semester).
+2019 semester). This course assumes basic competence in R (importing,
+regression modeling, plotting, etc.), a long the lines of the
+prerequisite course, [*Advanced Research Methods foR
+Psychologists*](https://github.com/mattansb/Advanced-Research-Methods-foR-Psychologists).
 
 The goal is to impart students with the basic tools to construct,
-evaluate and compare structural equation models (SEM; w/ plots), using
-[**`lavaan`**](http://lavaan.ugent.be/). This course assumes basic
-competence in R (importing, regression modeling, plotting, etc.), a long
-the lines of the prerequisite course, *Advanced Research Methods foR
-Psychologists*, which can be found
-[here](https://github.com/mattansb/Advanced-Research-Methods-foR-Psychologists).
-
-**Some useful resources:**
-
-  - [`lavaan` toutorials](http://lavaan.ugent.be/tutorial/index.html).  
-  - Sacha Epskamp’s [online course](http://sachaepskamp.com/SEM2019).  
-  - Michael Hallquist’s
-    [course](https://psu-psychology.github.io/psy-597-SEM/).
+evaluate and compare **Structural Equation Models (SEM; w/ plots), using
+[`lavaan`](http://lavaan.ugent.be/)**.
 
 **Notes:**
 
@@ -61,9 +53,7 @@ You can install all the packages used by running:
       "psych", "psychTools", "semPlot", "semTools"
     )
 
-``` r
-install.packages(pkgs, dependencies = TRUE)
-```
+    install.packages(pkgs, dependencies = TRUE)
 
 The package versions used here:
 
@@ -71,3 +61,10 @@ The package versions used here:
     ##     "0.5.1"     "0.8.4"     "0.6-5"     "0.5.1"     "0.4.1" "1.9.12.31" 
     ##  psychTools     semPlot    semTools 
     ##    "1.9.12"     "1.1.2"     "0.5-2"
+
+## Other Useful Resources
+
+  - [`lavaan` toutorials](http://lavaan.ugent.be/tutorial/index.html).  
+  - Sacha Epskamp’s [online course](http://sachaepskamp.com/SEM2019).  
+  - Michael Hallquist’s
+    [course](https://psu-psychology.github.io/psy-597-SEM/).
