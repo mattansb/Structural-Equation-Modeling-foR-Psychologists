@@ -1,8 +1,6 @@
 
 income_psych <- read.csv("income_psych.csv")
 
-sapply(income_psych, sd)
-
 # NEED TO CHANGE THE VARIANCE OF SOME VARS SO STD AND RAW ARE DIFFERENT!
 head(income_psych)
 
@@ -109,10 +107,20 @@ standardizedSolution(fit, output = "text")
 
 library(semPlot)
 # very (too?) customisable:
+semPaths(fit)
 semPaths(fit, whatLabels = "est", normalize = FALSE)
-semPaths(fit, whatLabels = "std", normalize = FALSE)
 semPaths(fit, whatLabels = "std", normalize = FALSE, style = "lisrel")
+
 ?semPaths # there are a million options!
+
+semPaths(fit, what = "std", whatLabels = "std", 
+         residuals = TRUE, intercepts = FALSE,
+         # prettify
+         style = "lisrel", normalize = TRUE, 
+         sizeMan = 11, sizeMan2 = 7,
+         sizeLat = 11, sizeLat2 = 7,
+         nCharNodes = 50,
+         edge.label.cex = 1)
 
 
 library(lavaanPlot)

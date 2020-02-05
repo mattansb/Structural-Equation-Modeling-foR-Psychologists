@@ -36,8 +36,17 @@ summary(fit_LGC, standardize = TRUE)
 
 library(semPlot)
 
-semPaths(fit_LGC, whatLabels = "std", exoCov = FALSE,
-         fade = FALSE, style = "lisrel",
+semPaths(fit_LGC, what = "std", whatLabels = "std", 
+         residuals = TRUE, intercepts = FALSE,
+         rotation = 2,
+         # prettify
+         fade = FALSE,
+         style = "lisrel", normalize = TRUE, 
+         sizeMan = 15, sizeMan2 = 7,
+         sizeLat = 15, sizeLat2 = 7,
+         nCharNodes = 50,
+         edge.label.cex = 1.3,
+         edge.label.bg = FALSE, edge.label.color = "black",
          edge.label.position = 0.45)
 
 
@@ -63,11 +72,17 @@ fit_LGC_S <- growth(LGCM_S, data = intimacy_depression, std.lv = TRUE)
 
 summary(fit_LGC_S, standardize = TRUE)
 
-semPaths(fit_LGC_S, whatLabels = "std", exoCov = FALSE,
-         fade = FALSE, style = "lisrel",
+semPaths(fit_LGC_S, whatLabels = "std", 
+         residuals = TRUE, intercepts = FALSE, exoCov = FALSE,
+         # prettify
+         fade = FALSE,
+         style = "lisrel", normalize = TRUE, 
+         sizeMan = 13, sizeMan2 = 7,
+         sizeLat = 11, sizeLat2 = 7,
+         nCharNodes = 50,
+         edge.label.cex = 1,
+         edge.label.bg = FALSE, edge.label.color = "black",
          edge.label.position = 0.45)
-
-
 
 # Multi-level models ------------------------------------------------------
 

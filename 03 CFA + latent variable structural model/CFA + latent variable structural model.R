@@ -28,7 +28,14 @@ mod_meas <- '
 fit_meas <- cfa(mod_meas, data = adhd_anx)
 
 library(semPlot)
-semPaths(fit_meas, what = "std", fade = F, whatLabels = "std", style = "lisrel", layout = "tree")
+semPaths(fit_meas, what = "std", whatLabels = "std", 
+         residuals = TRUE, intercepts = FALSE,
+         # prettify
+         fade = FALSE,
+         style = "lisrel", normalize = TRUE, 
+         edge.label.cex = 1,
+         edge.label.bg = TRUE, edge.label.color = "black",
+         edge.label.position = 0.45)
 
 
 summary(fit_meas, standardize = TRUE)
@@ -109,9 +116,16 @@ mod_struct <- '
 fit_struct <- sem(mod_struct, data = adhd_anx,
                   std.lv = TRUE)
 
-library(semPlot)
-semPaths(fit_struct, what = "std", fade = F, whatLabels = "std", style = "lisrel", layout = "tree")
-
+semPaths(fit_struct, what = "std", whatLabels = "std", 
+         residuals = TRUE, intercepts = FALSE,
+         # prettify
+         fade = FALSE,
+         style = "lisrel", normalize = TRUE, 
+         sizeLat = 7, sizeLat2 = 5,
+         nCharNodes = 7,
+         edge.label.cex = 1,
+         edge.label.position = 0.45,
+         edge.label.bg = TRUE, edge.label.color = "black")
 
 summary(fit_struct, standardize = TRUE)
 
@@ -134,7 +148,7 @@ library(dplyr)
 big5 <- psychTools::bfi %>% 
   select(A1:A5, C1:C5, E1:E5, N1:N5, O1:O5,
          gender, age) %>% 
-  filter_all(~!is.na(.x))
+  na.omit()
 
 head(big5)
 

@@ -20,10 +20,18 @@ summary(fit, standardize = TRUE)
 # Note that by default lavaan estimates covariance between residuals of endogenous variables.
 
 library(semPlot)
-semPaths(fit, whatLabels = "std", style = "lisrel", 
-         # what = "std", fade = F,
-         edge.label.cex = 1.5, sizeMan = 15, 
-         edge.label.position = 0.45, rotation = 2)
+semPaths(fit, what = "std", whatLabels = "std", 
+         residuals = TRUE, intercepts = FALSE,
+         rotation = 2,
+         # prettify
+         fade = FALSE,
+         style = "lisrel", normalize = TRUE, 
+         sizeMan = 11, sizeMan2 = 7,
+         sizeLat = 11, sizeLat2 = 7,
+         nCharNodes = 50,
+         edge.label.cex = 1,
+         edge.label.bg = FALSE, edge.label.color = "black",
+         edge.label.position = 0.45)
 
 
 # Compare paths -----------------------------------------------------------

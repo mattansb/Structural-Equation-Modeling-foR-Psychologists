@@ -42,7 +42,16 @@ fit5 <- cfa(structure_big5, data = data,
             std.lv = TRUE)
 
 library(semPlot)
-semPaths(fit5)
+
+semPaths(fit5, what = "std", whatLabels = "std", 
+         residuals = TRUE, intercepts = FALSE,
+         # prettify
+         fade = FALSE,
+         style = "lisrel", normalize = TRUE, 
+         nCharNodes = 50,
+         edge.label.cex = 1,
+         edge.label.bg = TRUE, edge.label.color = "black",
+         edge.label.position = 0.55)
 
 # Exercise ----------------------------------------------------------------
 

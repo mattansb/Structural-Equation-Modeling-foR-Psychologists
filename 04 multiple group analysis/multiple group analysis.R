@@ -28,9 +28,19 @@ fit_groups <- cfa(mod,
 summary(fit_groups, standardize = TRUE)
 
 library(semPlot)
-semPaths(fit_groups, 
-         what = "std", fade = F, whatLabels = "std", style = "lisrel", layout = "tree",
-         panelGroups = TRUE)
+# panelGroups = TRUE
+semPaths(fit_groups, what = "std", whatLabels = "std", 
+         residuals = TRUE, intercepts = FALSE,
+         panelGroups = TRUE,
+         # prettify
+         fade = FALSE,
+         style = "lisrel", normalize = TRUE, 
+         sizeMan = 11, sizeMan2 = 7,
+         sizeLat = 11, sizeLat2 = 7,
+         nCharNodes = 7,
+         edge.label.cex = 1.5,
+         edge.label.bg = FALSE, edge.label.color = "black",
+         edge.label.position = 0.45)
 
 # Constraints -------------------------------------------------------------
 
