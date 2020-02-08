@@ -31,7 +31,7 @@ ns <- n_factors(data)
 as.data.frame(ns) # look for Kaiser criterion of Scree - seems to suggest 6.
 
 
-# Back to CFA -------------------------------------------------------------
+# Back to CFA in lavaan ---------------------------------------------------
 
 library(lavaan)
 
@@ -52,6 +52,42 @@ semPaths(fit5, what = "std", whatLabels = "std",
          edge.label.cex = 1,
          edge.label.bg = TRUE, edge.label.color = "black",
          edge.label.position = 0.55)
+
+
+# EFA in lavaan -----------------------------------------------------------
+
+# If you must do EFA in lavaan - it is possible...
+
+efa5_model <- "
+  efa('block1')*F1 +
+  efa('block1')*F2 +
+  efa('block1')*F3 +
+  efa('block1')*F4 +
+  efa('block1')*F5 =~ A1 + A2 + A3 + A4 + A5 + C1 + C2 + C3 + C4 + C5 + E1 + E2 + E3 + E4 + E5 + N1 + N2 + N3 + N4 + N5 + O1 + O2 + O3 + O4 + O5
+"
+efa_fit <- lavaan(
+  model          = efa5_model, 
+  data           = data,  
+  auto.var       = TRUE, 
+  auto.efa       = TRUE
+)
+standardizedSolution(efa_fit, output = "text")
+
+# tidy that output:
+library(dplyr)
+library(tidyr)
+
+# compare:
+standardizedSolution(efa_fit, output = "text") %>% 
+  filter(op == "=~") %>% 
+  select(factor   = lhs,
+         item     = rhs,
+         loadings = est.std) %>% 
+  pivot_wider(names_from  = factor,
+              values_from = loadings)
+
+# with:
+model_parameters(efa) # results from psych::fa
 
 # Exercise ----------------------------------------------------------------
 
