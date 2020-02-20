@@ -25,7 +25,8 @@ mod_meas <- '
       inhibition ~~ ADHD + IQ + ANX
 '
 
-fit_meas <- cfa(mod_meas, data = adhd_anx)
+fit_meas <- cfa(mod_meas, data = adhd_anx,
+                likelihood = "wishart")
 
 library(semPlot)
 semPaths(fit_meas, what = "std", whatLabels = "std", 
@@ -46,12 +47,13 @@ standardizedSolution(fit_meas, output = "text")
 # By default the factor loading of the first indicator of a latent variable is fixed to 1,
 # thereby fixing the scale of the latent variable... Fixed parameters are not tested.
 fit_meas <- cfa(mod_meas, data = adhd_anx, 
+                likelihood = "wishart",
                 std.lv = TRUE)
 summary(fit_meas, standardize = TRUE)
 
 # we can also extract the scores of the latent variables,
 # but note that these mostly only make sense WITHIN a SEM model.
-cfa_scores <- as.data.frame(lavPredict(fit_meas, append.data = FALSE)) # set append.data = TRUE to also get the original data.
+cfa_scores <- data.frame(lavPredict(fit_meas, append.data = FALSE)) # set append.data = TRUE to also get the original data.
 head(cfa_scores)
 
 # Reliability -------------------------------------------------------------
@@ -63,9 +65,12 @@ mod_lat_only <- '
    ANX =~ anx1 + anx2 + anx3
 '
 
-fit_lat_only <- cfa(mod_lat_only, data = adhd_anx)
+fit_lat_only <- cfa(mod_lat_only, data = adhd_anx,
+                    likelihood = "wishart")
 
 semTools::reliability(fit_lat_only) # see also semTools::reliabilityL2
+# read about the indices here:
+?semTools::reliability
 
 # Modification Indices ----------------------------------------------------
 
@@ -114,6 +119,7 @@ mod_struct <- '
 '
 
 fit_struct <- sem(mod_struct, data = adhd_anx,
+                  likelihood = "wishart",
                   std.lv = TRUE)
 
 semPaths(fit_struct, what = "std", whatLabels = "std", 
@@ -134,7 +140,7 @@ fitMeasures(fit_struct,
             fit.measures = c("chisq", "df","pvalue",
                              "baseline.chisq","baseline.df","baseline.pvalue"),
             baseline.model = fit_meas)
-anova(fit_struct, fit_meas)
+anova(fit_struct, fit_meas) # Is this good or bad?
 bayestestR::bayesfactor_models(fit_struct, denominator = fit_meas)
 
 fitMeasures(fit_struct, output = "text",

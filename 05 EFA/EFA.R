@@ -39,6 +39,7 @@ structure_big5 <- efa_to_cfa(efa, threshold = 0.55)
 structure_big5
 
 fit5 <- cfa(structure_big5, data = data,
+            likelihood = "wishart",
             std.lv = TRUE)
 
 library(semPlot)
@@ -56,7 +57,7 @@ semPaths(fit5, what = "std", whatLabels = "std",
 
 # EFA in lavaan -----------------------------------------------------------
 
-# If you must do EFA in lavaan - it is possible...
+# If you MUST do EFA in lavaan - it is possible...
 
 efa5_model <- "
   efa('block1')*F1 +
@@ -65,12 +66,9 @@ efa5_model <- "
   efa('block1')*F4 +
   efa('block1')*F5 =~ A1 + A2 + A3 + A4 + A5 + C1 + C2 + C3 + C4 + C5 + E1 + E2 + E3 + E4 + E5 + N1 + N2 + N3 + N4 + N5 + O1 + O2 + O3 + O4 + O5
 "
-efa_fit <- lavaan(
-  model          = efa5_model, 
-  data           = data,  
-  auto.var       = TRUE, 
-  auto.efa       = TRUE
-)
+efa_fit <- lavaan(efa5_model, data = data,  
+                  likelihood = "wishart",
+                  auto.var = TRUE, auto.efa = TRUE)
 standardizedSolution(efa_fit, output = "text")
 
 # tidy that output:

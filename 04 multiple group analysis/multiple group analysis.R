@@ -21,10 +21,10 @@ mod <- '
    IQ ~~ ANX
 '
 
-fit_groups <- cfa(mod, 
-                  group = "gender",
-                  data = adhd_anx_gender, 
-                  std.lv = TRUE)
+fit_groups <- cfa(mod, data = adhd_anx_gender, 
+                  likelihood = "wishart",
+                  std.lv = TRUE,
+                  group = "gender")
 summary(fit_groups, standardize = TRUE)
 
 library(semPlot)
@@ -51,15 +51,15 @@ mod_const <- '
     IQ =~ iq1 + iq2
    ANX =~ anx1 + anx2 + anx3 
    
-   ADHD ~ c(v1,v1)*IQ + ANX # <<<<<<<
+   ADHD ~ c(v1, v1) * IQ + ANX # <<<<<<<
    
    IQ ~~ ANX
 '
 
-fit_groups_const <- cfa(mod_const, 
-                        group = "gender",
-                        data = adhd_anx_gender, 
-                        std.lv = TRUE)
+fit_groups_const <- cfa(mod_const, data = adhd_anx_gender,
+                        likelihood = "wishart",
+                        std.lv = TRUE,
+                        group = "gender")
 summary(fit_groups_const, standardize = TRUE)
 
 
@@ -75,17 +75,17 @@ mod_const2 <- '
     IQ =~ iq1 + iq2
    ANX =~ anx1 + anx2 + anx3 
    
-   ADHD ~ c(v1,v1)*IQ + ANX
+   ADHD ~ c(v1, v1) * IQ + ANX
    
-   IQ ~~ c(c1,c2)*ANX  # <<<<<<<
+   IQ ~  ~ c(c1, c2) * ANX  # <<<<<<<
    
    cv_diff := c1 - c2
 '
 
-fit_groups_const2 <- cfa(mod_const2, 
-                        group = "gender",
-                        data = adhd_anx_gender, 
-                        std.lv = TRUE)
+fit_groups_const2 <- cfa(mod_const2, data = adhd_anx_gender,
+                         likelihood = "wishart",
+                         std.lv = TRUE, 
+                         group = "gender")
 summary(fit_groups_const2, standardize = TRUE)
 
 
@@ -100,16 +100,15 @@ summary(fit_groups_const2, standardize = TRUE)
 
 cat(mod)
 
-fit_groups_mi <- cfa(mod, 
-                     group = "gender",
-                     data = adhd_anx_gender, 
-                     std.lv = TRUE,
-                     group.equal = "loadings")
-summary(fit_groups_mi, standardize = TRUE)
+fit_groups_measi <- cfa(mod, data = adhd_anx_gender, 
+                        likelihood = "wishart",
+                        std.lv = TRUE,
+                        group = "gender", group.equal = "loadings")
+summary(fit_groups_measi, standardize = TRUE)
 
 
-anova(fit_groups_mi, fit_groups)
-bayestestR::bayesfactor_models(fit_groups, fit_groups_mi)
+anova(fit_groups_measi, fit_groups)
+bayestestR::bayesfactor_models(fit_groups, fit_groups_measi)
 
 # We saw that we can set group equality for the indicator loadings, but we can also
 # set other group equality constraints with the group.equal argument:

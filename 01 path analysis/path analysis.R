@@ -39,7 +39,8 @@ mediation_model <- '
 '
 
 # fit the model to the data:
-fit <- sem(mediation_model, data = income_psych)
+fit <- sem(mediation_model, data = income_psych,
+           likelihood = "wishart")
 
 summary(fit)
 summary(fit, standardize = TRUE) # look at Std.all for beta
@@ -63,7 +64,8 @@ mediation_model <- '
   indirect := a * b
      total := direct + indirect
 '
-fit <- sem(mediation_model, data = income_psych)
+fit <- sem(mediation_model, data = income_psych,
+           likelihood = "wishart")
 
 summary(fit, standardize = TRUE) # look at "Defined Parameters" 
 mediation_by_hand
@@ -75,6 +77,7 @@ standardizedSolution(fit, ci = TRUE) # ci for the std estimates
 
 ## Bootstrap
 fit_with_boot <- sem(mediation_model, data = income_psych,
+                     likelihood = "wishart",
                      se = "bootstrap", bootstrap = 200)
 summary(fit_with_boot, standardize = TRUE)
 
@@ -95,7 +98,13 @@ mediation_model <- '
       
   path_diff := direct - indirect
 '
-fit <- sem(mediation_model, data = income_psych)
+fit <- sem(mediation_model, data = income_psych,
+           likelihood = "wishart")
+
+# We will always use likelihood = "wishart", which has the added benifit of
+# giving similar results to AMOS(SPSS). Read more about the varouls likelihoods
+# and estimators:
+# http://lavaan.ugent.be/tutorial/est.html
 
 # look at "Defined Parameters" 
 parameterEstimates(fit, output = "text") # summary gives these test values

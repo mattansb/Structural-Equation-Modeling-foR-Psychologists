@@ -15,7 +15,9 @@ cl_model <- "
   BAI_t1 ~~ t1cov * DBI_t1
 "
 
-fit <- sem(cl_model, dep_anx_CL)
+fit <- sem(cl_model, dep_anx_CL,
+           likelihood = "wishart")
+
 summary(fit, standardize = TRUE)
 # Note that by default lavaan estimates covariance between residuals of endogenous variables.
 
@@ -51,11 +53,12 @@ cl_model <- "
   CL_diff := cross1 - cross2
 "
 
-fit <- sem(cl_model, dep_anx_CL)
+fit <- sem(cl_model, dep_anx_CL,
+           likelihood = "wishart")
 
 # look at "Defined Parameters" 
 parameterEstimates(fit, output = "text") # for the raw diff
-standardizedSolution(fit, output = "text") # foe the std diff
+standardizedSolution(fit, output = "text") # for the std diff
 
 # Fixing parameters -------------------------------------------------------
 
@@ -88,7 +91,8 @@ cl_model2 <- "
   BAI_t2 ~~ 0 * DBI_t2 # fix to 0
 "
 
-fit2 <- sem(cl_model2, dep_anx_CL)
+fit2 <- sem(cl_model2, dep_anx_CL,
+            likelihood = "wishart")
 summary(fit2, standardize = TRUE)
 
 anova(fit, fit2) # what does this mean?

@@ -29,7 +29,9 @@ LGCM <- '
 '
 # typically we would also add here all the covariances with all the variables of intrest...
 
-fit_LGC <- growth(LGCM, data = intimacy_depression, std.lv = TRUE)
+fit_LGC <- growth(LGCM, data = intimacy_depression,
+                  likelihood = "wishart",
+                  std.lv = TRUE)
 
 summary(fit_LGC, standardize = TRUE)
 # Note: The intercept of slope is significant, suggesting that over all there is an effect for time.
@@ -38,7 +40,6 @@ library(semPlot)
 
 semPaths(fit_LGC, what = "std", whatLabels = "std", 
          residuals = TRUE, intercepts = FALSE,
-         rotation = 2,
          # prettify
          fade = FALSE,
          style = "lisrel", normalize = TRUE, 
@@ -68,7 +69,9 @@ LGCM_S <- '
   depression_t4 ~ intimacy_t4
 '
 
-fit_LGC_S <- growth(LGCM_S, data = intimacy_depression, std.lv = TRUE)
+fit_LGC_S <- growth(LGCM_S, data = intimacy_depression, 
+                    likelihood = "wishart",
+                    std.lv = TRUE)
 
 summary(fit_LGC_S, standardize = TRUE)
 

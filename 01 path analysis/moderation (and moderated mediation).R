@@ -22,7 +22,8 @@ moderation_model <- '
   SD.above := b1 + b3*(mood_neg.mean + sqrt(mood_neg.var))
   '
 
-fit <- sem(moderation_model, data = income_psych)
+fit <- sem(moderation_model, data = income_psych,
+           likelihood = "wishart")
 summary(fit, standardize = TRUE)
 
 
