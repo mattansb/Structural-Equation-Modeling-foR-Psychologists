@@ -117,8 +117,8 @@ standardizedSolution(fit, output = "text")
 library(semPlot)
 # very (too?) customisable:
 semPaths(fit)
-semPaths(fit, whatLabels = "est", normalize = FALSE)
-semPaths(fit, whatLabels = "std", normalize = FALSE, style = "lisrel")
+semPaths(fit, whatLabels = "est")
+semPaths(fit, whatLabels = "std", style = "lisrel")
 
 ?semPaths # there are a million options!
 
