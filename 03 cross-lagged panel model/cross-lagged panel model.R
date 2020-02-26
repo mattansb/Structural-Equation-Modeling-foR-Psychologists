@@ -104,3 +104,4 @@ bayestestR::bayesfactor_models(fit, fit2) # what does THIS mean?
 #  - How does this compare to the unconstrined model?
 # Fix the DBI_1 to BAI_2 cross path to 0.
 #  - How does this compare to the unconstrined model?
+

@@ -11,14 +11,16 @@ library(lavaan)
 
 mod_meas <- '
   ## latent variable definitions (CFA)
+  ## The "=~" can be read as "is identified by"
   ADHD =~ adhd1 + adhd2 + adhd3
     IQ =~ iq1 + iq2
    ANX =~ anx1 + anx2 + anx3 
   
-  ## self-rgression
+  ## self-regression
   sustained_attn ~ 1 * sustained_attn
       inhibition ~ 1 * inhibition
-  # we need to define one of the observed variables (this is a silly bug) This does not affect the model fit!
+  # We need to define one of the observed variables (this is a silly bug).
+  # This does not affect the model fit!
   
   ## covariances
   sustained_attn ~~ inhibition + ADHD + IQ + ANX
@@ -160,7 +162,7 @@ head(big5)
 
 # 1. Create a measurment model with the big 5 latent variables, age, and gender.
 #    - Explore the MIs. Is there anything you should add? Does it make sense?
-# 2. Create at least 2 structural models of your choice with the big5, age and gender.
+# 2. Create 2 structural models of your choice with the big5, age and gender.
 #    - Compare them (sig, BF).
 #    - Compare their measures of fit.
 
