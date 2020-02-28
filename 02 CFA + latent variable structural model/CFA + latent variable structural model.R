@@ -77,21 +77,24 @@ semTools::reliability(fit_lat_only) # see also semTools::reliabilityL2
 # Modification Indices ----------------------------------------------------
 
 # We can look at modification indices (mi):
-modificationIndices(fit_meas, sort. = TRUE, maximum.number = 10)
+modificationIndices(fit_meas, sort. = TRUE, maximum.number = 5)
+modificationIndices(fit_meas, sort. = TRUE, minimum.value = 10)
 # what should we do?
 
 
 
 # Fit Measures ------------------------------------------------------------
 
-fitMeasures(fit_meas,
-            fit.measures = c("chisq", "df","pvalue",
-                             "baseline.chisq","baseline.df","baseline.pvalue"))
+fitMeasures(fit_meas, output = "matrix",
+            fit.measures = c(
+              "chisq", "df","pvalue",
+              "baseline.chisq","baseline.df","baseline.pvalue"
+            ))
 # The "baseline" model is the null /"independence" model, which constraints
 # all covariances to zero, AKA the worst model.
 
 
-fitMeasures(fit_meas, output = "text",
+fitMeasures(fit_meas, output = "matrix",
             fit.measures = c("nfi","nnfi","tli", "cfi","rmsea"))
 # What we want:
 # Should Chi-sq be sig?
@@ -138,16 +141,18 @@ semPaths(fit_struct, what = "std", whatLabels = "std",
 summary(fit_struct, standardize = TRUE)
 
 
-fitMeasures(fit_struct,
-            fit.measures = c("chisq", "df","pvalue",
-                             "baseline.chisq","baseline.df","baseline.pvalue"),
+fitMeasures(fit_struct, output = "matrix",
+            fit.measures = c(
+              "chisq", "df","pvalue",
+              "baseline.chisq","baseline.df","baseline.pvalue"
+            ),
             baseline.model = fit_meas)
 anova(fit_struct, fit_meas) # Is this good or bad?
 bayestestR::bayesfactor_models(fit_struct, denominator = fit_meas)
 
-fitMeasures(fit_struct, output = "text",
+fitMeasures(fit_struct, output = "matrix",
             fit.measures = c("nfi","nnfi","tli", "cfi","rmsea"), 
-            baseline.model = fit_meas)
+            baseline.model = fit_meas) # note we added a NEW baseline!
 
 
 # Exercise ----------------------------------------------------------------

@@ -118,7 +118,7 @@ library(semPlot)
 # very (too?) customisable:
 semPaths(fit)
 semPaths(fit, whatLabels = "est")
-semPaths(fit, whatLabels = "std", style = "lisrel")
+semPaths(fit, whatLabels = "std")
 
 ?semPaths # there are a million options!
 

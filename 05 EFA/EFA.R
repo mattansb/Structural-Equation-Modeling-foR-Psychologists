@@ -9,10 +9,12 @@ cor(data)
 check_factorstructure(data)
 
 
-efa <- fa(data, nfactors = 5, rotate = "varimax") # or rotate = "oblimin"
+efa <- fa(data, nfactors = 5, fm = "minres", rotate = "varimax") # default method (fm)
+efa <- fa(data, nfactors = 5, fm = "pa", rotate = "varimax")     # principal factor solution
+# or rotate = "oblimin"
 
-summary(efa) # or
-model_parameters(efa, threshold = 0.55)
+efa
+model_parameters(efa, sort = TRUE, threshold = 0.55)
 
 # We can now use the factor scores just as we would any variable:
 data_scores <- efa$scores
