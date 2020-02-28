@@ -15,6 +15,7 @@ efa <- fa(data, nfactors = 5, fm = "pa", rotate = "varimax")     # principal fac
 
 efa
 model_parameters(efa, sort = TRUE, threshold = 0.55)
+# These give the pattern matrix
 
 # We can now use the factor scores just as we would any variable:
 data_scores <- efa$scores
