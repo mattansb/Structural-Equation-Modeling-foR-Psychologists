@@ -3,7 +3,7 @@
 
 # Structural Equation Modeling foR Psychologists
 
-<sub>*Last updated 2020-02-26.*</sub>
+<sub>*Last updated 2020-02-28.*</sub>
 
 This Github repo contains all lesson files used in the graduate-level
 course: *Structural Equation Modeling foR Psychologists - Practical

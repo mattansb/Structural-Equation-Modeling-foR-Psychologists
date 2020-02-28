@@ -77,7 +77,7 @@ You will need:
 2. [RStudio](https://www.rstudio.com/products/rstudio/download/) (optional - but I recommend using an IDE).
 3. The following packages, listed by lesson:
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 r_list <- list.files(pattern = ".(R|r)$", recursive = TRUE, full.names = TRUE) %>% 
   .[!stringr::str_detect(., pattern = "(SOLUTION|logo)")]
 

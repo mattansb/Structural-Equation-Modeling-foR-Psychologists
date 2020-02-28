@@ -30,7 +30,6 @@ LGCM <- '
 # typically we would also add here all the covariances with all the variables of intrest...
 
 fit_LGC <- growth(LGCM, data = intimacy_depression,
-                  likelihood = "wishart",
                   std.lv = TRUE)
 
 summary(fit_LGC, standardize = TRUE)
@@ -70,7 +69,6 @@ LGCM_S <- '
 '
 
 fit_LGC_S <- growth(LGCM_S, data = intimacy_depression, 
-                    likelihood = "wishart",
                     std.lv = TRUE)
 
 summary(fit_LGC_S, standardize = TRUE)

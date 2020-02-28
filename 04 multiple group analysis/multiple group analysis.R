@@ -22,7 +22,6 @@ mod <- '
 '
 
 fit_groups <- cfa(mod, data = adhd_anx_gender, 
-                  likelihood = "wishart",
                   std.lv = TRUE,
                   group = "gender")
 summary(fit_groups, standardize = TRUE)
@@ -57,7 +56,6 @@ mod_const <- '
 '
 
 fit_groups_const <- cfa(mod_const, data = adhd_anx_gender,
-                        likelihood = "wishart",
                         std.lv = TRUE,
                         group = "gender")
 summary(fit_groups_const, standardize = TRUE)
@@ -83,7 +81,6 @@ mod_const2 <- '
 '
 
 fit_groups_const2 <- cfa(mod_const2, data = adhd_anx_gender,
-                         likelihood = "wishart",
                          std.lv = TRUE, 
                          group = "gender")
 summary(fit_groups_const2, standardize = TRUE)
@@ -101,7 +98,6 @@ summary(fit_groups_const2, standardize = TRUE)
 cat(mod)
 
 fit_groups_measi <- cfa(mod, data = adhd_anx_gender, 
-                        likelihood = "wishart",
                         std.lv = TRUE,
                         group = "gender", group.equal = "loadings")
 summary(fit_groups_measi, standardize = TRUE)
@@ -110,7 +106,7 @@ summary(fit_groups_measi, standardize = TRUE)
 anova(fit_groups_measi, fit_groups)
 bayestestR::bayesfactor_models(fit_groups, fit_groups_measi)
 
-# We saw that we can set group equality for the indicator loadings, but we can also
+# We saw that we can set group equality for the indicator loadings ("loadings), but we can also
 # set other group equality constraints with the group.equal argument:
 # -          "regressions": all regression coefficients in the model
 # -            "residuals": the residual variances of the observed variables
