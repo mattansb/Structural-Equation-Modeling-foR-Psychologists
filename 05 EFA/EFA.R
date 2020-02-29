@@ -2,16 +2,20 @@
 
 data <- na.omit(psychTools::bfi[, 1:25])  # Select only the 25 first columns corresponding to the items
 
+
+# Factor Analysis (FA) ----------------------------------------------------
+
 library(parameters)
 library(psych)
 
-cor(data)
+## Is the data suitable for FA?
+round(cor(data), 2)
 check_factorstructure(data)
 
-
-efa <- fa(data, nfactors = 5, fm = "minres", rotate = "varimax") # default method (fm)
-efa <- fa(data, nfactors = 5, fm = "pa", rotate = "varimax")     # principal factor solution
-# or rotate = "oblimin"
+## Run FA
+efa <- fa(data, nfactors = 5, fm = "minres", rotate = "oblimin") # default method (fm)
+efa <- fa(data, nfactors = 5, fm = "pa", rotate = "oblimin")     # principal factor solution
+# or rotate = "varimax"
 
 efa
 model_parameters(efa, sort = TRUE, threshold = 0.55)
@@ -22,12 +26,23 @@ data_scores <- efa$scores
 colnames(data_scores) <- c("N","E","C","A","O") # name the factors
 head(data_scores)
 
+
+# Reliability -------------------------------------------------------------
+
+# Accepts the same arguments as `fa()`
+efa_rel <- omega(data, nfactors = 5, fm = "pa", rotate = "oblimin", 
+                 plot = FALSE)
+efa_rel$omega.group
+# This give omega, which is similar to alpha, but doesn't assume
+# equal weights (which we just estimated!).
+# https://doi.org/10.1037/met0000144
+
 # How many factors to retain in Factor Analysis (FA)? ---------------------
 
 # But what if we're not sure how many factors?
 
 # Scree plot - where is the elbow?
-screeplot(prcomp(data), type = "lines") # use `prcomp` to run a PCA
+screeplot(prcomp(data), npcs = 10, type = "lines") # use `prcomp` to run a PCA
 
 # other methods:
 ns <- n_factors(data)
@@ -77,7 +92,7 @@ library(dplyr)
 library(tidyr)
 
 # compare:
-standardizedSolution(efa_fit, output = "text") %>% 
+standardizedSolution(efa_fit, output = "data.frame") %>% 
   filter(op == "=~") %>% 
   select(factor   = lhs,
          item     = rhs,
