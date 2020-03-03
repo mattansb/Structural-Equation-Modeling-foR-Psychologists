@@ -63,7 +63,7 @@ semPaths(fit,
          layout = m)
 
 # For a shiny app that can help, see
-# https://mattansb.github.io/MSBMisc/reference/semPaths_layout_maker.html
+# https://mattansb.github.io/MSBMisc/reference/node_layout_maker.html
 
 
 # Final product -----------------------------------------------------------
