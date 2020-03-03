@@ -103,7 +103,7 @@ fitMeasures(fit_meas, output = "matrix",
 # 2. structural model -----------------------------------------------------
 
 # When defining structural model, the important bits are
-# the arrow you don't include / fix at 0!
+# the arrow you don't include (=fix at 0)!!
 
 mod_struct <- '
   ## latent variable definitions
@@ -116,8 +116,8 @@ mod_struct <- '
   sustained_attn ~ inhibition + ADHD
   
   ## covariances
-  IQ ~~ ADHD
-  IQ ~~ 0*ANX
+  IQ ~~ ADHD      # we dont need this, because the of defaults...
+  IQ ~~ 0 * ANX
 '
 
 fit_struct <- sem(mod_struct, data = adhd_anx,
@@ -137,6 +137,15 @@ semPaths(fit_struct, what = "std", whatLabels = "std",
 summary(fit_struct, standardize = TRUE)
 
 
+# Fit Measures ------------------------------------------------------------
+
+fitMeasures(fit_struct, output = "matrix",
+            fit.measures = c(
+              "chisq", "df","pvalue",
+              "baseline.chisq","baseline.df","baseline.pvalue"
+            ))
+
+# We can give another baseline model
 fitMeasures(fit_struct, output = "matrix",
             fit.measures = c(
               "chisq", "df","pvalue",
@@ -146,6 +155,13 @@ fitMeasures(fit_struct, output = "matrix",
 anova(fit_struct, fit_meas) # Is this good or bad?
 bayestestR::bayesfactor_models(fit_struct, denominator = fit_meas)
 
+
+
+fitMeasures(fit_struct, output = "matrix",
+            fit.measures = c("nfi","nnfi","tli", "cfi","rmsea"))
+# But some of these are RELATIVE measures!
+
+# We must give the model to which we want to compare:
 fitMeasures(fit_struct, output = "matrix",
             fit.measures = c("nfi","nnfi","tli", "cfi","rmsea"), 
             baseline.model = fit_meas) # note we added a NEW baseline!
