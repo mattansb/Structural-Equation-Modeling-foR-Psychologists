@@ -129,7 +129,7 @@ semPaths(fit, what = "std", whatLabels = "std",
          sizeLat = 11, sizeLat2 = 7,
          nCharNodes = 50,
          edge.label.cex = 1)
-
+# see `advanced plotting` for even more fine-tuning.
 
 library(lavaanPlot)
 # pretty out of the box, but very very BUGGY!
