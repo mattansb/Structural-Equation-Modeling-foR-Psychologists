@@ -3,7 +3,7 @@
 
 # Structural Equation Modeling foR Psychologists
 
-<sub>*Last updated 2020-02-28.*</sub>
+<sub>*Last updated 2020-03-03.*</sub>
 
 This Github repo contains all lesson files used in the graduate-level
 course: *Structural Equation Modeling foR Psychologists - Practical
@@ -58,7 +58,7 @@ You can install all the packages used by running:
 The package versions used here:
 
     ##  bayestestR       dplyr      lavaan  lavaanPlot  parameters       psych 
-    ##     "0.5.2"     "0.8.4"     "0.6-5"     "0.5.1"     "0.4.1" "1.9.12.31" 
+    ##     "0.5.2"     "0.8.4"     "0.6-5"     "0.5.1"     "0.5.0" "1.9.12.31" 
     ##  psychTools     semPlot    semTools       tidyr 
     ##    "1.9.12"     "1.1.2" "0.5-2.920"     "1.0.2"
 
