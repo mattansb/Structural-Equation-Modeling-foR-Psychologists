@@ -95,10 +95,49 @@ summary(fit2, standardize = TRUE)
 anova(fit, fit2) # what does this mean?
 bayestestR::bayesfactor_models(fit, fit2) # what does THIS mean?
 
+
+# Advanced Parameter Fixing  ----------------------------------------------
+
+## 1. We can also fix parameters to other values:
+cl_model3 <- "
+  # Regression
+  BAI_t2 ~ BAI_t1 + cross1 * DBI_t1
+  DBI_t2 ~ DBI_t1 + cross2 * BAI_t1
+
+  # Covariances
+  BAI_t1 ~~ t1cov * DBI_t1
+  BAI_t2 ~~ 0.3 * DBI_t2 # fixed
+"
+
+## 2. We can also fix parameters to each other:
+cl_model4 <- "
+  # Regression
+  BAI_t2 ~ BAI_t1 + a * DBI_t1
+  DBI_t2 ~ DBI_t1 + a * BAI_t1 # fixed
+
+  # Covariances
+  BAI_t1 ~~ t1cov * DBI_t1
+  BAI_t2 ~~ t2cov * DBI_t2
+"
+# What do this ^ model imply?
+
+
+fit4 <- sem(cl_model4, dep_anx_CL)
+# Note that when fixing, we are fixing on the UNSTANDARDIZED (raw) scale!
+# Compare:
+parameterEstimates(fit4, output = "text")
+standardizedSolution(fit4, output = "text")
+
+# We can get close to fixing parameters on the standerdized sacles by
+# setting `std.ov = TRUE`, but this is imperfect (but pretty close!):
+fit4_std <- sem(cl_model4, dep_anx_CL, std.ov = TRUE)
+standardizedSolution(fit4_std, output = "text")
+
 # Exercise ----------------------------------------------------------------
 
-# Fix the BAI_1 to DBI_2 cross path to 0.
-#  - How does this compare to the unconstrined model?
-# Fix the DBI_1 to BAI_2 cross path to 0.
-#  - How does this compare to the unconstrined model?
-
+# 1. Build a model (fit5) where the BAI_t1 to DBI_t2 cross path is fixed to 0.
+#    - How do you expect this model to compare to the unconstrined model?
+#    - Test your (post-hoc) hypothesis.
+# 2. Build a model (fit6) where BAI_t2 has no residual variance.
+#    - What does this model imply??
+#    - How does this compare to the unconstrined model?
