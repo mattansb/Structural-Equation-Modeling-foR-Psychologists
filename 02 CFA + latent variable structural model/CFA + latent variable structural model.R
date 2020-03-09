@@ -154,6 +154,7 @@ fitMeasures(fit_struct, output = "matrix",
             baseline.model = fit_meas)
 anova(fit_struct, fit_meas) # Is this good or bad?
 bayestestR::bayesfactor_models(fit_struct, denominator = fit_meas)
+# (You can also fit a true Bayesian lavaan model with `blavaan`)
 
 
 
