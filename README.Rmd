@@ -60,7 +60,10 @@ make_pkg_table <- function(pkgs) {
   pkgs <- pkgs[sapply(pkgs, function(x) length(x) > 0)]
   
   ps <- sapply(pkgs, function(x){
-    paste0(paste0("`", x, "`"), collapse = ", ")
+    paste0(
+      glue::glue("[`{x}`](https://CRAN.R-project.org/package={x})"),
+      collapse = ", "
+    )
   })
   
   glue::glue("|[{folder}](/{folder})|{ps}|\n\n",

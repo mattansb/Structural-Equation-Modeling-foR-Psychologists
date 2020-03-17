@@ -3,7 +3,7 @@
 
 # Structural Equation Modeling foR Psychologists
 
-<sub>*Last updated 2020-03-11.*</sub>
+<sub>*Last updated 2020-03-17.*</sub>
 
 This Github repo contains all lesson files used in the graduate-level
 course: *Structural Equation Modeling foR Psychologists - Practical
@@ -35,14 +35,14 @@ You will need:
     (optional - but I recommend using an IDE).
 3.  The following packages, listed by lesson:
 
-| Lesson                                                                                              | Packages                                                                   |
-| --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| [01 path analysis](/01%20path%20analysis)                                                           | `lavaan`, `semPlot`, `lavaanPlot`                                          |
-| [02 CFA + latent variable structural model](/02%20CFA%20+%20latent%20variable%20structural%20model) | `lavaan`, `semPlot`, `dplyr`, `semTools`, `bayestestR`, `psychTools`       |
-| [03 cross-lagged panel model](/03%20cross-lagged%20panel%20model)                                   | `lavaan`, `semPlot`, `bayestestR`                                          |
-| [04 multiple group analysis](/04%20multiple%20group%20analysis)                                     | `lavaan`, `semPlot`, `bayestestR`, `semTools`                              |
-| [05 EFA](/05%20EFA)                                                                                 | `parameters`, `psych`, `lavaan`, `semPlot`, `dplyr`, `tidyr`, `psychTools` |
-| [06 latent growth curve modeling](/06%20latent%20growth%20curve%20modeling)                         | `lavaan`, `semPlot`                                                        |
+| Lesson                                                                                              | Packages                                                                                                                                                                                                                                                                                                                                                                                                    |
+| --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [01 path analysis](/01%20path%20analysis)                                                           | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`semPlot`](https://CRAN.R-project.org/package=semPlot), [`lavaanPlot`](https://CRAN.R-project.org/package=lavaanPlot)                                                                                                                                                                                                                               |
+| [02 CFA + latent variable structural model](/02%20CFA%20+%20latent%20variable%20structural%20model) | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`semPlot`](https://CRAN.R-project.org/package=semPlot), [`dplyr`](https://CRAN.R-project.org/package=dplyr), [`semTools`](https://CRAN.R-project.org/package=semTools), [`bayestestR`](https://CRAN.R-project.org/package=bayestestR), [`psychTools`](https://CRAN.R-project.org/package=psychTools)                                                |
+| [03 cross-lagged panel model](/03%20cross-lagged%20panel%20model)                                   | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`semPlot`](https://CRAN.R-project.org/package=semPlot), [`bayestestR`](https://CRAN.R-project.org/package=bayestestR)                                                                                                                                                                                                                               |
+| [04 multiple group analysis](/04%20multiple%20group%20analysis)                                     | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`semPlot`](https://CRAN.R-project.org/package=semPlot), [`bayestestR`](https://CRAN.R-project.org/package=bayestestR), [`semTools`](https://CRAN.R-project.org/package=semTools)                                                                                                                                                                    |
+| [05 EFA](/05%20EFA)                                                                                 | [`parameters`](https://CRAN.R-project.org/package=parameters), [`psych`](https://CRAN.R-project.org/package=psych), [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`semPlot`](https://CRAN.R-project.org/package=semPlot), [`dplyr`](https://CRAN.R-project.org/package=dplyr), [`tidyr`](https://CRAN.R-project.org/package=tidyr), [`psychTools`](https://CRAN.R-project.org/package=psychTools) |
+| [06 latent growth curve modeling](/06%20latent%20growth%20curve%20modeling)                         | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`semPlot`](https://CRAN.R-project.org/package=semPlot)                                                                                                                                                                                                                                                                                              |
 
 You can install all the packages used by running:
 
@@ -58,7 +58,7 @@ You can install all the packages used by running:
 The package versions used here:
 
     ##  bayestestR       dplyr      lavaan  lavaanPlot  parameters       psych 
-    ##     "0.5.2"     "0.8.4"     "0.6-5"     "0.5.1"   "0.5.0.1" "1.9.12.31" 
+    ##     "0.5.2"     "0.8.5"     "0.6-5"     "0.5.1"   "0.5.0.1" "1.9.12.31" 
     ##  psychTools     semPlot    semTools       tidyr 
     ##    "1.9.12"     "1.1.2" "0.5-2.920"     "1.0.2"
 
