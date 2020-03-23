@@ -86,9 +86,12 @@ mardiaSkew(model_data)
 #' We can see that multivariate Skewness does not hold...
 
 #' We can also look at a multivariate qqplot:
-source("multivariate_qqplot.R")
-
-multivariate_qqplot(model_data)
+distances <- mahalanobis(model_data, colMeans(model_data), cov(model_data))
+car::qqPlot(distances, distribution = "chisq", df = mean(distances), 
+            lwd = 1, grid = FALSE,
+            main = "Multi-normal QQ-plot",
+            xlab = expression(chi^2 * " quantiles"),
+            ylab = expression("Mahalanobis distances "^2))
 
 #' What to if we violate multivariate normalicy?
 #' Use a robut estimator!

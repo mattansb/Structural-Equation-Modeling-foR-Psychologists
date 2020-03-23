@@ -43,24 +43,23 @@ You will need:
 | [04 multiple group analysis](/04%20multiple%20group%20analysis)                                     | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`semPlot`](https://CRAN.R-project.org/package=semPlot), [`bayestestR`](https://CRAN.R-project.org/package=bayestestR), [`semTools`](https://CRAN.R-project.org/package=semTools)                                                                                                                                                                    |
 | [05 EFA](/05%20EFA)                                                                                 | [`parameters`](https://CRAN.R-project.org/package=parameters), [`psych`](https://CRAN.R-project.org/package=psych), [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`semPlot`](https://CRAN.R-project.org/package=semPlot), [`dplyr`](https://CRAN.R-project.org/package=dplyr), [`tidyr`](https://CRAN.R-project.org/package=tidyr), [`psychTools`](https://CRAN.R-project.org/package=psychTools) |
 | [06 latent growth curve modeling](/06%20latent%20growth%20curve%20modeling)                         | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`semPlot`](https://CRAN.R-project.org/package=semPlot)                                                                                                                                                                                                                                                                                              |
-| [07 assumption checks](/07%20assumption%20checks)                                                   | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`semTools`](https://CRAN.R-project.org/package=semTools), [`ggplot2`](https://CRAN.R-project.org/package=ggplot2)                                                                                                                                                                                                                                   |
+| [07 assumption checks](/07%20assumption%20checks)                                                   | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`semTools`](https://CRAN.R-project.org/package=semTools), [`car`](https://CRAN.R-project.org/package=car)                                                                                                                                                                                                                                           |
 
 You can install all the packages used by running:
 
     # in alphabetical order:
 
-    pkgs <-
-      c(
-        "bayestestR", "dplyr", "ggplot2", "lavaan", "lavaanPlot", "parameters",
-        "psych", "psychTools", "semPlot", "semTools", "tidyr"
-      )
+    pkgs <- c(
+      "bayestestR", "car", "dplyr", "lavaan", "lavaanPlot", "parameters",
+      "psych", "psychTools", "semPlot", "semTools", "tidyr"
+    )
 
     install.packages(pkgs, dependencies = TRUE)
 
 The package versions used here:
 
-    ##  bayestestR       dplyr     ggplot2      lavaan  lavaanPlot  parameters 
-    ##   "0.5.2.1"     "0.8.5"     "3.3.0"     "0.6-5"     "0.5.1"   "0.5.0.1" 
+    ##  bayestestR         car       dplyr      lavaan  lavaanPlot  parameters 
+    ##   "0.5.2.1"     "3.0-7"     "0.8.5"     "0.6-5"     "0.5.1"   "0.5.0.1" 
     ##       psych  psychTools     semPlot    semTools       tidyr 
     ## "1.9.12.31"    "1.9.12"     "1.1.2" "0.5-2.920"     "1.0.2"
 
