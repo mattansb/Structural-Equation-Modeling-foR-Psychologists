@@ -88,10 +88,7 @@ mardiaSkew(model_data)
 #' We can also look at a multivariate qqplot:
 distances <- mahalanobis(model_data, colMeans(model_data), cov(model_data))
 car::qqPlot(distances, distribution = "chisq", df = mean(distances), 
-            lwd = 1, grid = FALSE,
-            main = "Multi-normal QQ-plot",
-            xlab = expression(chi^2 * " quantiles"),
-            ylab = expression("Mahalanobis distances "^2))
+            ylab = "Mahalanobis distances (Squared)")
 
 #' What to if we violate multivariate normalicy?
 #' Use a robut estimator!
