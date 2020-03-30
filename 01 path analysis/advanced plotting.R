@@ -9,6 +9,7 @@ mediation_model <- '
 '
 fit <- sem(mediation_model, data = income_psych)
 
+## See below for how "plot1.png" and "plot2.png" were made.
 
 # Adding var labels -------------------------------------------------------
 
@@ -69,6 +70,7 @@ semPaths(fit,
 
 # Final product -----------------------------------------------------------
 
+
 m <- matrix(NA, nrow = 3, ncol = 2)
 m[1, ] <- c(2,0)
 m[2, ] <- c(1,1)
@@ -90,3 +92,71 @@ p$graphAttributes$Nodes$width <- c(20, 10, 10)
 p$graphAttributes$Nodes$border.color <- c("black", "green", "red")
 
 plot(p)
+
+
+# Making "plot1" ----------------------------------------------------------
+
+mediation_model <- '
+    income ~ anxiety + mood_neg
+  mood_neg ~ anxiety
+'
+
+fit <- sem(mediation_model, data = income_psych)
+
+semPlotModel(fit)@Vars
+
+m <- matrix(NA, nrow = 3, ncol = 2)
+m[1, ] <- c(2,0)
+m[2, ] <- c(1,1)
+m[3, ] <- c(0,0)
+m
+
+p1 <- semPaths(fit, whatLabels = "none", 
+               residuals = FALSE, intercepts = FALSE,
+               # prettify
+               style = "lisrel", normalize = TRUE, 
+               sizeMan = 11, sizeMan2 = 7,
+               sizeLat = 11, sizeLat2 = 7,
+               nCharNodes = 50,
+               edge.label.cex = 1, 
+               nodeLabels = c("Income", "Negative Mood", "Anxiety"),
+               layout = m)
+
+p1$graphAttributes$Nodes$width <- c(10,22,10)
+
+plot(p1)
+
+# Making "plot2" ----------------------------------------------------------
+
+
+mediation_model <- '
+    income ~ anxiety + mood_neg + shyness
+  mood_neg ~ anxiety
+   anxiety ~ shyness
+'
+
+fit <- sem(mediation_model, data = income_psych)
+
+semPlotModel(fit)@Vars
+
+m <- matrix(NA, nrow = 4, ncol = 2)
+m[1, ] <- c(2,0)
+m[2, ] <- c(1,1)
+m[3, ] <- c(0,0)
+m[4, ] <- c(1,-1)
+m
+
+p2 <- semPaths(fit, whatLabels = "none", 
+               residuals = FALSE, intercepts = FALSE,
+               # prettify
+               style = "lisrel", normalize = TRUE, 
+               sizeMan = 11, sizeMan2 = 7,
+               sizeLat = 11, sizeLat2 = 7,
+               nCharNodes = 50,
+               edge.label.cex = 1, 
+               nodeLabels = c("Income", "Negative Mood", "Anxiety", "Shyness"),
+               layout = m)
+
+p2$graphAttributes$Nodes$width <- c(10,22,10, 12)
+
+plot(p2)

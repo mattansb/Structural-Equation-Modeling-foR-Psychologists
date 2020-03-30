@@ -1,11 +1,11 @@
 
 income_psych <- read.csv("income_psych.csv")
 
-# NEED TO CHANGE THE VARIANCE OF SOME VARS SO STD AND RAW ARE DIFFERENT!
 head(income_psych)
 
 # Testing mediation:
 # Does negative mood mediate the relationship between anxiety and income?
+# Graphically, it looks like "plot1.png"
 
 # Manual path analysis ----------------------------------------------------
 
@@ -71,7 +71,7 @@ cor(income_psych$anxiety, income_psych$income)
 
 ## Confidence intervals:
 summary(fit, standardize = TRUE, ci = TRUE) # ci for the raw estimates
-standardizedSolution(fit, ci = TRUE) # ci for the std estimates
+standardizedSolution(fit, ci = TRUE, output = "text") # ci for the std estimates
 
 ## Bootstrap
 fit_with_boot <- sem(mediation_model, data = income_psych,
@@ -97,6 +97,12 @@ mediation_model <- '
 '
 fit <- sem(mediation_model, data = income_psych)
 
+# look at "Defined Parameters" 
+parameterEstimates(fit, output = "text") # summary gives these test values
+standardizedSolution(fit, output = "text")
+# Note that the tests from these 2 functions CAN BE DIFFERENT. Why?
+
+
 fit <- sem(mediation_model, data = income_psych,
            likelihood = "wishart")
 # likelihood = "wishart" used an unbiased cov-matrix, and gives
@@ -104,12 +110,6 @@ fit <- sem(mediation_model, data = income_psych,
 # In large samples this heardly has any effects...
 # Read more about the varouls likelihoods and estimators:
 # http://lavaan.ugent.be/tutorial/est.html
-
-# look at "Defined Parameters" 
-parameterEstimates(fit, output = "text") # summary gives these test values
-standardizedSolution(fit, output = "text")
-# Note that the tests from these 2 functions CAN BE DIFFERENT. Why?
-
 
 # Plotting ----------------------------------------------------------------
 
@@ -137,13 +137,13 @@ lavaanPlot(model = fit)
 lavaanPlot(model = fit, coefs = TRUE)
 
 
-# other solutions: https://github.com/mattansb/tidylavaan
+# See also advanced plotting.R
 
 
 # Exercise ----------------------------------------------------------------
 
-# 1. Look at the plot in "path_model.png". Fit this model with `lavaan`.
-# 2. Compute all the paths in this model from anxiety to income, and 
+# 1. Look at the plot in "plot2.png". Fit this model with `lavaan`.
+# 2. Compute all the paths in this model from *anxiety* to *income*, and 
 #    the total of these paths.
 #    - Why is the std total not equal exactly to the real correlation?
 #    - is it very different?
