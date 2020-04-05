@@ -46,7 +46,7 @@ summary(fit, standardize = TRUE)
 # They LOOK like they cancel each other out!
 
 # However...
-# The total is significant in the standerdized solution!!
+# The total is significant in the standerdized solution!! *
 standardizedsolution(fit, output = "text")
 
 ## - Why is the std total not equal exactly to the real correlation?
@@ -58,3 +58,17 @@ cor(income_psych$anxiety, income_psych$income)
 ## - is it very different?
 # The diff is of (-0.001). Is this a lot? Is it significant?
 # We will see next time how to answer these questions!
+
+
+# * -----------------------------------------------------------------------
+
+# Why does this happen?
+# In SEM, standard errors (SE) are NOT invariant - that is, data
+# transformation do not affect SEs the same way they do estimates (the 
+# parameters).
+# However, Chis-square atatistics ARE invariant - so this is not an issue 
+# in model comparison (which we will learn next week).
+# 
+# You can read more (mathy), here:
+# https://doi.org/10.1007/BF01065882
+# (Thanks to Michael Neale for his explanation)

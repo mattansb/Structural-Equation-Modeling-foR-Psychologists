@@ -15,8 +15,8 @@ m2 <- lm(mood_neg ~ anxiety, income_psych)
 (coef1 <- coef(m1))
 (coef2 <- coef(m2))
 
-direct <- coef1[2]
-indirect <- coef1[3] * coef2[2]
+direct <- unname(coef1[2])
+indirect <- unname(coef1[3] * coef2[2])
 
 mediation_by_hand <- c(direct = direct,
                        indirect = indirect,
@@ -41,10 +41,11 @@ mediation_model <- '
 # fit the model to the data:
 fit <- sem(mediation_model, data = income_psych)
 
-summary(fit)
+summary(fit) # (why is the Test Statistic 0?)
+
 summary(fit, standardize = TRUE) # look at Std.all for beta
 summary(fit, rsquare = TRUE) # See regression R2
-# Note that by default, lavaan estimates all residual errors.
+# Note that by DEFAULT, lavaan estimates all residual errors.
 
 
 # Modifiers! --------------------------------------------------------------

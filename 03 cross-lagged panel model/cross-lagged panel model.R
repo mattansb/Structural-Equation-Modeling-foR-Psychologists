@@ -18,7 +18,8 @@ cl_model <- "
 fit <- sem(cl_model, dep_anx_CL)
 
 summary(fit, standardize = TRUE)
-# Note that by default lavaan estimates covariance between residuals of endogenous variables.
+# Note that by default lavaan estimates covariance between residuals of 
+# endogenous variables.
 
 library(semPlot)
 semPaths(fit, what = "std", whatLabels = "std", 
@@ -135,7 +136,8 @@ standardizedSolution(fit4_std, output = "text")
 
 # Exercise ----------------------------------------------------------------
 
-# 1. Build a model (fit5) where the BAI_t1 to DBI_t2 cross path is fixed to 0.
+# 1. Build a model (fit5) where the BAI_t1 to DBI_t2 cross path is fixed
+#    to 0.
 #    - How do you expect this model to compare to the unconstrined model?
 #    - Test your (post-hoc) hypothesis.
 # 2. Build a model (fit6) where BAI_t2 has no residual variance.
