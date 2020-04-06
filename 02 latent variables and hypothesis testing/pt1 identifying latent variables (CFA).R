@@ -160,4 +160,5 @@ summary(fit_meas_eq_load, standardize = TRUE)
 #        TIP: look at the un-equal loadings.
 # 2. Compute the reliability for equal loadings `ANX` and equal loadings
 #    `ADHD`
-#      - What is the Omega index conceptually equal to now? Why?
+#      - How is the meaning of Omega changed? What is Omega now that it
+#        wasn't before?
