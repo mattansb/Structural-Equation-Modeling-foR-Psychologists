@@ -125,6 +125,6 @@ packinfo[packinfo[,"Package"] %in% pkgs,"Version"]
 ## Other Useful Resources
 
 - [`lavaan` toutorials](http://lavaan.ugent.be/tutorial/index.html).  
-- Sacha Epskamp's [online course](http://sachaepskamp.com/SEM2019) and [YouTube lectures](https://www.youtube.com/playlist?list=PLliBbGBc5nn3m8bXQ4CmOep3UmQ_5tVlC).  
+- Sacha Epskamp's [online course](http://sachaepskamp.com/SEM2020) and [YouTube lectures](https://www.youtube.com/playlist?list=PLliBbGBc5nn3m8bXQ4CmOep3UmQ_5tVlC).  
 - Michael Hallquist's [course](https://psu-psychology.github.io/psy-597-SEM/).  
 
