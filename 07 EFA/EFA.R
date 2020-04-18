@@ -1,6 +1,9 @@
 # https://easystats.github.io/parameters/articles/efa_cfa.html
 
-data <- na.omit(psychTools::bfi[, 1:25])  # Select only the 25 first columns corresponding to the items
+# Select only the 25 first columns corresponding to the items
+data <- na.omit(psychTools::bfi[, 1:25])
+
+
 
 
 # Factor Analysis (FA) ----------------------------------------------------
@@ -12,19 +15,36 @@ library(psych)
 round(cor(data), 2)
 check_factorstructure(data)
 
+
+
 ## Run FA
-efa <- fa(data, nfactors = 5, fm = "minres", rotate = "oblimin") # default method (fm)
-efa <- fa(data, nfactors = 5, fm = "pa", rotate = "oblimin")     # principal factor solution
+efa <- fa(data, nfactors = 5, rotate = "oblimin",
+          fm = "minres") # default method (fm)
+efa <- fa(data, nfactors = 5, rotate = "oblimin",
+          fm = "pa") # principal factor solution
 # or rotate = "varimax"
 
 efa
 model_parameters(efa, sort = TRUE, threshold = 0.55)
 # These give the pattern matrix
 
+
+
+## Visualize
+biplot.psych(efa, choose = c(1,2), pch = ".") # set `choose = NULL` for all
+# We see here that PA2 is aligned with "N" cols, and that PA3 is aligned 
+# with "C" cols - same as we saw in the table above.
+
+
+
+
+
 # We can now use the factor scores just as we would any variable:
 data_scores <- efa$scores
 colnames(data_scores) <- c("N","E","C","A","O") # name the factors
 head(data_scores)
+
+
 
 
 # Reliability -------------------------------------------------------------
@@ -37,16 +57,26 @@ efa_rel$omega.group
 # equal weights (which we just estimated!).
 # https://doi.org/10.1037/met0000144
 
+
+
+
 # How many factors to retain in Factor Analysis (FA)? ---------------------
 
 # But what if we're not sure how many factors?
 
+
+
 # Scree plot - where is the elbow?
-screeplot(prcomp(data), npcs = 10, type = "lines") # use `prcomp` to run a PCA
+screeplot(prcomp(data), npcs = 10, type = "lines") # run PCA with `prcomp`
+
+
 
 # other methods:
-ns <- n_factors(data)
-as.data.frame(ns) # look for Kaiser criterion of Scree - seems to suggest 6.
+ns <- n_factors(data, algorithm = "pa", rotation = "oblimin")
+# This function calls many methods, e.g., nFactors::nScree... Read the doc!
+as.data.frame(ns) # look for Kaiser criterion of Scree - seems to suggest 6
+
+
 
 
 # Back to CFA in lavaan ---------------------------------------------------
