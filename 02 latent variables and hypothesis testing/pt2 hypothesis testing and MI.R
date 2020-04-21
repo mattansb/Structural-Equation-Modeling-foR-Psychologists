@@ -1,5 +1,5 @@
-#' Today we will continue to explore the relationship between ADHD, IQ,
-#' and anxiety and their effects on sustained attention and inhibition
+#' Today we will continue to explore the relationship between ADHD, IQ, and
+#' anxiety and their effects on sustained attention and inhibition
 
 adhd_anx <- read.csv("adhd_anx.csv")
 head(adhd_anx)
@@ -42,11 +42,16 @@ mod_meas_eq_load <- '
 fit_meas_eq_load <- cfa(mod_meas_eq_load, data = adhd_anx, 
                         std.lv = TRUE)
 
+parameterEstimates(fit_meas_eq_load, output = "text")
+standardizedSolution(fit_meas_eq_load, output = "text")
+# the loadings are fixed on the response scale, but not on the standerdized
+# scale. We will see next time how to do that.
+
 
 
 ## Example 2) set a path to 0: That is what the structural model is!
-# When defining structural model, the important bits are the arrow you
-# don't include ( = fix at 0)!!
+# When defining structural model, the important bits are the arrow you don't
+# include ( = fix at 0)!!
 
 
 mod_struct_eq_load <- '
@@ -60,12 +65,18 @@ mod_struct_eq_load <- '
   sustained_attn ~ inhibition + ADHD
   
   ## covariances
-  IQ ~~ ADHD      # we dont need this, because the of defaults...
-  IQ ~~ 0 * ANX
+  ANX ~~ 0 * ADHD   # we DO need this, because the of defaults...
+   IQ ~~ 0 * ANX    # we DO need this, because the of defaults...
+   IQ ~~ ADHD       # we DO NOT need this, because the of defaults...
 '
-
 # Which paths have been constrained to 0?
+#
+# Remember that the default are: all coavariances are estimated for latent
+# variables, so if we want to remove one, we need to manually set it to 0.
 
+
+# NOTE: we're moving to a structural model, so we will be using the `sem()`
+# function (not `cfa()`).
 fit_struct_eq_load <- sem(mod_struct_eq_load, data = adhd_anx,
                           std.lv = TRUE)
 
@@ -104,7 +115,8 @@ semPaths(fit_struct_eq_load, what = "std", whatLabels = "std",
 
 
 ## Measures of fit
-
+fitMeasures(fit_meas_eq_load, output = "matrix",
+            fit.measures = c("nfi","nnfi","tli", "cfi","rmsea"))
 fitMeasures(fit_struct_eq_load, output = "matrix",
             fit.measures = c("nfi","nnfi","tli", "cfi","rmsea"))
 # What we want:
@@ -113,12 +125,25 @@ fitMeasures(fit_struct_eq_load, output = "matrix",
 #        CFI > 0.9
 #      RMSEA < 0.08
 
-# BUT (except for rmsea) these are RELATIVE measures - by default
-# they are relative to the null /"independence" model,
-# But we can give another baseline model:
-fitMeasures(fit_struct_eq_load, output = "matrix",
-            fit.measures = c("nfi","nnfi","tli", "cfi","rmsea"), 
-            baseline.model = fit_meas_eq_load) # we added a NEW baseline!
+
+# BUT (except for rmsea) these are RELATIVE measures - by default they are
+# relative to the null /"independence" model - the worst possible model - the
+# most restricted model, where all arrows are set to 0!
+#
+# We can frame these measures as answering the question "how much better is the
+# less restricted model compared to the more restricted mode?"
+#
+# We can also compare the fit directly beween two models. When we do so, we will
+# always frame this comparison as a comparison between a LESS restricted model
+# (more free parameters) and a MORE restricted model (less free parameters). In
+# this case the struructural model is MORE restricted than the measurment model.
+#
+# REMEMEBR: The MORE restricted model should be used as the `baseline.model = `.
+fitMeasures(fit_meas_eq_load, output = "matrix",
+            fit.measures = c("nfi","nnfi","tli", "cfi"), 
+            baseline.model = fit_struct_eq_load)
+# Note that now fit_struct_eq_load has moved to `baseline.model`, because it is
+# more restricted, and the less resticted model is fit_meas_eq_load.
 
 
 
@@ -133,22 +158,38 @@ fitMeasures(fit_struct_eq_load, output = "matrix",
               "chisq", "df","pvalue",
               "baseline.chisq","baseline.df","baseline.pvalue"
             ))
-# The "baseline" model is the null /"independence" model, which
-# constraintsall covariances to zero, AKA the worst model.
+# The "baseline" model is the null /"independence" model, which constraints all
+# covariances to zero, AKA the worst model!
 
-# But we can give another baseline model
-fitMeasures(fit_struct_eq_load, output = "matrix",
+
+# Once again, we must compare a LESS restricted model to a MORE restricted
+# model:
+fitMeasures(fit_meas_eq_load, output = "matrix",
             fit.measures = c(
               "chisq", "df","pvalue",
               "baseline.chisq","baseline.df","baseline.pvalue"
             ),
-            baseline.model = fit_meas_eq_load)
+            baseline.model = fit_struct_eq_load)
 
 
 
 
 # To actually compare two (nested!) models:
 anova(fit_struct_eq_load, fit_meas_eq_load) # Is this good or bad?
+# The significance here means that the more restricted model has a significantly
+# worse fit than the less restricted model.
+# So which model should we choose? The less restricted one (but see note in
+# lesson about large samples). If the restuls were not significant, we should
+# prefer the parsimonious model (the more restricted model).
+#
+# (Note that the when the models are nested, the model with more DF will also
+# have a larger Chisq.)
+
+# We can also just test one mode, in which case it is compared to the saturated
+# model:
+anova(fit_struct_eq_load)
+anova(fit_meas_eq_load) 
+
 
 bayestestR::bayesfactor_models(fit_struct_eq_load,
                                denominator = fit_meas_eq_load)
@@ -176,7 +217,7 @@ modificationIndices(fit_meas_eq_load, sort. = TRUE, minimum.value = 10)
 #' why `iq2 ~~ anx1`?
 
 # What would our next steps be?
-
+# (See lesson...)
 
 
 
