@@ -3,7 +3,7 @@
 
 # Structural Equation Modeling foR Psychologists
 
-<sub>*Last updated 2020-04-18.*</sub>
+<sub>*Last updated 2020-04-25.*</sub>
 
 This Github repo contains all lesson files used in the graduate-level
 course: *Structural Equation Modeling foR Psychologists - Practical
@@ -38,7 +38,7 @@ You will need:
 | Lesson                                                                                              | Packages                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [01 path analysis](/01%20path%20analysis)                                                           | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`semPlot`](https://CRAN.R-project.org/package=semPlot), [`lavaanPlot`](https://CRAN.R-project.org/package=lavaanPlot)                                                                                                                                                                                                                                                                                          |
-| [02 latent variables and hypothesis testing](/02%20latent%20variables%20and%20hypothesis%20testing) | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`semTools`](https://CRAN.R-project.org/package=semTools), [`semPlot`](https://CRAN.R-project.org/package=semPlot), [`dplyr`](https://CRAN.R-project.org/package=dplyr), [`bayestestR`](https://CRAN.R-project.org/package=bayestestR), [`psychTools`](https://CRAN.R-project.org/package=psychTools)                                                                                                           |
+| [02 latent variables and hypothesis testing](/02%20latent%20variables%20and%20hypothesis%20testing) | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`semTools`](https://CRAN.R-project.org/package=semTools), [`dplyr`](https://CRAN.R-project.org/package=dplyr), [`semPlot`](https://CRAN.R-project.org/package=semPlot), [`psychTools`](https://CRAN.R-project.org/package=psychTools), [`bayestestR`](https://CRAN.R-project.org/package=bayestestR)                                                                                                           |
 | [03 cross-lagged panel model](/03%20cross-lagged%20panel%20model)                                   | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`semPlot`](https://CRAN.R-project.org/package=semPlot), [`bayestestR`](https://CRAN.R-project.org/package=bayestestR)                                                                                                                                                                                                                                                                                          |
 | [04 multiple group analysis](/04%20multiple%20group%20analysis)                                     | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`semPlot`](https://CRAN.R-project.org/package=semPlot), [`bayestestR`](https://CRAN.R-project.org/package=bayestestR), [`semTools`](https://CRAN.R-project.org/package=semTools)                                                                                                                                                                                                                               |
 | [05 latent growth curve modeling](/05%20latent%20growth%20curve%20modeling)                         | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`semPlot`](https://CRAN.R-project.org/package=semPlot)                                                                                                                                                                                                                                                                                                                                                         |
@@ -59,7 +59,7 @@ You can install all the packages used by running:
 The package versions used here:
 
     ##    bayestestR           car         dplyr        lavaan    lavaanPlot 
-    ##       "0.5.3"       "3.0-7" "0.8.99.9002"       "0.6-5"       "0.5.1" 
+    ##       "0.6.0"       "3.0-7" "0.8.99.9002"       "0.6-5"       "0.5.1" 
     ##      nFactors    parameters         psych    psychTools       semPlot 
     ##       "2.4.1"       "0.6.1"   "1.9.12.31"      "1.9.12"       "1.1.2" 
     ##      semTools         tidyr 
