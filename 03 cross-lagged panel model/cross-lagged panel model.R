@@ -1,5 +1,6 @@
 
 dep_anx_CL <- read.csv("dep_anx_CL.csv")
+head(dep_anx_CL)
 
 # Depression (BDI) and anxiety (BAI) were measured at 2 times points. Does one
 # predict the other over time?
@@ -126,19 +127,21 @@ anova(fit, fit2) # why are these the same??
 ## 1. We can also fix parameters to other values:
 cl_model3 <- "
   # Regression
-  BAI_t2 ~ BAI_t1 + cross1 * DBI_t1
+  BAI_t2 ~ BAI_t1 + 0.4 * DBI_t1     # fixed
   DBI_t2 ~ DBI_t1 + cross2 * BAI_t1
 
   # Covariances
   BAI_t1 ~~ t1cov * DBI_t1
-  BAI_t2 ~~ 0.3 * DBI_t2 # fixed
+  BAI_t2 ~~ t2cov * DBI_t2
 "
 
 fit3 <- sem(cl_model3, dep_anx_CL)
 
+
 anova(fit, fit3) # surprising?
-# Not that I fixed the value to 0.3 only because I saw that value on the plot.
-# This is p-hacking and poct-hoc HARKing at the same time - DON'T DO THAT!
+# Not that I fixed the value to 0.4 only because I saw that value in the
+# `summary()`. This is p-hacking and poct-hoc HARKing at the same time - DON'T
+# DO THAT!
 
 
 
@@ -171,17 +174,15 @@ standardizedSolution(fit4, output = "text")
 # We can get close to fixing parameters on the standerdized sacles by setting
 # `std.ov = TRUE`:
 fit4_std <- sem(cl_model4, dep_anx_CL, std.ov = TRUE)
-standardizedSolution(fit4_std, output = "text")
-# this is imperfect (but pretty close!)
+# Now the unstandardized solution is essintially the standardized solution!
+summary(fit4_std, standardize = TRUE) # compare Estimate Std.all
 
 
 
 
 # Exercise ----------------------------------------------------------------
 
-# 1. Build a model (fit5) where the BAI_t1 to DBI_t2 cross path is fixed to 0.
-#    - How do you expect this model to compare to the unconstrined model?
-#    - Test your (post-hoc) hypothesis.
-# 2. Build a model (fit6) where BAI_t2 has no residual variance.
-#    - What does this model imply?? Is this plausible?
-#    - How does this compare to the unconstrined model?
+# Build a model (fit5) where the BAI_t1 to DBI_t2 cross path is fixed to 0.
+# 1. How do you expect this model to compare to the unconstrined model?
+# 2. Test your (post-hoc) hypothesis.
+
