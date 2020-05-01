@@ -53,8 +53,8 @@ head(data_scores)
 efa_rel <- omega(data, nfactors = 5, fm = "pa", rotate = "oblimin", 
                  plot = FALSE)
 efa_rel$omega.group
-# This give omega, which is similar to alpha, but doesn't assume
-# equal weights (which we just estimated!).
+# `This give omega (look at omega total), which is similar to alpha, but doesn't
+# assume equal weights (which we just estimated!).
 # https://doi.org/10.1037/met0000144
 
 
@@ -111,7 +111,11 @@ efa5_model <- "
   efa('block1')*F2 +
   efa('block1')*F3 +
   efa('block1')*F4 +
-  efa('block1')*F5 =~ A1 + A2 + A3 + A4 + A5 + C1 + C2 + C3 + C4 + C5 + E1 + E2 + E3 + E4 + E5 + N1 + N2 + N3 + N4 + N5 + O1 + O2 + O3 + O4 + O5
+  efa('block1')*F5 =~ A1 + A2 + A3 + A4 + A5 + 
+                      C1 + C2 + C3 + C4 + C5 + 
+                      E1 + E2 + E3 + E4 + E5 + 
+                      N1 + N2 + N3 + N4 + N5 +
+                      O1 + O2 + O3 + O4 + O5
 "
 efa_fit <- lavaan(efa5_model, data = data,  
                   auto.var = TRUE, auto.efa = TRUE)
@@ -123,10 +127,11 @@ library(tidyr)
 
 # compare:
 standardizedSolution(efa_fit, output = "data.frame") %>% 
+  as.data.frame() %>% 
   filter(op == "=~") %>% 
   select(factor   = lhs,
          item     = rhs,
-         loadings = est.std) %>% 
+         loadings = est.std) %>%
   pivot_wider(names_from  = factor,
               values_from = loadings)
 
