@@ -138,7 +138,18 @@ standardizedSolution(efa_fit, output = "data.frame") %>%
 # with:
 model_parameters(efa) # results from psych::fa
 
+
+
+
+
 # Exercise ----------------------------------------------------------------
 
-# - Compare a 5 and 6 factor models for the big5 (big6??).
+# Kaiser criterion of Scree suggests that the best number of factors is not 5,
+# but 6. Conduct an EFA for 6 factors (big6?).
+# - Which items are assosiated with which factor? What do you make of the
+#   factors?
 # - Compare different cuttoffs for the big6 - what would you do?
+# - Compare the EFA on 5 factors and the EFA on 6 factors. You can use `anova()`
+#   to compare the models: `d.chiSq` is the test statistic with `d.df` degrees
+#   of freedom. `PR` is the p-value.
+
