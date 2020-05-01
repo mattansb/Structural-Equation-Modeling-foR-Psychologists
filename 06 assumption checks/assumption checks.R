@@ -1,37 +1,43 @@
-#' The assumptions of SEM are similar to those OLS regression:
-#' 1. Your model is correct.
-#'    For SEM this means:
-#'    A) Linearity (the relationship between variables is linear).
-#'    B) No specification error (all relationships are
-#'       accounted for, and exogenous variables are actually exogenous).
-#'    C) Sequence (the causal relationship modeled is true).
-#' 2. Independence of errors
-#' 3. Multivariate normal distribution (Normality of errors)
-#' 4. Homoscedasticity of errors
-#' 
-#' I suggest reading Chapter 5 in Kaplan, D. (2008). Structural equation 
-#' modeling: Foundations and extensions (2nd ed.)
+# The assumptions of SEM are similar to those OLS regression:
+# 1. Your model is correct.
+#    For SEM this means:
+#    A) Linearity (the relationship between variables is linear).
+#    B) No specification error (all relationships are
+#       accounted for, and exogenous variables are actually exogenous).
+#    C) Sequence (the causal relationship modeled is true).
+# 2. Independence of errors
+# 3. Multivariate normal distribution (Normality of errors)
+# 4. Homoscedasticity of errors
+# 
+# I suggest reading Chapter 5 in Kaplan, D. (2008). Structural equation
+# modeling: Foundations and extensions (2nd ed.)
+
+
+
 
 
 # 1) Your model is correct ------------------------------------------------
 
-#' No simple way to varify this other than thinking,
-#' although plotting can be useful to examin linearity.
+# No simple way to varify this other than thinking, although plotting can be
+# useful to examin linearity.
+
+
+
 
 
 # 2) Independence of errors -----------------------------------------------
 
-#' We have two major sources of dependancy of errors:
-#' 1. Structure of data: 
-#'    1.1. Is the data multilevel? Have we accounted for that?
-#'         Read more: http://lavaan.ugent.be/tutorial/multilevel.html
-#'    1.2. Is there a temporal nature to the data (repeated measures)? 
-#'         Have we accounted for that?
-#'         (Using latent growth curve / cross-lagged panel modeling)
-#' 2. Errors are correlated.
+# We have two major sources of dependancy of errors:
+# 1. Structure of data: 
+#    1.1. Is the data multilevel? Have we accounted for that?
+#         Read more: http://lavaan.ugent.be/tutorial/multilevel.html
+#    1.2. Is there a temporal nature to the data (repeated measures)? 
+#         Have we accounted for that?
+#         (Using latent growth curve / cross-lagged panel modeling)
+# 2. Errors are correlated.
 
-#' While the 1st requires us to think, the second can be tested
-#' with `lavaan::modificationIndices()`.
+# While the 1st requires us to think, the second can be tested
+# with `lavaan::modificationIndices()`.
 
 library(lavaan)
 
@@ -57,45 +63,60 @@ modificationIndices(fit, sort. = TRUE, minimum.value = 10)
 #>    lhs op rhs     mi   epc sepc.lv sepc.all sepc.nox
 #> 94  y2 ~~  y6 11.094 2.189   2.189    0.364    0.364
 
-#' Looks like the errors of y2 and y6 are correlatred, 
-#' and we can consider adding this correlation to our model.
+
+# Looks like the errors of y2 and y6 are correlatred, 
+# and we can consider adding this correlation to our model.
+
+
+
+
 
 
 # 3. Multivariate normal distribution -------------------------------------
 
-#' Like the assumption of normalicy in OLS regression, this assumption is
-#' concerned with the normalicy of the residuals, but here these residuals 
-#' are multivariate.
-#' Unfortunetly there is no easy way to test this, so instead multivariate
-#' Kurtosis and Skewness are tested. If any (or both) of these are
-#' significant, then we cannot assume multivariate normalicy.
-
-#' To test these, we must supply the original data the model was fit with.
-#' NOTE: only use the subset of the data that was used!
+# Like the assumption of normalicy in OLS regression, this assumption is
+# concerned with the normalicy of the residuals, but here these residuals are
+# multivariate.
+# Unfortunetly there is no easy way to test this, so instead multivariate
+# Kurtosis and Skewness are tested. If any (or both) of these are significant,
+# then we cannot assume multivariate normalicy.
+#
+# To test these, we must supply the original data the model was fit with.
+# NOTE: only use the subset of the data that was used!
 
 model_data <- PoliticalDemocracy[, c("y1", "y2", "y3", "y4", "y5", "y6", "y7", "y8")]
+
 
 library(semTools)
 mardiaKurtosis(model_data)
 #>        b2d          z          p 
 #> 76.0448884 -1.3539399  0.1757556
+
 mardiaSkew(model_data)
 #>          b1d          chi           df            p 
 #> 1.477098e+01 1.846372e+02 1.200000e+02 1.378703e-04
 
-#' We can see that multivariate Skewness does not hold...
 
-#' We can also look at a multivariate qqplot:
-distances <- mahalanobis(model_data, colMeans(model_data), cov(model_data))
+# We can see that multivariate Skewness does not hold...
+
+
+# We can also look at a multivariate qqplot:
+distances <- mahalanobis(model_data, 
+                         center = colMeans(model_data), 
+                         cov = cov(model_data))
+
 car::qqPlot(distances, distribution = "chisq", df = mean(distances), 
             ylab = "Mahalanobis distances (Squared)")
 
-#' What to if we violate multivariate normalicy?
-#' Use a robut estimator!
-#' http://lavaan.ugent.be/tutorial/est.html
+
+# What to if we violate multivariate normalicy?
+# Use a robut estimator!
+# http://lavaan.ugent.be/tutorial/est.html
+
+
 
 
 # 4. Homoscedasticity of errors -------------------------------------------
 
-#' I could not find a way to test this.
+# I could not find a way to test this.
 
