@@ -5,6 +5,8 @@ head(group_data)
 # Our groups:
 unique(group_data$gender)
 # here we have 2, but was can have more...
+# Note that the order or the groups is not determined as the order of the factor
+# levels, but as the order in which they appear in the data frame.
 
 
 
@@ -88,7 +90,7 @@ mod <- '
   Psypath ~ Sleep + trauma
 
   ## Covariances (this is with the residuals of BAI - why?)
-  trauma ~~ c(cvM, cvW) * BAI
+  trauma ~~ c(cvW, cvM) * BAI
   
   ## Computed estimates
   cv_diff := cvM - cvW
@@ -100,7 +102,7 @@ fit_groups <- sem(mod, data = group_data,
 summary(fit_groups, standardize = TRUE)
 
 # we can see the that difference in cov is -0.39 (or the difference in
-# correlation is -0.25), and is significant.
+# correlation is 0.25), and is significant.
 
 
 
@@ -226,7 +228,7 @@ fit_meas.means <- cfa(meas_mod, data = group_data,
                       std.lv = TRUE,
                       group.equal = c("loadings","intercepts","means"),
                       group = "gender")
-
+# here the only means that are estimated are those of the latent variables.
 summary(fit_meas.means)
 
 
