@@ -3,6 +3,7 @@
 # Select only the 25 first columns corresponding to the items
 data <- na.omit(psychTools::bfi[, 1:25])
 
+head(data)
 
 
 
@@ -18,9 +19,11 @@ check_factorstructure(data)
 
 
 ## Run FA
-efa <- fa(data, nfactors = 5, rotate = "oblimin",
-          fm = "minres") # default method (fm)
-efa <- fa(data, nfactors = 5, rotate = "oblimin",
+efa <- fa(data, nfactors = 5, 
+          rotate = "oblimin",
+          fm = "minres") # minimum residual method (default)
+efa <- fa(data, nfactors = 5, 
+          rotate = "oblimin",
           fm = "pa") # principal factor solution
 # or rotate = "varimax"
 
@@ -31,7 +34,7 @@ model_parameters(efa, sort = TRUE, threshold = 0.55)
 
 
 ## Visualize
-biplot.psych(efa, choose = c(1,2), pch = ".") # set `choose = NULL` for all
+biplot(efa, choose = c(1,2), pch = ".") # set `choose = NULL` for all
 # We see here that PA2 is aligned with "N" cols, and that PA3 is aligned 
 # with "C" cols - same as we saw in the table above.
 
@@ -53,7 +56,7 @@ head(data_scores)
 efa_rel <- omega(data, nfactors = 5, fm = "pa", rotate = "oblimin", 
                  plot = FALSE)
 efa_rel$omega.group
-# `This give omega (look at omega total), which is similar to alpha, but doesn't
+# This give omega (look at omega total), which is similar to alpha, but doesn't
 # assume equal weights (which we just estimated!).
 # https://doi.org/10.1037/met0000144
 
@@ -152,4 +155,9 @@ model_parameters(efa) # results from psych::fa
 # - Compare the EFA on 5 factors and the EFA on 6 factors. You can use `anova()`
 #   to compare the models: `d.chiSq` is the test statistic with `d.df` degrees
 #   of freedom. `PR` is the p-value.
+#   Note: Chi-squared corresponds to the variance unaccounted for in the
+#   selected factors. And the difference (`d.chiSq`) is the additional accounted
+#   variance by the EFA with more factors. If the results is significant, this
+#   means that the model with more factors significantly accounted for more
+#   vatiance!
 
