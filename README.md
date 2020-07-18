@@ -31,8 +31,8 @@ You will need:
 
 1.  A fresh installation of [**`R`**](https://cran.r-project.org/)
     (preferably version 3.6 or above).
-2.  [RStudio](https://www.rstudio.com/products/rstudio/download/)
-    (optional - but I recommend using an IDE).
+2.  [RStudio IDE](https://www.rstudio.com/products/rstudio/download/) 
+    (optional, but recommended).
 3.  The following packages, listed by lesson:
 
 | Lesson                                                                                              | Packages                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
