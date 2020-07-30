@@ -3,7 +3,11 @@
 
 # Structural Equation Modeling foR Psychologists
 
-<sub>*Last updated 2020-05-10.*</sub>
+[![](https://img.shields.io/badge/Open%20Educational%20Resources-Compatable-brightgreen)](https://creativecommons.org/about/program-areas/education-oer/)
+[![](https://img.shields.io/badge/CC-BY--NC--SA%204.0-lightgray)](http://creativecommons.org/licenses/by-nc-sa/4.0/)  
+[![](https://img.shields.io/badge/Language-R-blue)](http://cran.r-project.org/)
+
+<sub>*Last updated 2020-07-30.*</sub>
 
 This Github repo contains all lesson files used in the graduate-level
 course: *Structural Equation Modeling foR Psychologists - Practical
@@ -31,7 +35,7 @@ You will need:
 
 1.  A fresh installation of [**`R`**](https://cran.r-project.org/)
     (preferably version 3.6 or above).
-2.  [RStudio IDE](https://www.rstudio.com/products/rstudio/download/) 
+2.  [RStudio IDE](https://www.rstudio.com/products/rstudio/download/)
     (optional, but recommended).
 3.  The following packages, listed by lesson:
 
@@ -59,12 +63,10 @@ You can install all the packages used by running:
 
 The package versions used here:
 
-    ##    bayestestR           car         dplyr        lavaan    lavaanPlot 
-    ##     "0.6.0.1"       "3.0-7" "0.8.99.9002"       "0.6-5"       "0.5.1" 
-    ##      nFactors    parameters         psych    psychTools       semPlot 
-    ##       "2.4.1"     "0.6.1.1"   "1.9.12.31"      "1.9.12"       "1.1.2" 
-    ##      semTools         tidyr 
-    ##   "0.5-2.920"       "1.0.2"
+    ##  bayestestR         car       dplyr      lavaan  lavaanPlot    nFactors 
+    ##     "0.7.2"     "3.0-8"     "1.0.0"     "0.6-6"     "0.5.1"     "2.4.1" 
+    ##  parameters       psych  psychTools     semPlot    semTools       tidyr 
+    ##     "0.8.2" "1.9.12.31"    "1.9.12"     "1.1.2"     "0.5-3"     "1.1.0"
 
 ## Other Useful Resources
 
