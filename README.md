@@ -4,10 +4,10 @@
 # Structural Equation Modeling foR Psychologists
 
 [![](https://img.shields.io/badge/Open%20Educational%20Resources-Compatable-brightgreen)](https://creativecommons.org/about/program-areas/education-oer/)
-[![](https://img.shields.io/badge/CC-BY--NC--SA%204.0-lightgray)](http://creativecommons.org/licenses/by-nc-sa/4.0/)  
+[![](https://img.shields.io/badge/CC-BY--NC%204.0-lightgray)](http://creativecommons.org/licenses/by-nc/4.0/)  
 [![](https://img.shields.io/badge/Language-R-blue)](http://cran.r-project.org/)
 
-<sub>*Last updated 2020-07-30.*</sub>
+<sub>*Last updated 2020-10-03.*</sub>
 
 This Github repo contains all lesson files used in the graduate-level
 course: *Structural Equation Modeling foR Psychologists - Practical
@@ -61,12 +61,25 @@ You can install all the packages used by running:
 
     install.packages(pkgs, dependencies = TRUE)
 
-The package versions used here:
+<details>
 
-    ##  bayestestR         car       dplyr      lavaan  lavaanPlot    nFactors 
-    ##     "0.7.2"     "3.0-8"     "1.0.0"     "0.6-6"     "0.5.1"     "2.4.1" 
-    ##  parameters       psych  psychTools     semPlot    semTools       tidyr 
-    ##     "0.8.2" "1.9.12.31"    "1.9.12"     "1.1.2"     "0.5-3"     "1.1.0"
+<summary><i>Package Versions</i></summary> The package versions used
+here:
+
+  - `bayestestR` 0.7.2.1 (*Dev*)
+  - `car` 3.0-10 (*CRAN*)
+  - `dplyr` 1.0.2 (*CRAN*)
+  - `lavaan` 0.6-7 (*CRAN*)
+  - `lavaanPlot` 0.5.1 (*CRAN*)
+  - `nFactors` 2.4.1 (*CRAN*)
+  - `parameters` 0.8.6.1 (*Dev*)
+  - `psych` 2.0.8 (*CRAN*)
+  - `psychTools` 2.0.8 (*CRAN*)
+  - `semPlot` 1.1.2 (*CRAN*)
+  - `semTools` 0.5-3 (*CRAN*)
+  - `tidyr` 1.1.2 (*CRAN*)
+
+</details>
 
 ## Other Useful Resources
 

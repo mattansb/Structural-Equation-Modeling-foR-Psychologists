@@ -15,7 +15,7 @@ opts_chunk$set(echo = TRUE)
 # Structural Equation Modeling foR Psychologists
 
 [![](https://img.shields.io/badge/Open%20Educational%20Resources-Compatable-brightgreen)](https://creativecommons.org/about/program-areas/education-oer/)
-[![](https://img.shields.io/badge/CC-BY--NC--SA%204.0-lightgray)](http://creativecommons.org/licenses/by-nc-sa/4.0/)  
+[![](https://img.shields.io/badge/CC-BY--NC%204.0-lightgray)](http://creativecommons.org/licenses/by-nc/4.0/)  
 [![](https://img.shields.io/badge/Language-R-blue)](http://cran.r-project.org/)
 
 <sub>*Last updated `r Sys.Date()`.*</sub>
@@ -120,11 +120,35 @@ pkgs %>% {
 cat("install.packages(pkgs, dependencies = TRUE)")
 ```
 
+<details>
+<summary><i>Package Versions</i></summary>
 The package versions used here:
 ```{r, echo=FALSE}
 packinfo <- installed.packages(fields = c("Package", "Version"))
-packinfo[packinfo[,"Package"] %in% pkgs,"Version"]
+
+get_src <- function(pkg) {
+  pd <- packageDescription(pkg)
+  if (is.null(src <- pd$Repository)) {
+    if (!is.null(src <- pd$GithubRepo)) {
+      src <- paste0("Github: ",pd$GithubUsername,"/",src)
+    } else {
+      src <- "Dev"
+    }
+  }
+  return(src)
+}
+
+V <- packinfo[pkgs,"Version"]
+src <- sapply(pkgs, get_src)
+# setNames(paste0(V, " (", src,")"), pkgs)
+
+v_info <- paste0(glue::glue(" - `{pkgs}` {V} (*{src}*)"), collapse = "\n")
 ```
+
+`r v_info`
+
+</details>
+
 
 ## Other Useful Resources
 
