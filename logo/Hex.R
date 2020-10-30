@@ -5,13 +5,13 @@ library(hexSticker)
 dat <-
   tibble::tribble(
   ~from, ~to,
-  "SEM", "BGU",
+  "SEM", "???",
   "SEM", "S1",
   "SEM", "S2",
   "SEM", "...",
   "SEM", "S40",
   "Psych", "SEM",
-  "Psych", "BGU"
+  "Psych", "???"
 ) %>% 
   as_tbl_graph() %E>%
     mutate(dir = c("<", "<", "<", "<", "<", "<", "<>")) %N>% 
@@ -45,14 +45,15 @@ sem_p <- ggraph(dat, layout = "manual",
                 arrow     = arrow(20, unit(.1, "cm"), type = "closed", ends = "both"),
                 start_cap = arrow_cap,
                 end_cap   = arrow_cap) +
-  # theme_bw() +
+  # theme_bw() 
   theme_transparent() +
   coord_cartesian(xlim = c(0.02, 0.07),
-                  ylim = -c(0.015, 0.047))
+                  ylim = -c(0.015, 0.047)) +
+  NULL
 
 
 sticker(sem_p, package="SEM - Practical Applications in R",
-        filename = "BGUHex.png",
+        filename = "Hex.png",
         s_x = 0.9, s_y = 0.8, s_width = 1.6, s_height = 1.2,
         p_color = "white", p_size = 8,
         h_color = "grey", h_fill = "orange",

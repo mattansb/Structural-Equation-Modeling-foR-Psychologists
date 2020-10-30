@@ -2,7 +2,7 @@
 output: github_document
 ---
 
-<img src='logo/BGUHex.png' align="right" height="139" />
+<img src='logo/Hex.png' align="right" height="139" />
 
 ```{r setup, include=FALSE}
 library(knitr)
@@ -20,9 +20,9 @@ opts_chunk$set(echo = TRUE)
 
 <sub>*Last updated `r Sys.Date()`.*</sub>
 
-This Github repo contains all lesson files used in the graduate-level course: *Structural Equation Modeling foR Psychologists - Practical Applications in R*, taught at Ben-Gurion University on the Negev (spring 2019 semester). This course assumes basic competence in R (importing, regression modeling, plotting, etc.), a long the lines of the prerequisite course, [*Advanced Research Methods foR Psychologists*](https://github.com/mattansb/Advanced-Research-Methods-foR-Psychologists).
+This Github repo contains all lesson files for *SEM - Practical Applications in R*. The goal is to impart students with the basic tools to construct, evaluate and compare **Structural Equation Models (SEM; w/ plots), using [`lavaan`](http://lavaan.ugent.be/)**.
 
-The goal is to impart students with the basic tools to construct, evaluate and compare **Structural Equation Models (SEM; w/ plots), using [`lavaan`](http://lavaan.ugent.be/)**.
+These topics were taught in the graduate-level course ***Structural Equation Modeling*** (Psych Dep., Ben-Gurion University of the Negev, *Spring, 2019*). This course assumes basic competence in R (importing, regression modeling, plotting, etc.), along the lines of [*Practical Applications in R for Psychologists*](https://github.com/mattansb/Practical-Applications-in-R-for-Psychologists).
 
 **Notes:**  
 
