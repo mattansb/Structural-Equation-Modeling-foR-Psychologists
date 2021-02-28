@@ -114,11 +114,28 @@ fit <- sem(mediation_model, data = income_psych,
 
 # Plotting ----------------------------------------------------------------
 
-library(tidySEM)
+library(semPlot)
+# very (too?) customisable:
+semPaths(fit)
+semPaths(fit, whatLabels = "est")
+semPaths(fit, whatLabels = "std")
 
-graph_sem(fit)
+?semPaths # there are a million options!
 
-graph_sem(fit, label = "est_std")
+semPaths(fit, what = "std", whatLabels = "std", 
+         residuals = TRUE, intercepts = FALSE,
+         # prettify
+         style = "lisrel", normalize = TRUE, 
+         sizeMan = 11, sizeMan2 = 7,
+         sizeLat = 11, sizeLat2 = 7,
+         nCharNodes = 50,
+         edge.label.cex = 1)
+# see `advanced plotting` for even more fine-tuning.
+
+library(lavaanPlot)
+# pretty out of the box, but very very BUGGY!
+lavaanPlot(model = fit)
+lavaanPlot(model = fit, coefs = TRUE)
 
 
 # See also advanced plotting.R

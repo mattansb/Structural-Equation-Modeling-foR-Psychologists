@@ -1,6 +1,5 @@
 library(lavaan)
-library(tidySEM)
-library(dplyr)
+library(semPlot)
 
 income_psych <- read.csv("income_psych.csv")
 
@@ -12,84 +11,87 @@ fit <- sem(mediation_model, data = income_psych)
 
 ## See below for how "plot1.png" and "plot2.png" were made.
 
-## Based on:
-## https://cjvanlissa.github.io/tidySEM/articles/Plotting_graphs.html
-
-
-# Changing the layout -----------------------------------------------------
-
-lay <- get_layout(NA, "mood_neg", NA,
-                  NA, NA, NA,
-                  "anxiety", NA, "income",
-                  rows = 3)
-
-
-
-
-graph_data <- prepare_graph(fit, layout = lay, label = "est_std")
-
-plot(graph_data)
-
-
-
-
 # Adding var labels -------------------------------------------------------
 
-# We can add labels to our variables (our "nodes") by chaging the "label" column
-# in the "nodes" part of the plot:
+#' We can add labels to our variables with the `nodeLabels` argument.
+#' However, for this we need to know the order in which `semPaths()`
+#' "reads" the variables. We can do that like so:
 
-(N <- nodes(graph_data))
+semPlotModel(fit)@Vars
 
-nodes(graph_data) <- N %>% 
-  mutate(label = c("Anxiety", "Income", "Negative Mood"))
-
-plot(graph_data)
-
+semPaths(fit,
+         nodeLabels = c("Negative Mood", "Income", "Anxiety"))
 
 
-# Adding / changing arrow labels ------------------------------------------
+# Other attributes --------------------------------------------------------
+
+#' You can play with other attributes of the plot by:
+#' 1. Saving the plot into an object
+#' 2. Changing the attributes `graphAttributes`
+
+# Example of chaning the width and hight of nodes:
+p <- semPaths(fit,
+              nodeLabels = c("Negative Mood", "Income", "Anxiety"))
+
+p$graphAttributes$Nodes$width <- c(10,10,20)
+p$graphAttributes$Nodes$height <- c(20,5,5)
+
+plot(p)
+
+# Example of nodes changing colors:
+p$graphAttributes$Nodes$border.color <- c("black", "green", "red")
+
+plot(p)
 
 
-(tab <- table_results(fit, columns = c("label", "est_std", "confint_std", "pval"), digits = 2))
+# Manual Layout -----------------------------------------------------------
 
-(E <- edges(graph_data))
+#' Make a matrix with a row for each node,
+#' and 2 columns
+m <- matrix(NA, nrow = 3, ncol = 2)
 
-edges(graph_data) <- E %>% 
-  mutate(est_std = tab$est_std,
-         label = paste0(round(est_std, 2), " ",tab$confint))
+# For each "row" (node), set the (x,y) coordinates.
+# The order of rows is again taken from:
+semPlotModel(fit)@Vars
 
-plot(graph_data)
+# (x,y)=(0,0) is the bottom left
+m[1, ] <- c(2,0)
+m[2, ] <- c(1,1)
+m[3, ] <- c(0,0)
+m
 
+semPaths(fit,
+         layout = m)
 
-
-
-
-# Even more ---------------------------------------------------------------
-
-E <- edges(graph_data)
-
-edges(graph_data) <- E %>% 
-  mutate(
-    # color lines by sign:
-    colour = case_when(
-      arrow == "both" ~ "black",
-      est_std < 0 ~ "red",
-      est_std > 0 ~ "green"
-    ),
-    # mark which is sig
-    linetype = c("dashed","dashed","solid", "dashed", "solid", "solid")
-  )
+# For a shiny app that can help, see
+# https://mattansb.github.io/MSBMisc/reference/node_layout_maker.html
+# https://mattansb.github.io/MSBMisc/reference/as_tbl_graph.lavaan.html
 
 
-N <- nodes(graph_data)
-
-nodes(graph_data) <- N %>% 
-  mutate(size = c(1,3,1))
-
-plot(graph_data)
+# Final product -----------------------------------------------------------
 
 
+m <- matrix(NA, nrow = 3, ncol = 2)
+m[1, ] <- c(2,0)
+m[2, ] <- c(1,1)
+m[3, ] <- c(0,0)
 
+p <- semPaths(fit, what = "std", whatLabels = "std", 
+              residuals = TRUE, intercepts = FALSE,
+              # prettify
+              style = "lisrel", normalize = TRUE, fade = FALSE,
+              sizeMan = 11, sizeMan2 = 7,
+              sizeLat = 11, sizeLat2 = 7,
+              nCharNodes = 50,
+              edge.label.cex = 1,
+              # even more
+              layout = m,
+              nodeLabels = c("Negative Mood", "Income", "Anxiety"))
+
+p$graphAttributes$Nodes$width <- c(20, 10, 10)
+p$graphAttributes$Nodes$border.color <- c("black", "green", "red")
+
+plot(p)
 
 
 # Making "plot1" ----------------------------------------------------------
@@ -101,40 +103,28 @@ mediation_model <- '
 
 fit <- sem(mediation_model, data = income_psych)
 
+semPlotModel(fit)@Vars
 
+m <- matrix(NA, nrow = 3, ncol = 2)
+m[1, ] <- c(2,0)
+m[2, ] <- c(1,1)
+m[3, ] <- c(0,0)
+m
 
-lay <- get_layout(NA, "mood_neg", NA,
-                  "anxiety", NA, "income",
-                  rows = 2)
+p1 <- semPaths(fit, whatLabels = "none", 
+               residuals = FALSE, intercepts = FALSE,
+               # prettify
+               style = "lisrel", normalize = TRUE, 
+               sizeMan = 11, sizeMan2 = 7,
+               sizeLat = 11, sizeLat2 = 7,
+               nCharNodes = 50,
+               edge.label.cex = 1, 
+               nodeLabels = c("Income", "Negative Mood", "Anxiety"),
+               layout = m)
 
-graph_data <- prepare_graph(fit, layout = lay)
+p1$graphAttributes$Nodes$width <- c(10,22,10)
 
-E <- edges(graph_data)
-E$label <- ""
-E$connect_from[3] <- "top"
-E$connect_to[3] <- "left"
-E$connect_from[2] <- "right"
-E <- E[1:3,]
-edges(graph_data) <- E
-
-
-
-(N <- nodes(graph_data))
-N$label <- c("Anxiety", "Income", "Negative Mood")
-nodes(graph_data) <- N
-
-
-
-
-
-(p1 <- plot(graph_data))
-
-# because the result it a ggplot, we will use ggsave to save it
-ggplot2::ggsave(p1, filename = "plot1.png", width = 6, height = 3)
-
-
-
-
+plot(p1)
 
 # Making "plot2" ----------------------------------------------------------
 
@@ -147,38 +137,26 @@ mediation_model <- '
 
 fit <- sem(mediation_model, data = income_psych)
 
+semPlotModel(fit)@Vars
 
+m <- matrix(NA, nrow = 4, ncol = 2)
+m[1, ] <- c(2,0)
+m[2, ] <- c(1,1)
+m[3, ] <- c(0,0)
+m[4, ] <- c(1,-1)
+m
 
+p2 <- semPaths(fit, whatLabels = "none", 
+               residuals = FALSE, intercepts = FALSE,
+               # prettify
+               style = "lisrel", normalize = TRUE, 
+               sizeMan = 11, sizeMan2 = 7,
+               sizeLat = 11, sizeLat2 = 7,
+               nCharNodes = 50,
+               edge.label.cex = 1, 
+               nodeLabels = c("Income", "Negative Mood", "Anxiety", "Shyness"),
+               layout = m)
 
+p2$graphAttributes$Nodes$width <- c(10,22,10, 12)
 
-
-lay <- get_layout(NA, NA, "mood_neg", NA,
-                  NA, "anxiety", NA, "income",
-                  "shyness", NA, NA, NA,
-                  rows = 3)
-
-graph_data <- prepare_graph(fit, layout = lay)
-
-E <- edges(graph_data)
-E$label <- ""
-E$connect_from[5] <- "top"
-E$connect_to[5] <- "left"
-E$connect_from[4] <- "top"
-E$connect_to[4] <- "left"
-E$connect_to[3] <- "bottom"
-E <- E[1:5,]
-edges(graph_data) <- E
-
-plot(graph_data)
-
-(N <- nodes(graph_data))
-N$label <- c("Anxiety", "Income", "Negative Mood", "Shyness")
-N$node_xmin[3] <- N$node_xmin[3]-0.5
-N$node_xmax[3] <- N$node_xmax[3]+0.5
-nodes(graph_data) <- N
-
-
-(p2 <- plot(graph_data))
-
-# because the result it a ggplot, we will use ggsave to save it
-ggplot2::ggsave(p2, filename = "plot2.png", width = 6, height = 3)
+plot(p2)
