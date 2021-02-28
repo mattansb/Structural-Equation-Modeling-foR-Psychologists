@@ -16,15 +16,15 @@ head(income_psych)
 
 # Manual path analysis ----------------------------------------------------
 
-m1 <- lm(income ~ anxiety + mood_neg, income_psych)
-m2 <- lm(mood_neg ~ anxiety, income_psych)
+m1 <- lm(income ~ anxiety + neg_mood, income_psych)
+m2 <- lm(neg_mood ~ anxiety, income_psych)
 
 # We can "build" the paths by multiplying the correct coefficiants:
 (coef1 <- coef(m1))
 (coef2 <- coef(m2))
 
 direct <- unname(coef1['anxiety'])
-indirect <- unname(coef1['mood_neg'] * coef2['anxiety'])
+indirect <- unname(coef1['neg_mood'] * coef2['anxiety'])
 
 (mediation_by_hand <- c(direct = direct,
                         indirect = indirect,
@@ -45,8 +45,8 @@ library(lavaan)
 
 # model specification are written as a multi-line character:
 mediation_model <- '
-  mood_neg ~ anxiety
-    income ~ anxiety + mood_neg
+  neg_mood ~ anxiety
+    income ~ anxiety + neg_mood
 '
 
 # fit the model to the data:
@@ -59,14 +59,14 @@ summary(fit) # get estimates + tests statistics
 # (why is the Test Statistic 0?)
 
 summary(fit, standardize = TRUE) # look at Std.all for beta
-summary(fit, rsquare = TRUE) # See regression R2
-
+lavInspect(fit, what = "rsquare") # See regression R2
 
 
 ## Confidence intervals:
 parameterestimates(fit, ci = TRUE, output = "text") # ci for the raw estimates
 standardizedSolution(fit, ci = TRUE, output = "text") # ci for the std estimates
-# Note that the tests from these 2 functions CAN BE DIFFERENT. Why?
+# Note that the tests from these 2 functions CAN BE DIFFERENT (see the
+# z-values). Why?
 
 
 ## Bootstrap
@@ -89,8 +89,8 @@ summary(fit_with_boot, standardize = TRUE)
 
 mediation_model <- '
   # regressions
-  mood_neg ~ a * anxiety
-    income ~ b * mood_neg + c * anxiety
+  neg_mood ~ a * anxiety
+    income ~ b * neg_mood + c * anxiety
   
 
   # effects
@@ -118,8 +118,8 @@ cor(income_psych$anxiety, income_psych$income)
 
 mediation_model <- '
   # regressions
-  mood_neg ~ a * anxiety
-    income ~ b * mood_neg + c * anxiety
+  neg_mood ~ a * anxiety
+    income ~ b * neg_mood + c * anxiety
   
 
   # effects
@@ -177,8 +177,8 @@ graph_sem(fit, label = "est_std")
 #   - Explain the causal relationship in this model (in words).
 #   - Fit this model with `lavaan`.
 # 2. Compute all the paths in this model from *anxiety* to *income*, and 
-#    the total of these paths.
-# 3. Why is the std total not *equal* exactly to the real correlation?
+#    the total of these paths. Explain your findings.
+# 3. Why is the std total NOT equal *exactly* to the real correlation?
 #   - Is it very different? What does this mean?
 # 4. Compute the difference between the two indirect paths. 
 #   - How big is it? Is it significant?

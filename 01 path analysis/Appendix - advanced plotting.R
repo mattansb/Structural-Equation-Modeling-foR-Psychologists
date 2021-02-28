@@ -5,8 +5,8 @@ library(dplyr)
 income_psych <- read.csv("income_psych.csv")
 
 mediation_model <- '
-  mood_neg ~ anxiety
-    income ~ anxiety + mood_neg
+  neg_mood ~ anxiety
+    income ~ anxiety + neg_mood
 '
 fit <- sem(mediation_model, data = income_psych)
 
@@ -28,7 +28,7 @@ graph_sem(fit,
 # Changing Layout ---------------------------------------------------------
 
 lay <- get_layout(
-  NA,        "mood_neg", NA,
+  NA,        "neg_mood", NA,
   "anxiety", NA,         "income",
   rows = 2
 )
@@ -61,12 +61,15 @@ graph_sem(fit,
           layout = lay, angle = 90,
           edges = edgs)
 
+# There are many more options, you can read more here:
+# https://cjvanlissa.github.io/tidySEM/articles/Plotting_graphs.html
+
 
 # Making "plot1" ----------------------------------------------------------
 
 mediation_model <- '
-  mood_neg ~ anxiety
-    income ~ anxiety + mood_neg
+  neg_mood ~ anxiety
+    income ~ anxiety + neg_mood
 '
 
 fit <- sem(mediation_model, data = income_psych)
@@ -78,7 +81,7 @@ nods <- get_nodes(fit) %>%
   mutate(label = c("Negative\nMood", "Income", "Anxiety")) # \n is a break line
 
 lay <- get_layout(
-  NA,         "mood_neg", NA,
+  NA,         "neg_mood", NA,
   "anxiety", NA,        "income",
   rows = 2
 )
@@ -101,20 +104,20 @@ ggplot2::ggsave("plot1.png", height = 3, width = 6)
 
 
 mediation_model <- '
-  mood_neg ~ a * anxiety
-   anxiety ~ b * shyness
-    income ~ c * anxiety + d * mood_neg + e * shyness
+  neg_mood ~ anxiety
+   shyness ~ anxiety
+    income ~ anxiety + neg_mood + shyness
 '
 
 fit <- sem(mediation_model, data = income_psych)
 
 nods <- get_nodes(fit) %>% 
-  mutate(label = c("Negative\nMood", "Anxiety", "Income", "Shyness")) # \n is a break line
+  mutate(label = c("Negative\nMood", "Shyness", "Income", "Anxiety")) # \n is a break line
 
 lay <- get_layout(
-  NA,        NA,         "mood_neg", NA,
-  NA,        "anxiety", NA,          "income",
-  "shyness", NA,        NA,          NA,
+  NA,        "neg_mood", NA,
+  "anxiety", NA,         "income",
+  NA,        "shyness",  NA,
   rows = 3
 )
 
