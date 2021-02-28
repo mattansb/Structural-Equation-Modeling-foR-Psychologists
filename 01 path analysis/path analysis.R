@@ -174,12 +174,13 @@ graph_sem(fit, label = "est_std")
 # Exercise ----------------------------------------------------------------
 
 # 1. Look at the plot in "plot2.png". 
-#   - Explain the causal relationship in this model (in words).
+#   - Explain the implied causal relationship in this model (in words).
 #   - Fit this model with `lavaan`.
-# 2. Compute all the paths in this model from *anxiety* to *income*, and 
-#    the total of these paths. Explain your findings.
-# 3. Why is the std total NOT equal *exactly* to the real correlation?
+# 2. Compute:
+#   - All the paths in this model from *anxiety* to *income*
+#   - The total of these paths.
+#   - The difference between the indirect paths.
+#   Explain your findings.
+# 3. Why is the std total NOT equal *exactly exactly* to the real correlation?
 #   - Is it very different? What does this mean?
-# 4. Compute the difference between the two indirect paths. 
-#   - How big is it? Is it significant?
 
