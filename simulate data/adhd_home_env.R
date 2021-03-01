@@ -41,3 +41,4 @@ cor(d)
 psych::multi.hist(d)
 
 write.csv(d, "../02 CFA/adhd_home_env.csv", row.names = FALSE)
+write.csv(d, "../03 SEM with CLPM/adhd_home_env.csv", row.names = FALSE)
