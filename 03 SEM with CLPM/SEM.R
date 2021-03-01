@@ -22,7 +22,8 @@ library(tidySEM)
 
 # Step 1. Measurement Model -----------------------------------------------
 
-# I will assume equal loadings at both time points:
+# I will assume equal loadings and errors at both time points - this is called
+# measurement invariance. We will meet this assumption again in a later lesson.
 
 mod_meas <- '
   ## latent variable definitions (CFA)
@@ -33,13 +34,21 @@ mod_meas <- '
   HOME_t1 ~~ HOME_t2 + adhd_t1 + adhd_t2
   HOME_t2 ~~ adhd_t1 + adhd_t2
   adhd_t1 ~~ adhd_t2
-  
+   
+  ## errors
+   accept_t1 ~~ e1 * accept_t1
+   accept_t2 ~~ e1 * accept_t2
+  variety_t1 ~~ e2 * variety_t1
+  variety_t2 ~~ e2 * variety_t2
+   acStim_t1 ~~ e3 * acStim_t1
+   acStim_t2 ~~ e3 * acStim_t2
+   
   ## autocorrelations
    accept_t1 ~~ accept_t2
   variety_t1 ~~ variety_t2
    acStim_t1 ~~ acStim_t2
   
-  ## self-regression
+  ## self-regression (do not forget!)
   adhd_t1 ~ 1 * adhd_t1
   adhd_t2 ~ 1 * adhd_t2
 '
@@ -110,6 +119,14 @@ mod_struct <- '
   HOME_t1 ~~ adhd_t1
   HOME_t2 ~~ adhd_t2
   
+  ## errors
+   accept_t1 ~~ e1 * accept_t1
+   accept_t2 ~~ e1 * accept_t2
+  variety_t1 ~~ e2 * variety_t1
+  variety_t2 ~~ e2 * variety_t2
+   acStim_t1 ~~ e3 * acStim_t1
+   acStim_t2 ~~ e3 * acStim_t2
+  
   ## autocorrelations
    accept_t1 ~~ accept_t2
   variety_t1 ~~ variety_t2
@@ -174,6 +191,14 @@ mod_structH1 <- '
   ## covariances
   HOME_t1 ~~ adhd_t1
   HOME_t2 ~~ 0 * adhd_t2 # <<<<<<<<<<<<<
+  
+  ## errors
+   accept_t1 ~~ e1 * accept_t1
+   accept_t2 ~~ e1 * accept_t2
+  variety_t1 ~~ e2 * variety_t1
+  variety_t2 ~~ e2 * variety_t2
+   acStim_t1 ~~ e3 * acStim_t1
+   acStim_t2 ~~ e3 * acStim_t2
   
   ## autocorrelations
    accept_t1 ~~ accept_t2
@@ -240,6 +265,14 @@ mod_structH2 <- '
   ## covariances
   HOME_t1 ~~ adhd_t1
   HOME_t2 ~~ 0 * adhd_t2
+  
+  ## errors
+   accept_t1 ~~ e1 * accept_t1
+   accept_t2 ~~ e1 * accept_t2
+  variety_t1 ~~ e2 * variety_t1
+  variety_t2 ~~ e2 * variety_t2
+   acStim_t1 ~~ e3 * acStim_t1
+   acStim_t2 ~~ e3 * acStim_t2
   
   ## autocorrelations
    accept_t1 ~~ accept_t2
