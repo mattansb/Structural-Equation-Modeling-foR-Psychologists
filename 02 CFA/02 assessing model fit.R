@@ -66,6 +66,9 @@ fitMeasures(fit_meas, output = "text",
 # Absolute measures of fit:
 #     GFI > 0.95
 #   RMSEA < 0.08
+#
+# But also some suggest no using these strict rules of thumb... See:
+# https://dynamicfit.app/cfa/ from https://doi.org/10.31234/osf.io/v8yru
 
 
 # The model isn't looking too great...
