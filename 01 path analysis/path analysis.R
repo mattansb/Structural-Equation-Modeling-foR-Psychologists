@@ -176,6 +176,7 @@ graph_sem(fit, label = "est_std")
 # 1. Look at the plot in "plot2.png". 
 #   - Explain the implied causal relationship in this model (in words).
 #   - Fit this model with `lavaan`.
+#   - Plot the model.
 # 2. Compute:
 #   - All the paths in this model from *anxiety* to *income*
 #   - The total of these paths.
