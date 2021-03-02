@@ -100,7 +100,7 @@ mardiaSkew(model_data)
 # We can see that multivariate Skewness does not hold...
 
 
-# We can also look at a multivariate qqplot:
+# We can also look at a multivariate chisq-qqplot:
 distances <- mahalanobis(model_data, 
                          center = colMeans(model_data), 
                          cov = cov(model_data))
