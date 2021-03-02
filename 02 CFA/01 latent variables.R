@@ -81,6 +81,8 @@ standardizedSolution(fit_meas, output = "text")
 fit_meas <- cfa(mod_meas, data = adhd_home_env, 
                 std.lv = TRUE)
 summary(fit_meas, standardize = TRUE)
+# But this can cause issues sometimes (often with structural models), so we will
+# not be using this much.
 
 
 
