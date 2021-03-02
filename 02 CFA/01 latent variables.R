@@ -59,7 +59,10 @@ lay <- get_layout(
   rows = 3
 )
 
-graph_sem(fit_meas, label = "est_std", 
+edgs <- get_edges(fit_meas, label = "est_std")
+edgs$label_location <- 0.4 # need this to avoid overlap on path labels
+
+graph_sem(fit_meas, edges = edgs,
           layout = lay, angle = 90)
 
 summary(fit_meas, standardize = TRUE)
@@ -99,16 +102,28 @@ summary(fit_meas, standardize = TRUE)
 
 # Reliability -------------------------------------------------------------
 
-# To measure the reliability of our factors, we need to fit a model that only
-# has the latent factors:
+# To measure the reliability of our factors, we need to fit the same model in a
+# slightly different way: Each observed variable (non indicator) needs to be
+# used to define a single-indicator latent variable. (This has no effect on
+# model fit / df, it is needed purly for technical reasons).
+
 
 mod_lat_only <- '
   ## latent variable definitions (CFA)
+  # The "=~" can be read as "is identified by"
   HOME_t1 =~ accept_t1 + variety_t1 + acStim_t1
   HOME_t2 =~ accept_t2 + variety_t2 + acStim_t2
+  ADHD_t1 =~ 1*adhd_t1
+  ADHD_t2 =~ 1*adhd_t2
   
   ## covariances
-  HOME_t1 ~~ HOME_t2
+  # We not longet need any of these - by default COV between latent vars is
+  # estimated.
+  HOME_t1 ~~ HOME_t2 + ADHD_t1 + ADHD_t2
+  HOME_t2 ~~ ADHD_t1 + ADHD_t2
+  ADHD_t1 ~~ ADHD_t2
+  
+  ## We also no longer need the self-regressors
 '
 
 fit_lat_only <- cfa(mod_lat_only, data = adhd_home_env)
