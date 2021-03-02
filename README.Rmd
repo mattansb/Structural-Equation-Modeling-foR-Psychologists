@@ -22,7 +22,7 @@ opts_chunk$set(echo = TRUE)
 
 This Github repo contains all lesson files for *SEM - Practical Applications in R*. The goal is to impart students with the basic tools to construct, evaluate and compare **Structural Equation Models (SEM; w/ plots), using [`lavaan`](http://lavaan.ugent.be/)**.
 
-These topics were taught in the graduate-level course ***Structural Equation Modeling*** (Psych Dep., Ben-Gurion University of the Negev, *Spring, 2019*). This course assumes basic competence in R (importing, regression modeling, plotting, etc.), along the lines of [*Practical Applications in R for Psychologists*](https://github.com/mattansb/Practical-Applications-in-R-for-Psychologists).
+These topics were taught in the graduate-level course ***Structural Equation Modeling*** (Psych Dep., Ben-Gurion University of the Negev, *Spring, 2021*). This course assumes basic competence in R (importing, regression modeling, plotting, etc.), along the lines of [*Practical Applications in R for Psychologists*](https://github.com/mattansb/Practical-Applications-in-R-for-Psychologists).
 
 **Notes:**  
 
@@ -80,13 +80,14 @@ make_pkg_table <- function(pkgs) {
 
 You will need:
 
-1. A fresh installation of [**`R`**](https://cran.r-project.org/) (preferably version 3.6 or above).
+1. A fresh installation of [**`R`**](https://cran.r-project.org/) (preferably version 4.0 or above).
 2. [RStudio IDE](https://www.rstudio.com/products/rstudio/download/) (optional, but recommended).
 3. The following packages, listed by lesson:
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 r_list <- list.files(pattern = ".(R|r)$", recursive = TRUE, full.names = TRUE) %>% 
-  .[!stringr::str_detect(., pattern = "(SOLUTION|logo)")]
+  .[!stringr::str_detect(., pattern = "(SOLUTION|logo)")] %>% 
+  .[stringr::str_detect(., pattern = "^./[0-9]")]
 
 lesson_names <- stringr::str_extract(r_list, pattern = "(?<=(/)).{1,}(?=(/))")
 
