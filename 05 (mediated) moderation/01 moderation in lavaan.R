@@ -93,7 +93,8 @@ summary(fit1)
 # Problem 2 - we can't use the solution above if the moderator (or moderatee) is
 # a latent variable. Instead we need to make a nother latent variable that is
 # the interaction term! There are a few methods to do this - we will use the
-# residual centering method. Read more: http://doi.org/10.4256/mio.2010.0030
+# residual centering method. 
+# Read more: http://doi.org/10.4256/mio.2010.0030
 
 # Our model will have 1 latent variable with indicators y1, y2, y3 and y4 that
 # will interact with y5 to predict x1.
@@ -226,12 +227,3 @@ summary(fit3)
 # You can also extract latent scores from a CFA model (with `predict()`), and
 # then use there scores in a moderation analysis in a regression model.
 
-
-
-
-# Moderated Mediation -----------------------------------------------------
-
-# For first / second step mod-med:
-#   https://psu-psychology.github.io/psy-597-SEM/11_mediation_moderation/mediation_moderation_demo.html
-# For full mod-med:
-#   https://ademos.people.uic.edu/Chapter15.html
