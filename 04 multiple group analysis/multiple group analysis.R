@@ -12,14 +12,10 @@ unique(group_data$gender)
 
 # The question we want to ask - how are women and men different in the
 # structural relationship between psychopathology, sleep, and trauma.
-# (FAKE DATA)
 
 
-
-# Unconstrained model -----------------------------------------------------
 
 library(lavaan)
-
 
 ## 1. Build the model, as usual
 mod <- '
@@ -36,31 +32,31 @@ mod <- '
 
 ## 2. Fit the model with the `group` argument.
 fit_groups <- sem(mod, data = group_data, 
-                  std.lv = TRUE,
                   group = "gender") # tell lavaan what the grouping var is
 
 # By default, lavaan lets ALL THE PARAMETER varry by group.
 
 summary(fit_groups, standardize = TRUE)
 
-library(semPlot)
-# Note we added `panelGroups = TRUE`
-semPaths(fit_groups, what = "std", whatLabels = "std", 
-         residuals = TRUE, intercepts = FALSE,
-         panelGroups = TRUE,
-         # prettify
-         fade = FALSE,
-         style = "lisrel", normalize = TRUE, 
-         sizeMan = 11, sizeMan2 = 7,
-         sizeLat = 11, sizeLat2 = 7,
-         nCharNodes = 7,
-         edge.label.cex = 1.5,
-         edge.label.bg = FALSE, edge.label.color = "black",
-         edge.label.position = 0.45)
+
+library(tidySEM)
+
+lay <- get_layout(
+  NA,    NA,        NA,       "sleep1",
+  NA,    NA,        "Sleep",  "sleep2",
+  "BDI", NA,        NA,       "sleep3",
+  NA,    "Psypath", NA,       NA,
+  "BAI", NA,        NA,       NA,
+  NA,    NA,        "trauma", NA,
+  rows = 6
+)
+
+graph_sem(fit_groups, label = "est_std", layout = lay)
 
 
 
 
+# Constraining with Modifiers ---------------------------------------------
 
 # Lets focus on the cov between (residual) BAI and trauma: Do men and woman
 # differ on the `.BAI ~~ trauma` parameter?
@@ -73,8 +69,7 @@ semPaths(fit_groups, what = "std", whatLabels = "std",
 
 
 
-
-# Using modifiers ---------------------------------------------------------
+## Modifiers are vectors ------------
 
 # When working with a multi-group model, modifiers must be specified as VECTORS.
 # For example, to estimate the difference in the covariance between men and
@@ -97,11 +92,10 @@ mod <- '
 '
 
 fit_groups <- sem(mod, data = group_data, 
-                  std.lv = TRUE,
                   group = "gender")
 summary(fit_groups, standardize = TRUE)
 
-# we can see the that difference in cov is -0.39 (or the difference in
+# we can see the that difference in cov is 0.39 (or the difference in
 # correlation is 0.25), and is significant.
 
 
@@ -109,6 +103,7 @@ summary(fit_groups, standardize = TRUE)
 
 
 
+## Constrain parameters across groups ------------
 
 # We can also use modifiers to CONSTRAIN a model:
 mod_eq_cov <- '
@@ -122,18 +117,24 @@ mod_eq_cov <- '
   ## Covariances (this is with the residuals of BAI - why?)
   trauma ~~ c(cv, cv) * BAI
 '
+# What is implied by this model?
+
 
 fit_groups_eq_cov <- sem(mod_eq_cov, data = group_data, 
-                         std.lv = TRUE,
-                         # std.ov = TRUE, # why might want to use this?
                          group = "gender")
 
 parameterEstimates(fit_groups_eq_cov, output = "text")
 
+
+
 # Compare the models
 anova(fit_groups, fit_groups_eq_cov)
-bayestestR::bayesfactor_models(fit_groups, fit_groups_eq_cov)
+bayestestR::bayesfactor_models(fit_groups_eq_cov, denominator = fit_groups)
 # What do these mean?
+
+
+
+
 
 
 
@@ -148,15 +149,13 @@ bayestestR::bayesfactor_models(fit_groups, fit_groups_eq_cov)
 # `group.equal = c("residuals", "lv.variances")`
 
 fit_groups_equires <- sem(mod, data = group_data, 
-                          std.lv = TRUE,
                           group = "gender", 
                           group.equal = c("residuals", "lv.variances"))
 summary(fit_groups_equires)
-# (Note `std.lv = TRUE` and all latent variables are exogenous.)
 
 
 anova(fit_groups_equires, fit_groups)
-bayestestR::bayesfactor_models(fit_groups, fit_groups_equires)
+bayestestR::bayesfactor_models(fit_groups, denominator = fit_groups_equires)
 
 
 
@@ -176,22 +175,32 @@ bayestestR::bayesfactor_models(fit_groups, fit_groups_equires)
 # What if you want to constrain all the parameter of a type, but 1 or 2?
 # More options are covered hare: http://lavaan.ugent.be/tutorial/groups.html
 
+
+
+
+
+
+
+
+
+
 # Measurement Invariance --------------------------------------------------
+
 
 # https://dx.doi.org/10.1097%2F01.mlr.0000245454.12228.8f
 
 # Measurement invariance is a statistical property of measurement that indicates
-# that the same construct is being measured across some specified groups. Often
-# we just assume this - but with sem we can also test this directly.
+# that the same construct is being measured across some specified groups / time.
+# Often we just assume this - but with sem we can also test this directly.
 # 
-# These tests are done on the measurment model.
+# These tests are done on the measurement model.
 
 meas_mod <- "
   ## latent variable definitions (CFA)
   Psypath =~  BAI + BDI
     Sleep =~  sleep1 + sleep2 + sleep3
     
-  ## Remeber this bug?
+  ## Remeber this?
   trauma ~ 1 * trauma
 
   ## Covariances (this is with the residuals of BAI - why?)
@@ -200,7 +209,6 @@ meas_mod <- "
 "
 
 fit_meas <- cfa(meas_mod, data = group_data, 
-                std.lv = TRUE,
                 group = "gender")
 
 # Measurement Invariance can be tested by constraining types of parameters.
@@ -208,31 +216,24 @@ fit_meas <- cfa(meas_mod, data = group_data,
 # sometimes also residuals):
 
 fit_meas.loadings <- cfa(meas_mod, data = group_data, 
-                         std.lv = TRUE,
                          group.equal = c("loadings"),
                          group = "gender")
 
-summary(fit_meas.loadings)
-
-
-
 fit_meas.intercepts <- cfa(meas_mod, data = group_data, 
-                           std.lv = TRUE,
-                           group.equal = c("loadings","intercepts"),
+                           group.equal = c("loadings", "intercepts"), 
                            group = "gender")
-
-summary(fit_meas.intercepts)
 
 
 fit_meas.means <- cfa(meas_mod, data = group_data,
-                      std.lv = TRUE,
-                      group.equal = c("loadings","intercepts","means"),
+                      group.equal = c("loadings", "intercepts", "means"), 
                       group = "gender")
 # here the only means that are estimated are those of the latent variables.
-summary(fit_meas.means)
+
 
 
 anova(fit_meas, fit_meas.loadings, fit_meas.intercepts, fit_meas.means)
+bayestestR::bayesfactor_models(fit_meas.loadings, fit_meas.intercepts, fit_meas.means,
+                               denominator = fit_meas)
 # What does this mean?
 
 
@@ -244,6 +245,9 @@ anova(fit_meas, fit_meas.loadings, fit_meas.intercepts, fit_meas.means)
 # For more advances modeling and testing of Measurement Invariance, take a look
 # at:
 ?semTools::measEq.syntax
+
+
+
 
 
 # Exercise ----------------------------------------------------------------
