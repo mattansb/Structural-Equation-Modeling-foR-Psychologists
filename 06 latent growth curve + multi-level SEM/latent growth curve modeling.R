@@ -47,9 +47,19 @@ lay <- get_layout(
   rows = 2
 )
 
-graph_sem(fit_LGC, label = "est_std", layout = lay)
+
+graph_sem(fit_LGC, 
+          edges = get_edges(fit_LGC, label = "est_std"),
+          layout = lay)
 
 
+
+# The values in the variables are their mean (raw) values. We can change this by
+# setting:
+graph_sem(fit_LGC, 
+          edges = get_edges(fit_LGC, label = "est_std"),
+          nodes = get_nodes(fit_LGC, label = "name"),
+          layout = lay)
 
 
 
@@ -89,4 +99,9 @@ lay <- get_layout(
   rows = 4
 )
 
-graph_sem(fit_LGC_S, label = "est_std", layout = lay)
+
+graph_sem(fit_LGC_S, 
+          edges = get_edges(fit_LGC_S, label = "est_std"),
+          nodes = get_nodes(fit_LGC_S, label = "name"),
+          layout = lay)
+

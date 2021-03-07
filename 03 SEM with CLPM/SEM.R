@@ -64,7 +64,8 @@ lay <- get_layout(
   rows = 3
 )
 
-graph_sem(fit_meas, label = "est_std", 
+graph_sem(fit_meas, 
+          egdes = get_edges(fit_meas, label = "est_std"),
           layout = lay, angle = 90)
 
 # Why are the loadings not equal??
@@ -145,7 +146,8 @@ mod_struct <- '
 fit_struct <- sem(mod_struct, data = adhd_home_env)
 
 
-graph_sem(fit_struct, label = "est_std", 
+graph_sem(fit_struct,
+          edges = get_edges(fit_struct, label = "est_std"),
           layout = lay, angle = 90)
 
 
@@ -214,7 +216,8 @@ mod_structH1 <- '
 
 fit_structH1 <- sem(mod_structH1, data = adhd_home_env)
 
-graph_sem(fit_structH1, label = "est_std", 
+graph_sem(fit_structH1,
+          edges = get_edges(fit_structH1, label = "est_std"),
           layout = lay, angle = 90)
 
 
@@ -288,7 +291,8 @@ mod_structH2 <- '
 
 fit_structH2 <- sem(mod_structH2, data = adhd_home_env)
 
-graph_sem(fit_structH2, label = "est_std", 
+graph_sem(fit_structH2, 
+          edges = get_edges(fit_structH2, label = "est_std"), 
           layout = lay, angle = 90)
 
 

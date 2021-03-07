@@ -51,6 +51,7 @@ fit_meas <- cfa(mod_meas, data = adhd_home_env)
 
 
 library(tidySEM)
+library(dplyr)
 
 lay <- get_layout(
   "accept_t1", "variety_t1", "acStim_t1", NA, "accept_t2", "variety_t2", "acStim_t2",
@@ -59,11 +60,15 @@ lay <- get_layout(
   rows = 3
 )
 
-edgs <- get_edges(fit_meas, label = "est_std")
-edgs$label_location <- 0.4 # need this to avoid overlap on path labels
+g <- prepare_graph(fit_meas,  layout = lay, angle = 90)
 
-graph_sem(fit_meas, edges = edgs,
-          layout = lay, angle = 90)
+edges(g) <- edges(g) %>% 
+  mutate(
+    label = est_std,
+    label_location = 0.4 # need this to avoid overlap on path labels
+  )
+
+plot(g)
 
 summary(fit_meas, standardize = TRUE)
 # why is there no test for HOME_t1 =~ accept_t1?
