@@ -51,8 +51,16 @@ lay <- get_layout(
   rows = 6
 )
 
-graph_sem(fit_groups, label = "est_std", layout = lay)
+graph_sem(fit_groups, 
+          edges = get_edges(fit_groups, label = "est_std"),
+          layout = lay)
 
+# The values in the variables are their mean (raw) values. We can change this by
+# setting:
+graph_sem(fit_groups, 
+          edges = get_edges(fit_groups, label = "est_std"),
+          nodes = get_nodes(fit_groups, label = "name"),
+          layout = lay)
 
 
 

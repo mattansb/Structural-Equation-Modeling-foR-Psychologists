@@ -48,36 +48,40 @@ plot(g)
 
 # Changing Edges (Paths) --------------------------------------------------
 
-# For edges, we first need to ask for some extra columns that have info about
-# the paths, with `get_edges()`:
 
-(edgs <- get_edges(fit,
-                   columns = c("est_std", "confint_std", "pval_std"),
-                   digits = 3))
-
-
-# we can now use this with prepare_graph:
 g <- prepare_graph(fit, 
-                   layout = lay, angle = 90,
-                   edges = edgs)
-
+                   digits = 3, # if we want to change the digits
+                   layout = lay, angle = 90)
 
 
 # And as we did with the nodes, we can see and change edge data:
-
 edges(g)
+
+
 # as you can see, there are many things you can change here!
 # You can also add color, size, linetype and alpha.
 
+
 edges(g) <- edges(g) %>% 
   mutate(
+    # set label:
     label = paste0(est_std, "\n", confint_std),
-    color = "black",
-    color = replace(color, as.numeric(est_std) > 0 & to!=from, "green"),
-    color = replace(color, as.numeric(est_std) < 0, "red"),
-    linetype = "solid",
-    linetype = replace(linetype, as.numeric(pval_std) > 0.05, "dashed")
+    # set color:
+    color = case_when(
+      to == from ~ "black",
+      as.numeric(est_std) > 0 ~ "green",
+      as.numeric(est_std) < 0 ~ "red",
+      TRUE ~ "black"
+    ),
+    # set linetype
+    linetype = case_when(
+      as.numeric(pval_std) > 0.05 ~ "dashed",
+      TRUE ~ "solid"
+    )
   )
+
+# (This will all be easier in future versions of the package.)
+
 
 plot(g)
 
@@ -87,6 +91,7 @@ plot(g)
 
 # Making "plot1" ----------------------------------------------------------
 
+
 mediation_model <- '
   neg_mood ~ anxiety
     income ~ anxiety + neg_mood
@@ -94,30 +99,25 @@ mediation_model <- '
 
 fit <- sem(mediation_model, data = income_psych)
 
-
-
-
-nods <- get_nodes(fit) %>% 
-  mutate(label = c("Negative\nMood", "Income", "Anxiety")) # \n is a break line
-
 lay <- get_layout(
   NA,        "neg_mood", NA,
   "anxiety", NA,         "income",
   rows = 2
 )
 
-edgs <- get_edges(fit) %>% 
+
+g1 <- prepare_graph(fit, layout = lay, angle = 90)
+
+nodes(g1) <- nodes(g1) %>% 
+  mutate(label = c("Negative\nMood", "Income", "Anxiety")) # \n is a break line
+
+edges(g1) <- edges(g1) %>% 
   filter(to != from) %>% 
   mutate(label = "")
 
-graph_sem(fit,
-          nodes = nods, edges = edgs,
-          layout = lay, angle = 90)
 
-ggplot2::ggsave("plot1.png", height = 3, width = 6)
-
-
-
+plot(g1)
+ggplot2::ggsave("plot1.png", height = 4, width = 6)
 
 
 # Making "plot2" ----------------------------------------------------------
@@ -131,8 +131,6 @@ mediation_model <- '
 
 fit <- sem(mediation_model, data = income_psych)
 
-nods <- get_nodes(fit) %>% 
-  mutate(label = c("Negative\nMood", "Shyness", "Income", "Anxiety")) # \n is a break line
 
 lay <- get_layout(
   NA,        "neg_mood", NA,
@@ -141,12 +139,16 @@ lay <- get_layout(
   rows = 3
 )
 
-edgs <- get_edges(fit) %>% 
+
+g2 <- prepare_graph(fit, layout = lay, angle = 90)
+
+
+nodes(g2) <- nodes(g2) %>% 
+  mutate(label = c("Anxiety", "Income", "Negative\nMood", "Shyness")) # \n is a break line
+
+edges(g2) <- edges(g2) %>% 
   filter(to != from) %>% 
   mutate(label = "")
 
-graph_sem(fit,
-          nodes = nods, edges = edgs,
-          layout = lay, angle = 90)
-
-ggplot2::ggsave("plot2.png", height = 3, width = 6)
+plot(g2)
+ggplot2::ggsave("plot2.png", height = 4, width = 6)

@@ -161,8 +161,7 @@ fit <- sem(mediation_model, data = income_psych,
 library(tidySEM)
 
 graph_sem(fit)
-graph_sem(fit, label = "est")
-graph_sem(fit, label = "est_std")
+graph_sem(fit, edges = get_edges(fit, label = "est_std"))
 
 
 # See also advanced plotting.R
