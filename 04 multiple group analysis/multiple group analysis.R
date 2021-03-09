@@ -42,13 +42,12 @@ summary(fit_groups, standardize = TRUE)
 library(tidySEM)
 
 lay <- get_layout(
-  NA,    NA,        NA,       "sleep1",
-  NA,    NA,        "Sleep",  "sleep2",
-  "BDI", NA,        NA,       "sleep3",
-  NA,    "Psypath", NA,       NA,
-  "BAI", NA,        NA,       NA,
-  NA,    NA,        "trauma", NA,
-  rows = 6
+  NA,       NA,        NA,       "sleep1",
+  "trauma", NA,        "Sleep",  "sleep2",
+  NA,       NA,        NA,       "sleep3",
+  NA,       "Psypath", NA,       NA,
+  "BAI",    NA,        "BDI",    NA,
+  rows = 5
 )
 
 graph_sem(fit_groups, 
