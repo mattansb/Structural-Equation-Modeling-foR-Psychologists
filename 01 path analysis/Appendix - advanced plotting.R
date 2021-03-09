@@ -109,7 +109,7 @@ lay <- get_layout(
 g1 <- prepare_graph(fit, layout = lay, angle = 90)
 
 nodes(g1) <- nodes(g1) %>% 
-  mutate(label = c("Negative\nMood", "Income", "Anxiety")) # \n is a break line
+  mutate(label = c("Anxiety", "Income", "Negative\nMood")) # \n is a break line
 
 edges(g1) <- edges(g1) %>% 
   filter(to != from) %>% 

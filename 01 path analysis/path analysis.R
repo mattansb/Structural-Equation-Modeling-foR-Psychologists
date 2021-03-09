@@ -37,7 +37,8 @@ lm(income ~ anxiety, data = income_psych)
 
 
 
-# With lavaan -------------------------------------------------------------
+
+# Using lavaan ------------------------------------------------------------
 
 # lets do this with `lavaan`!
 
@@ -53,23 +54,25 @@ mediation_model <- '
 fit <- sem(mediation_model, data = income_psych)
 
 
-## Model summary
+## Model summary ----
 summary(fit) # get estimates + tests statistics
 # Note that by DEFAULT, lavaan estimates all residual errors.
-# (why is the Test Statistic 0?)
 
+
+
+## Effect Sizes ----
 summary(fit, standardize = TRUE) # look at Std.all for beta
 lavInspect(fit, what = "rsquare") # See regression R2
 
 
-## Confidence intervals:
-parameterestimates(fit, ci = TRUE, output = "text") # ci for the raw estimates
+## Confidence intervals ----
+parameterEstimates(fit, ci = TRUE, output = "text") # ci for the raw estimates
 standardizedSolution(fit, ci = TRUE, output = "text") # ci for the std estimates
 # Note that the tests from these 2 functions CAN BE DIFFERENT (see the
 # z-values). Why?
 
 
-## Bootstrap
+## Bootstrap ----
 fit_with_boot <- sem(mediation_model, data = income_psych,
                      se = "bootstrap", bootstrap = 200)
 summary(fit_with_boot, standardize = TRUE)
@@ -79,7 +82,8 @@ summary(fit_with_boot, standardize = TRUE)
 
 
 
-## Modifiers! ------------
+
+# Using Modifiers! --------------------------------------------------------
 
 # - We can mark parameters with a "stand-ins" followed by "*" - these stand-ins
 #   are called *modifiers*.
@@ -110,7 +114,7 @@ cor(income_psych$anxiety, income_psych$income)
 
 
 
-## Compare paths --------
+## Comparing paths --------
 
 # With the ":=" operator, we can estimate many things!
 # E.g., we can compare paths:
@@ -156,7 +160,8 @@ fit <- sem(mediation_model, data = income_psych,
 
 
 
-## Plotting --------
+
+# Plotting ----------------------------------------------------------------
 
 library(tidySEM)
 
@@ -174,13 +179,15 @@ graph_sem(fit, edges = get_edges(fit, label = "est_std"))
 
 # 1. Look at the plot in "plot2.png". 
 #   - Explain the implied causal relationship in this model (in words).
-#   - Fit this model with `lavaan`.
+#   - Fit this model with `lavaan` (one regression for each endogenous
+#     variable).
 #   - Plot the model.
-# 2. Compute:
-#   - All the paths in this model from *anxiety* to *income*
+# 2. Estimate:
+#   - Each of the paths in this model from *anxiety* to *income*.
 #   - The total of these paths.
-#   - The difference between the indirect paths.
+#   - The difference between the two indirect paths.
 #   Explain your findings.
-# 3. Why is the std total NOT equal *exactly exactly* to the real correlation?
+# 3. Why is the std total NOT equal *exactly exactly* to the real correlation
+#   (-0.072 vs -0.071)? 
 #   - Is it very different? What does this mean?
 
