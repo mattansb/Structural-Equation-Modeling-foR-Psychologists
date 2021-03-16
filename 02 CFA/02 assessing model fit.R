@@ -24,7 +24,6 @@ library(lavaan)
 
 mod_meas <- '
   ## latent variable definitions (CFA)
-  # The "=~" can be read as "is identified by"
   HOME_t1 =~ accept_t1 + variety_t1 + acStim_t1
   HOME_t2 =~ accept_t2 + variety_t2 + acStim_t2
   
@@ -56,7 +55,8 @@ fit_meas <- cfa(mod_meas, data = adhd_home_env)
 
 ## Measures of fit
 fitMeasures(fit_meas, output = "text",
-            fit.measures = c("nfi", "nnfi", "tli", "cfi", "gfi", "rmsea"))
+            fit.measures = c("nfi", "nnfi", "tli", "cfi", 
+                             "gfi", "rmsea"))
 # What we want:
 # Relative to the worst possible model:
 #     NFI > 0.9
@@ -94,6 +94,14 @@ anova(fit_meas)
 
 
 
+#             === REMEMBER ===
+#         Good fit != model is correct! 
+#
+# In fact, many different models can have the same (good) fit!
+# See "Appendix - model equivalence" for an example.
+
+
+
 
 
 
@@ -107,7 +115,7 @@ anova(fit_meas)
 # We can look at modification indices (mi):
 modificationIndices(fit_meas, sort. = TRUE, maximum.number = 5)
 modificationIndices(fit_meas, sort. = TRUE, minimum.value = 10)
-# what should we do? What did we forget??
+# What should we do? What did we forget??
 
 
 

@@ -14,8 +14,8 @@ head(adhd_home_env)
 # -  accept: How accepting are the parents of the child.
 # - variety: How much variety of experiences is the child exposed to.
 # -  acStim: (academic stimulation) How much is learning encouraged?
-# These 3 make up a scale of "home-environment".
-# - adhd: number of adhd symptoms.
+# (These 3 make up a scale of "home-environment".)
+# -    adhd: number of adhd symptoms.
 
 
 
@@ -34,13 +34,14 @@ mod_meas <- '
   HOME_t2 =~ accept_t2 + variety_t2 + acStim_t2
   
   ## covariances
-  HOME_t1 ~~ HOME_t2 + adhd_t1 + adhd_t2
+  HOME_t1 ~~ HOME_t2 + adhd_t1 + adhd_t2 # many at once!
   HOME_t2 ~~ adhd_t1 + adhd_t2
   adhd_t1 ~~ adhd_t2
   
   ## self-regression
   # We need these for the observed vars (only in the measurment model).
-  # (This is a silly bug; no extra parameters are actully "used".)
+  # (This is silly, but needed, due to the LISREL frame work; no extra
+  # parameters are actully "used".)
   adhd_t1 ~ 1 * adhd_t1
   adhd_t2 ~ 1 * adhd_t2
 '
@@ -71,16 +72,19 @@ edges(g) <- edges(g) %>%
 plot(g)
 
 summary(fit_meas, standardize = TRUE)
-# why is there no test for HOME_t1 =~ accept_t1?
+# Why is there no z-test for HOME_t1 =~ accept_t1?
+# Are the loadings good?
 
 parameterEstimates(fit_meas, output = "text")
 standardizedSolution(fit_meas, output = "text")
 # By DEFAULT:
 # 1. the COV between latent vars is estimated.
 #   (but I recommend setting it manually as we did here.)
-# 2. The factor loading of the 1st indicator of a latent variable is fixed to 1,
+# 2. All errors (prediction errors, unique variances, etc...) are estimated.
+# 3. The factor loading of the 1st indicator of a latent variable is fixed to 1,
 #   thereby fixing the scale of the latent variable... 
 #   (And fixed parameters are not tested.)
+
 
 
 
@@ -110,7 +114,7 @@ summary(fit_meas, standardize = TRUE)
 # To measure the reliability of our factors, we need to fit the same model in a
 # slightly different way: Each observed variable (non indicator) needs to be
 # used to define a single-indicator latent variable. (This has no effect on
-# model fit / df, it is needed purly for technical reasons).
+# model fit / df, it is needed purley for technical reasons).
 
 
 mod_lat_only <- '
@@ -123,7 +127,7 @@ mod_lat_only <- '
   
   ## covariances
   # We not longet need any of these - by default COV between latent vars is
-  # estimated.
+  # estimated. But we will do this anyway.
   HOME_t1 ~~ HOME_t2 + ADHD_t1 + ADHD_t2
   HOME_t2 ~~ ADHD_t1 + ADHD_t2
   ADHD_t1 ~~ ADHD_t2
@@ -134,13 +138,14 @@ mod_lat_only <- '
 fit_lat_only <- cfa(mod_lat_only, data = adhd_home_env)
 
 
-semTools::reliability(fit_lat_only) # see also semTools::reliabilityL2
+semTools::reliability(fit_lat_only)
 # We will look at `omega`, which is similar to alpha, but doesn't assume equal
 # weights / loadings (which we just estimated!). It can be thought of as
 # representing the variance explained across the indicators of each factor.
 #
 # read about the other indices here, and when you'd like to use them:
 ?semTools::reliability
+# (see also semTools::reliabilityL2)
 # https://doi.org/10.1037/met0000144
 # https://doi.org/10.1177%2F2515245920951747
 
@@ -183,19 +188,24 @@ head(cfa_scores)
 # indicators the same *modifier label*.
 #
 # For example, we might assume that the loadings of HOME are equal in time 1 and
-# in time 2.
-# (This is called "measurement invariance" - we will learn more about this later
-# in the semester.)
+# in time 2. (This is called "measurement invariance" - we will learn more about
+# this later in the semester.)
 
 mod_meas_eq_load <- '
   ## latent variable definitions (CFA)
-  HOME_t1 =~ b1 * accept_t1 + b2 * variety_t1 + b3 * acStim_t1
-  HOME_t2 =~ b1 * accept_t2 + b2 * variety_t2 + b3 * acStim_t2
+  HOME_t1 =~ banana * accept_t1 + beer * variety_t1 + booger * acStim_t1
+  HOME_t2 =~ banana * accept_t2 + beer * variety_t2 + booger * acStim_t2
   
   ## covariances
   HOME_t1 ~~ HOME_t2 + adhd_t1 + adhd_t2
   HOME_t2 ~~ adhd_t1 + adhd_t2
   adhd_t1 ~~ adhd_t2
+  
+  ## self-regression
+  # We need these for the observed vars (only in the measurment model).
+  # (This is a silly bug; no extra parameters are actully "used".)
+  adhd_t1 ~ 1 * adhd_t1
+  adhd_t2 ~ 1 * adhd_t2
 '
 
 fit_meas_eq_load <- cfa(mod_meas_eq_load, data = adhd_home_env)
