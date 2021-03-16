@@ -53,14 +53,13 @@ p1 / p2
 #
 # However...
 # There are indistinguishable:
-fitMeasures(fit1, output = "text",
-            fit.measures = c("nfi", "nnfi", "tli", "cfi", "gfi", "rmsea",
-                             "chisq", "df","pvalue"))
-
-
-fitMeasures(fit2, output = "text",
-            fit.measures = c("nfi", "nnfi", "tli", "cfi", "gfi", "rmsea",
-                             "chisq", "df","pvalue"))
+fit.measures <- c("nfi", "nnfi", "tli", "cfi",
+                  "gfi", "rmsea", 
+                  "chisq", "df","pvalue")
+data.frame(
+  fit1 = fitMeasures(fit1, fit.measures = fit.measures),
+  fit2 = fitMeasures(fit2, fit.measures = fit.measures)
+)
 
 # They have the SAME EXACT FIT!
 # These models are equivalent - the data fits them the same (same measures of
