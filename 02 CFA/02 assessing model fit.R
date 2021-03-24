@@ -49,10 +49,6 @@ fit_meas <- cfa(mod_meas, data = adhd_home_env)
 
 
 
-# Let's compare equal loading structure model to the equal loading measurment
-# model:
-
-
 ## Measures of fit
 fitMeasures(fit_meas, output = "text",
             fit.measures = c("nfi", "nnfi", "tli", "cfi", 
@@ -94,12 +90,13 @@ anova(fit_meas)
 
 
 
-#             === REMEMBER ===
-#         Good fit != model is correct! 
-#
-# In fact, many different models can have the same (good) fit!
-# See "Appendix - model equivalence" for an example.
-
+#      ======================== REMEMBER =============================
+#    ||                                                               ||
+#    ||               Good fit != model is correct!                   ||
+#    ||                                                               ||
+#    || In fact, many different models can have the same (good) fit!  ||
+#    || See "Appendix - model equivalence" for an example.            ||
+#      ===============================================================
 
 
 

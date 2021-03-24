@@ -8,7 +8,7 @@ library(patchwork)
 child_dev <- read.csv("child_dev.csv")
 head(child_dev)
 
-# We want to understand the common facotrs and effect of child development.
+# We want to understand the common factors and effect of child development.
 # Let's consider two models:
 
 
