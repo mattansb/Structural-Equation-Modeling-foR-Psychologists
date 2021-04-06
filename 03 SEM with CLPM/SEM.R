@@ -17,6 +17,7 @@ head(adhd_home_env)
 
 library(lavaan)
 library(tidySEM)
+library(magrittr) # for the %>% 
 
 
 
@@ -35,7 +36,7 @@ mod_meas <- '
   HOME_t2 ~~ adhd_t1 + adhd_t2
   adhd_t1 ~~ adhd_t2
    
-  ## errors
+  ## errors / residuals / uniqueness
    accept_t1 ~~ e1 * accept_t1
    accept_t2 ~~ e1 * accept_t2
   variety_t1 ~~ e2 * variety_t1
@@ -64,9 +65,11 @@ lay <- get_layout(
   rows = 3
 )
 
-graph_sem(fit_meas, 
-          egdes = get_edges(fit_meas, label = "est_std"),
-          layout = lay, angle = 90)
+prepare_graph(fit_meas, layout = lay, angle = 90) %>%
+  edit_edges({label = est_sig_std}) %>%
+  plot()
+
+summary(fit_meas, standardize = TRUE)
 
 # Why are the loadings not equal??
 # Because we fixed them on the raw scale, not on the standardized scale.
@@ -120,7 +123,7 @@ mod_struct <- '
   HOME_t1 ~~ adhd_t1
   HOME_t2 ~~ adhd_t2
   
-  ## errors
+  ## errors / residuals / uniqueness
    accept_t1 ~~ e1 * accept_t1
    accept_t2 ~~ e1 * accept_t2
   variety_t1 ~~ e2 * variety_t1
@@ -145,15 +148,15 @@ mod_struct <- '
 # We will use the `sem()` function now:
 fit_struct <- sem(mod_struct, data = adhd_home_env)
 
-
-graph_sem(fit_struct,
-          edges = get_edges(fit_struct, label = "est_std"),
-          layout = lay, angle = 90)
+prepare_graph(fit_struct, layout = lay, angle = 90) %>%
+  edit_edges({label = est_sig_std}) %>%
+  edit_edges({label_location = .2}) %>%
+  plot()
 
 
 
 # We can compare this to our measurment model - what do expect to find here?
-anova(mod_struct, mod_meas)
+anova(fit_struct, fit_meas)
 
 
 
@@ -194,7 +197,7 @@ mod_structH1 <- '
   HOME_t1 ~~ adhd_t1
   HOME_t2 ~~ 0 * adhd_t2 # <<<<<<<<<<<<<
   
-  ## errors
+  ## errors / residuals / uniqueness
    accept_t1 ~~ e1 * accept_t1
    accept_t2 ~~ e1 * accept_t2
   variety_t1 ~~ e2 * variety_t1
@@ -216,9 +219,12 @@ mod_structH1 <- '
 
 fit_structH1 <- sem(mod_structH1, data = adhd_home_env)
 
-graph_sem(fit_structH1,
-          edges = get_edges(fit_structH1, label = "est_std"),
-          layout = lay, angle = 90)
+prepare_graph(fit_structH1, layout = lay, angle = 90) %>%
+  edit_edges({label = est_sig_std}) %>%
+  edit_edges({label_location = .2}) %>%
+  plot()
+
+summary(fit_structH1, standardize = TRUE)
 
 
 fitMeasures(fit_structH1, output = "text",
@@ -269,7 +275,7 @@ mod_structH2 <- '
   HOME_t1 ~~ adhd_t1
   HOME_t2 ~~ 0 * adhd_t2
   
-  ## errors
+  ## errors / residuals / uniqueness
    accept_t1 ~~ e1 * accept_t1
    accept_t2 ~~ e1 * accept_t2
   variety_t1 ~~ e2 * variety_t1
@@ -291,15 +297,17 @@ mod_structH2 <- '
 
 fit_structH2 <- sem(mod_structH2, data = adhd_home_env)
 
-graph_sem(fit_structH2, 
-          edges = get_edges(fit_structH2, label = "est_std"), 
-          layout = lay, angle = 90)
+prepare_graph(fit_structH2, layout = lay, angle = 90) %>%
+  edit_edges({label = est_sig_std}) %>%
+  edit_edges({label_location = .2}) %>%
+  plot()
+
 
 
 fitMeasures(fit_structH2, output = "text",
             fit.measures = c("nfi", "nnfi", "tli", "cfi", "gfi", "rmsea"))
 
-# Which model is prefered? What do each of these mean?
+# Which model is preferred? What do each of these mean?
 anova(fit_structH2)
 anova(fit_structH2, fit_structH1)
 bayestestR::bayesfactor_models(fit_structH2, denominator = fit_structH1)
@@ -329,7 +337,7 @@ head(partner_fatigue)
 
 # 1. Look at "partner_fatigue.png".
 #   - What does the model imply, causally?
-#   - Is the model saturated / just identified?
+#   - Is the model saturated (aka. just identified)?
 # 2. Prof. Geller hypothesizes that women do more emotional work, and so are
 #   more fatigued by their partners anxiety compared to how men are affected.
 #   A. Test this hypothesis by comparing the relevant paths.
