@@ -7,7 +7,7 @@
 [![](https://img.shields.io/badge/CC-BY--NC%204.0-lightgray)](http://creativecommons.org/licenses/by-nc/4.0/)  
 [![](https://img.shields.io/badge/Language-R-blue)](http://cran.r-project.org/)
 
-<sub>*Last updated 2021-03-09.*</sub>
+<sub>*Last updated 2021-04-21.*</sub>
 
 This Github repo contains all lesson files for *SEM - Practical
 Applications in R*. The goal is to impart students with the basic tools
@@ -39,24 +39,25 @@ You will need:
     (optional, but recommended).
 3.  The following packages, listed by lesson:
 
-| Lesson                                                                                            | Packages                                                                                                                                                                                                                                                                                                                                                   |
-|---------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [01 path analysis](/01%20path%20analysis)                                                         | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`tidySEM`](https://CRAN.R-project.org/package=tidySEM), [`dplyr`](https://CRAN.R-project.org/package=dplyr), [`ggplot2`](https://CRAN.R-project.org/package=ggplot2)                                                                                                                               |
-| [02 CFA](/02%20CFA)                                                                               | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`tidySEM`](https://CRAN.R-project.org/package=tidySEM), [`dplyr`](https://CRAN.R-project.org/package=dplyr), [`semTools`](https://CRAN.R-project.org/package=semTools), [`psychTools`](https://CRAN.R-project.org/package=psychTools), [`patchwork`](https://CRAN.R-project.org/package=patchwork) |
-| [03 SEM with CLPM](/03%20SEM%20with%20CLPM)                                                       | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`tidySEM`](https://CRAN.R-project.org/package=tidySEM), [`bayestestR`](https://CRAN.R-project.org/package=bayestestR)                                                                                                                                                                              |
-| [04 multiple group analysis](/04%20multiple%20group%20analysis)                                   | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`tidySEM`](https://CRAN.R-project.org/package=tidySEM), [`bayestestR`](https://CRAN.R-project.org/package=bayestestR), [`semTools`](https://CRAN.R-project.org/package=semTools)                                                                                                                   |
-| [05 (mediated) moderation](/05%20(mediated)%20moderation)                                         | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`semTools`](https://CRAN.R-project.org/package=semTools)                                                                                                                                                                                                                                           |
-| [06 latent growth curve + multi-level SEM](/06%20latent%20growth%20curve%20+%20multi-level%20SEM) | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`tidySEM`](https://CRAN.R-project.org/package=tidySEM)                                                                                                                                                                                                                                             |
-| [07 assumption checks](/07%20assumption%20checks)                                                 | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`semTools`](https://CRAN.R-project.org/package=semTools), [`car`](https://CRAN.R-project.org/package=car)                                                                                                                                                                                          |
-| [08 EFA](/08%20EFA)                                                                               | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`psych`](https://CRAN.R-project.org/package=psych), [`parameters`](https://CRAN.R-project.org/package=parameters), [`nFactors`](https://CRAN.R-project.org/package=nFactors), [`psychTools`](https://CRAN.R-project.org/package=psychTools)                                                        |
+| Lesson                                                                                            | Packages                                                                                                                                                                                                                                                                                                                                                             |
+|---------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [01 path analysis](/01%20path%20analysis)                                                         | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`tidySEM`](https://CRAN.R-project.org/package=tidySEM), [`dplyr`](https://CRAN.R-project.org/package=dplyr), [`ggplot2`](https://CRAN.R-project.org/package=ggplot2)                                                                                                                                         |
+| [02 CFA](/02%20CFA)                                                                               | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`tidySEM`](https://CRAN.R-project.org/package=tidySEM), [`dplyr`](https://CRAN.R-project.org/package=dplyr), [`semTools`](https://CRAN.R-project.org/package=semTools), [`psychTools`](https://CRAN.R-project.org/package=psychTools), [`patchwork`](https://CRAN.R-project.org/package=patchwork)           |
+| [03 SEM with CLPM](/03%20SEM%20with%20CLPM)                                                       | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`tidySEM`](https://CRAN.R-project.org/package=tidySEM), [`magrittr`](https://CRAN.R-project.org/package=magrittr), [`bayestestR`](https://CRAN.R-project.org/package=bayestestR)                                                                                                                             |
+| [04 multiple group analysis](/04%20multiple%20group%20analysis)                                   | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`tidySEM`](https://CRAN.R-project.org/package=tidySEM), [`bayestestR`](https://CRAN.R-project.org/package=bayestestR), [`semTools`](https://CRAN.R-project.org/package=semTools)                                                                                                                             |
+| [05 (mediated) moderation](/05%20(mediated)%20moderation)                                         | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`semTools`](https://CRAN.R-project.org/package=semTools)                                                                                                                                                                                                                                                     |
+| [06 latent growth curve + multi-level SEM](/06%20latent%20growth%20curve%20+%20multi-level%20SEM) | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`tidySEM`](https://CRAN.R-project.org/package=tidySEM)                                                                                                                                                                                                                                                       |
+| [07 assumption checks](/07%20assumption%20checks)                                                 | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`semTools`](https://CRAN.R-project.org/package=semTools), [`MVN`](https://CRAN.R-project.org/package=MVN), [`car`](https://CRAN.R-project.org/package=car)                                                                                                                                                   |
+| [08 EFA](/08%20EFA)                                                                               | [`lavaan`](https://CRAN.R-project.org/package=lavaan), [`psych`](https://CRAN.R-project.org/package=psych), [`parameters`](https://CRAN.R-project.org/package=parameters), [`nFactors`](https://CRAN.R-project.org/package=nFactors), [`GPArotation`](https://CRAN.R-project.org/package=GPArotation), [`psychTools`](https://CRAN.R-project.org/package=psychTools) |
 
 You can install all the packages used by running:
 
     # in alphabetical order:
 
     pkgs <- c(
-      "bayestestR", "car", "dplyr", "ggplot2", "lavaan", "nFactors",
-      "parameters", "patchwork", "psych", "psychTools", "semTools", "tidySEM"
+      "bayestestR", "car", "dplyr", "ggplot2", "GPArotation", "lavaan",
+      "magrittr", "MVN", "nFactors", "parameters", "patchwork", "psych",
+      "psychTools", "semTools", "tidySEM"
     )
 
     install.packages(pkgs, dependencies = TRUE)
@@ -68,18 +69,21 @@ You can install all the packages used by running:
 
 The package versions used here:
 
--   `bayestestR` 0.8.2.1 (*Dev*)
+-   `bayestestR` 0.9.0 (*Dev*)
 -   `car` 3.0-10 (*CRAN*)
--   `dplyr` 1.0.4 (*CRAN*)
+-   `dplyr` 1.0.5 (*CRAN*)
 -   `ggplot2` 3.3.3 (*CRAN*)
+-   `GPArotation` 2014.11-1 (*CRAN*)
 -   `lavaan` 0.6-7 (*CRAN*)
+-   `magrittr` 2.0.1 (*CRAN*)
+-   `MVN` 5.8 (*CRAN*)
 -   `nFactors` 2.4.1 (*CRAN*)
--   `parameters` 0.12.0 (*CRAN*)
+-   `parameters` 0.13.0 (*CRAN*)
 -   `patchwork` 1.1.1 (*CRAN*)
 -   `psych` 2.0.12 (*CRAN*)
 -   `psychTools` 2.0.8 (*CRAN*)
 -   `semTools` 0.5-4 (*CRAN*)
--   `tidySEM` 0.1.7.1 (*Github: cjvanlissa/tidySEM*)
+-   `tidySEM` 0.1.9.2 (*Github: cjvanlissa/tidySEM*)
 
 </details>
 

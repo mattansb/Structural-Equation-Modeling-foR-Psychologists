@@ -63,6 +63,8 @@ efa <- fa(Harman74, nfactors = 5,
 efa <- fa(Harman74, nfactors = 5, 
           fm = "pa", # principal factor solution
           rotate = "oblimin") # or rotate = "varimax"
+# You can see a full list of rotation types here:
+?GPArotation::rotations
 
 efa
 model_parameters(efa, sort = TRUE, threshold = 0.45)
@@ -70,16 +72,12 @@ model_parameters(efa, sort = TRUE, threshold = 0.45)
 
 
 
-## Visualize
-biplot(efa, choose = c(1,4), pch = ".") # set `choose = NULL` for all
-
-
 
 
 
 # We can now use the factor scores just as we would any variable:
 data_scores <- efa$scores
-colnames(data_scores) <- c("Verbal","Numeral","Visual","Math","XXX") # name the factors
+colnames(data_scores) <- c("Verbal","Numeral","Visual","Math","Je Ne Sais Quoi") # name the factors
 head(data_scores)
 
 
@@ -115,7 +113,8 @@ efa_rel$omega.group
 # Exercise ----------------------------------------------------------------
 
 # Select only the 25 first columns corresponding to the items
-bfi <- na.omit(psychTools::bfi[, 1:25])
+bfi <- subset(psychTools::bfi, select = 1:25)
+bfi <- na.omit(bfi) # Note, there are ways to do EFA with missing data...
 head(bfi)
 
 # 1. Validate the big-5: look at a scree-plot to see if the data suggests 5
