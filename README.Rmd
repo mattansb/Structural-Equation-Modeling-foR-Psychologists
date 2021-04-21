@@ -22,7 +22,7 @@ opts_chunk$set(echo = TRUE)
 
 This Github repo contains all lesson files for *SEM - Practical Applications in R*. The goal is to impart students with the basic tools to construct, evaluate and compare **Structural Equation Models (SEM; w/ plots), using [`lavaan`](http://lavaan.ugent.be/)**.
 
-These topics were taught in the graduate-level course ***Structural Equation Modeling*** (Psych Dep., Ben-Gurion University of the Negev, *Spring, 2019*). This course assumes basic competence in R (importing, regression modeling, plotting, etc.), along the lines of [*Practical Applications in R for Psychologists*](https://github.com/mattansb/Practical-Applications-in-R-for-Psychologists).
+These topics were taught in the graduate-level course ***Structural Equation Modeling*** (Psych Dep., Ben-Gurion University of the Negev, *Spring, 2021*). This course assumes basic competence in R (importing, regression modeling, plotting, etc.), along the lines of [*Practical Applications in R for Psychologists*](https://github.com/mattansb/Practical-Applications-in-R-for-Psychologists).
 
 **Notes:**  
 
@@ -80,13 +80,14 @@ make_pkg_table <- function(pkgs) {
 
 You will need:
 
-1. A fresh installation of [**`R`**](https://cran.r-project.org/) (preferably version 3.6 or above).
+1. A fresh installation of [**`R`**](https://cran.r-project.org/) (preferably version 4.0 or above).
 2. [RStudio IDE](https://www.rstudio.com/products/rstudio/download/) (optional, but recommended).
 3. The following packages, listed by lesson:
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 r_list <- list.files(pattern = ".(R|r)$", recursive = TRUE, full.names = TRUE) %>% 
-  .[!stringr::str_detect(., pattern = "(SOLUTION|logo)")]
+  .[!stringr::str_detect(., pattern = "(SOLUTION|logo)")] %>% 
+  .[stringr::str_detect(., pattern = "^./[0-9]")]
 
 lesson_names <- stringr::str_extract(r_list, pattern = "(?<=(/)).{1,}(?=(/))")
 
@@ -152,7 +153,19 @@ v_info <- paste0(glue::glue(" - `{pkgs}` {V} (*{src}*)"), collapse = "\n")
 
 ## Other Useful Resources
 
-- [`lavaan` toutorials](http://lavaan.ugent.be/tutorial/index.html).  
-- Sacha Epskamp's [online course](http://sachaepskamp.com/SEM2020) and [YouTube lectures](https://www.youtube.com/playlist?list=PLliBbGBc5nn3m8bXQ4CmOep3UmQ_5tVlC).  
-- Michael Hallquist's [course](https://psu-psychology.github.io/psy-597-SEM/).  
+### Other Courses
 
+In addition to [`lavaan`'s toutorials](http://lavaan.ugent.be/tutorial/index.html), you might find the following online courses useful: 
+
+- Sacha Epskamp's [online course](http://sachaepskamp.com/SEM2020) and [YouTube lectures](https://www.youtube.com/playlist?list=PLliBbGBc5nn3m8bXQ4CmOep3UmQ_5tVlC).  
+  - See also the [`psychonetrics`](http://psychonetrics.org/) package for psychometric network modeling.  
+- Michael Hallquist's [course](https://psu-psychology.github.io/psy-597-SEM/).
+
+
+### Selected Quantitude (podcast) Episods
+
+These are selected episodes from the [Quantitude podcast](https://quantitudepod.org/) related to SEM:
+
+- [S2E08: **Mediation** and the Art of Squid Spleening](https://www.buzzsprout.com/639103/5817541-s2e08-mediation-and-the-art-of-squid-spleening)
+- [S2E24: The **Equivalent Models** Problem](https://www.buzzsprout.com/639103/7983649-s2e24-the-equivalent-models-problem)
+- [S2E26: MLM vs. **SEM**: Opportunities for Growth](https://www.buzzsprout.com/639103/8084578-s2e26-mlm-vs-sem-opportunities-for-growth)

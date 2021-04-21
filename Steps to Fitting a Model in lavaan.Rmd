@@ -1,0 +1,145 @@
+---
+output: 
+  pdf_document:
+    highlight: default
+papersize: a4
+geometry: "left=3cm,right=3cm,top=1cm,bottom=2cm"
+knit: (
+  function(inputFile, encoding, ...) { 
+    rmarkdown::render( 
+      input       = inputFile, 
+      encoding    = encoding,
+      output_file = "Steps to Fitting a Model in lavaan", 
+      ...) })
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+library(tidySEM)
+library(lavaan)
+library(dplyr)
+```
+# Steps to Fitting a Model in `lavaan`
+
+## 1. Draw your model on a piece of paper!
+
+> Color any paths you may be interested in.
+
+```{r, fig.height=2.5, out.width = '60%', fig.align='center'}
+mod <- "
+   Lat =~ 0.1*ind1 + 0.1*ind2 + 0.1*ind3
+  ind1 ~~ 0.1*ind2
+  ind1 ~~ 1*ind1
+  ind2 ~~ 1*ind2
+  ind3 ~~ 1*ind3
+  Obs1 ~~ 0.1*Obs2
+  Obs3 ~ 0.1*Obs1 + 0.1*Obs2
+  Obs3 ~~ 1*Obs3
+   Lat ~ 0.1*Obs1
+   Lat ~~ 0*Lat
+   Lat ~~ 0*Obs3
+"
+
+# lavaanify(mod, fixed.x=FALSE)
+
+d <- simulateData(mod, sample.nobs = 100, fixed.x=FALSE, standardized = FALSE)
+
+fit <- sem(mod, data = d)
+
+lay <- get_layout(
+  NA,     NA,    "Obs1", NA,     "Obs2",
+  "ind1", NA,    NA,     NA,     NA,
+  "ind2", "Lat", NA,     NA,     NA,
+  "ind3", NA,    NA,     NA,     NA,
+  NA,     NA,    NA,     "Obs3", NA,
+  rows = 5
+)
+
+g <- prepare_graph(fit, layout = lay,
+                   rect_height = 1.2,
+                   ellipses_height = 1.2,
+                   variance_diameter = 0.6)
+
+edges(g) <- edges(g) %>% 
+  filter(!(to == from & to %in% c("Lat", "Obs1", "Obs2")),
+         !(from == "Lat" & to == "Obs3")) %>% 
+  mutate(
+    label = NA,
+    linetype = "solid",
+    color = "black",
+    color = replace(color, from == "Obs1" & to == "Obs2", "orange"),
+    color = replace(color, from == "Obs1" & to == "Obs3", "orange"),
+    color = replace(color, from == "Obs2" & to == "Obs3", "blue"),
+    arrow = replace(arrow, arrow=="none", "both"),
+    connect_from = replace(connect_from, from==to & from == "ind1", "bottom"),
+    connect_to = replace(connect_to, from==to & from == "ind1", "bottom"),
+    connect_to = replace(connect_to, from=="Obs1" & to=="Lat", "right"),
+    size = 0.5,
+    size = replace(size, color != "black", 1)
+  )
+
+plot(g)
+```
+
+## 2. Write out your model speficication 
+
+***Remember to use modifiers and to set fixed values where you need to!***
+
+***Don't forget `lavaan`'s defaults:***
+
+1. Loading to first indicator is fixed at 1.
+2. All covariances between latent variables are estimated.
+3. All error terms are estimated.
+
+### 2.1. Identify each **latent variable** by its indicators (`=~`)
+
+```
+Lat =~ ind1 + ind2 + ind3
+```
+
+### 2.2. Predict each **endogenous variable** with a regression formula (`~`)
+
+... according to its *incoming* arrows.
+
+```
+ Lat ~ Obs1
+Obs3 ~ b * Obs1 + c * Obs2
+```
+
+### 2.3. Estimate co/variances (`~~`) for each **two headed arrow**
+
+These include *auto-correlations*, and possibly any *error* / *disturbances* / *uniqueness variances*.
+
+```
+Obs1 ~~ a * Obs2
+ind1 ~~ ind2
+
+ Lat ~~ 0 * Lat
+```
+
+### 2.4. Define any computed parameters (`:=`)
+
+(paths, differences, simple slopes, etc.)
+
+```
+indirect_path := a * b
+  direct_path := c
+        total := indirect_path + direct_path
+```
+
+### 2.5. Don't forget to add self-regressors
+
+... if you have any covariances between **latent** and **observed** variables.
+
+(You can also use single-indicator latent variables instead.)
+
+## 3. Fit the model (`sem()` / `cfa()` / `growth()` / `lavaan()`)
+
+## 4. Plot your model and look at the parameter table
+
+Make sure there are no missing (or too many) arrows / parameters!
+
+## 5. Carry on...
+
+Asses fit, test hypotheses, compare models...
