@@ -17,16 +17,11 @@ round(cor(Harman74), 2) # hard to visually "see" structure in the data...
 check_factorstructure(Harman74)
 
 
-## Raw or scaled? --------
-# Now we first need to decide:
-# Are we conducting a FA on the raw scales? Or the standardized scales?
-
-
 
 
 ## Scree plot --------
 screeplot(
-  prcomp(Harman74, scale. = FALSE), # set scale. = TRUE for standardized scales
+  prcomp(Harman74, scale. = TRUE),
   npcs = 10, type = "lines"
 )
 # where is the elbow?
@@ -35,7 +30,8 @@ screeplot(
 
 ## Other methods --------
 ns <- n_factors(
-  Harman74, # for standardized scales, standardized the data first!
+  Harman74,
+  type = "FA",
   algorithm = "pa", rotation = "oblimin"
 )
 # This function calls many methods, e.g., nFactors::nScree... Read the doc!
