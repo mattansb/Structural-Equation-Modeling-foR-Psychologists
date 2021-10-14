@@ -24,6 +24,7 @@ screeplot(
   prcomp(Harman74, scale. = TRUE),
   npcs = 10, type = "lines"
 )
+abline(h = 1) # use only when scale. = TRUE
 # where is the elbow?
 
 
@@ -62,9 +63,18 @@ efa <- fa(Harman74, nfactors = 5,
 # You can see a full list of rotation types here:
 ?GPArotation::rotations
 
-efa
+
+
+efa # lots of output...*
 model_parameters(efa, sort = TRUE, threshold = 0.45)
 # These give the pattern matrix
+
+
+
+
+# fa.diagram(efa, cut = 0.45)
+# biplot(efa, choose = c(1,2,5), pch = ".", cuts = 0.45)  # choose = NULL to look at all of them
+
 
 
 
@@ -88,6 +98,7 @@ head(data_scores)
 # Accepts the same arguments as `fa()`
 efa_rel <- omega(Harman74, nfactors = 5, fm = "pa", rotate = "oblimin", 
                  plot = FALSE)
+efa_rel # lots of output...*
 efa_rel$omega.group
 # This give omega (look at omega total), which is similar to alpha, but doesn't
 # assume equal weights (which we just estimated!).
@@ -97,6 +108,10 @@ efa_rel$omega.group
 
 
 
+
+
+# * Read about the outputs here:
+# https://m-clark.github.io/posts/2020-04-10-psych-explained/
 
 
 
