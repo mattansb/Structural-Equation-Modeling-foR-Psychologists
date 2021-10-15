@@ -54,18 +54,15 @@ as.data.frame(ns) # look for Kaiser criterion of Scree
 
 
 ## Run FA
-efa <- fa(Harman74, nfactors = 5,
-          fm = "minres", # minimum residual method (default)
-          rotate = "oblimin") # or rotate = "varimax"
 efa <- fa(Harman74, nfactors = 5, 
-          fm = "pa", # principal factor solution
+          fm = "pa", # (principal factor solution), or use gm = "minres" (minimum residual method)
           rotate = "oblimin") # or rotate = "varimax"
 # You can see a full list of rotation types here:
 ?GPArotation::rotations
 
 
 
-efa # lots of output...*
+efa # Read about the outputs here: https://m-clark.github.io/posts/2020-04-10-psych-explained/
 model_parameters(efa, sort = TRUE, threshold = 0.45)
 # These give the pattern matrix
 
@@ -95,26 +92,34 @@ head(data_scores)
 
 # Reliability -------------------------------------------------------------
 
-# Accepts the same arguments as `fa()`
-efa_rel <- omega(Harman74, nfactors = 5, fm = "pa", rotate = "oblimin", 
-                 plot = FALSE)
-efa_rel # lots of output...*
-efa_rel$omega.group
-# This give omega (look at omega total), which is similar to alpha, but doesn't
-# assume equal weights (which we just estimated!).
-# https://doi.org/10.1037/met0000144
+# We need a little function here...
+efa_reliability <- function(x, keys = NULL, threshold = 0, labels = NULL) {
+  #'         x - the result from psych::fa()
+  #'      keys - optional, see ?psych::make.keys
+  #' threshold - which values from the loadings should be used
+  #'    labels - factor labels
+  
+  L <- unclass(x$loadings)
+  r <- x$r  
+  
+  if (is.null(keys)) keys <- sign(L) * (abs(L) > threshold) 
+  
+  out <- data.frame(
+    Factor = colnames(L),
+    Omega = colSums(keys * L)^2 / diag(t(keys) %*% r %*% keys)
+  )
+  
+  if (!is.null(labels))
+    out$Factor <- labels
+  else
+    rownames(out) <- NULL
+  
+  out
+}
 
-
-
-
-
-
-
-# * Read about the outputs here:
-# https://m-clark.github.io/posts/2020-04-10-psych-explained/
-
-
-
+efa_reliability(efa, threshold = 0.45, 
+                labels = c("Verbal","Numeral","Visual","Math","Je Ne Sais Quoi"))
+# These are interpretable similarly to Cronbach's alpha
 
 
 
