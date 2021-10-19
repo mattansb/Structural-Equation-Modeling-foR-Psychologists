@@ -85,6 +85,12 @@ standardizedSolution(fit_meas, output = "text")
 #   thereby fixing the scale of the latent variable... 
 #   (And fixed parameters are not tested.)
 
+# We can see this directly here:
+parTable(fit_meas)
+# user - Was this parameter set by you (1)? Or automatically by the model (0)?
+# free - Does this parameter "eat" a degree of freedom (non-0), or not (0)?
+
+
 
 
 
