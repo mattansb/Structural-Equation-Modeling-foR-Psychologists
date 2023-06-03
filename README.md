@@ -15,10 +15,10 @@ to construct, evaluate and compare **Structural Equation Models (SEM; w/
 plots), using [`lavaan`](http://lavaan.ugent.be/)**.
 
 These topics were taught in the graduate-level course ***Structural
-Equation Modeling*** (Psych Dep., Ben-Gurion University of the Negev,
-*Spring, 2021*). This course assumes basic competence in R (importing,
-regression modeling, plotting, etc.), along the lines of [*Practical
-Applications in R for
+Equation Modeling*** (Psych Dep., Ben-Gurion University of the Negev).
+This course assumes basic competence in R (importing, regression
+modeling, plotting, etc.), along the lines of [*Practical Applications
+in R for
 Psychologists*](https://github.com/mattansb/Practical-Applications-in-R-for-Psychologists).
 
 **Notes:**
