@@ -117,50 +117,23 @@ summary(fit_meas, standardize = TRUE)
 
 # Reliability -------------------------------------------------------------
 
-# To measure the reliability of our factors, we need to fit the same model in a
-# slightly different way: Each observed variable (non indicator) needs to be
-# used to define a single-indicator latent variable. (This has no effect on
-# model fit / df, it is needed purley for technical reasons).
-
-
-mod_lat_only <- '
-  ## latent variable definitions (CFA)
-  # The "=~" can be read as "is identified by"
-  HOME_t1 =~ accept_t1 + variety_t1 + acStim_t1
-  HOME_t2 =~ accept_t2 + variety_t2 + acStim_t2
-  ADHD_t1 =~ 1*adhd_t1
-  ADHD_t2 =~ 1*adhd_t2
-  
-  ## covariances
-  # We not longet need any of these - by default COV between latent vars is
-  # estimated. But we will do this anyway.
-  HOME_t1 ~~ HOME_t2 + ADHD_t1 + ADHD_t2
-  HOME_t2 ~~ ADHD_t1 + ADHD_t2
-  ADHD_t1 ~~ ADHD_t2
-  
-  ## We also no longer need the self-regressors
-'
-
-fit_lat_only <- cfa(mod_lat_only, data = adhd_home_env)
-
-
-semTools::reliability(fit_lat_only)
-# We will look at `omega`, which is similar to alpha, but doesn't assume equal
-# weights / loadings (which we just estimated!). It can be thought of as
-# representing the variance explained across the indicators of each factor.
+# To measure the reliability of our latent factors, we will use omega index:
+semTools::compRelSEM(fit_meas)
+# Omega is similar to alpha, but doesn't assume equal weights / loadings (which
+# we just estimated!). It can be thought of as representing the variance
+# explained across the indicators of each factor.
 #
 # read about the other indices here, and when you'd like to use them:
-?semTools::reliability
-# (see also semTools::reliabilityL2)
+?semTools::compRelSEM
 # https://doi.org/10.1037/met0000144
 # https://doi.org/10.1177%2F2515245920951747
 
 
 # === NOTE ===
 # to get a correct measure of reliability, all indicators must be in the
-# same "direction" (so all loadings should positive or all negative). If some
-# indicator has a negative loading you need to reverse the variable for the
-# reliability measures to make sense!
+# same "direction" (so all loadings should all be positive or all be negative).
+# If some indicator has a negative loading you need to reverse the variable for
+# the reliability measures to make sense!
 
 
 
