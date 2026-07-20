@@ -42,8 +42,7 @@ get_eigenvalue(PCA_model) |>
     seq_along(cumulative.variance.percent),
     cumulative.variance.percent
   )) +
-  geom_point() +
-  geom_line(aes(group = NA)) +
+  geom_col() +
   geom_hline(yintercept = 90)
 # Or 16....
 
@@ -94,6 +93,13 @@ scree(Harman74, factors = TRUE, pc = FALSE)
 # 2 / 5 seem to be supported by the elbow
 # 2 seem to be supported by the Kaiser criterion.
 
+### Parallel analysis --------------------
+# This is considered one of the best methods for determining the number of
+# components to retain.
+
+fa.parallel(Harman74, fa = "fa", fm = "pa", error.bars = TRUE)
+# Looks like 4 components are supported by the parallel analysis...
+
 ### Other methods --------
 
 n <- n_factors(Harman74, algorithm = "pa", rotation = "oblimin")
@@ -109,13 +115,14 @@ EFA <- fa(
   Harman74,
   nfactors = 5,
   fm = "pa", # (principal factor solution), or use gm = "minres" (minimum residual method)
-  rotate = "oblimin"
-) # or rotate = "varimax"
+  rotate = "oblimin" # or rotate = "varimax"
+)
 # You can see a full list of rotation types here:
 ?GPArotation::rotations
 
 
 EFA # Read about the outputs here: https://m-clark.github.io/posts/2020-04-10-psych-explained/
+model_performance(EFA) # Check the model fit
 model_parameters(EFA, sort = TRUE, threshold = 0.45)
 # These give the pattern matrix
 
@@ -126,49 +133,28 @@ model_parameters(EFA, sort = TRUE, threshold = 0.45)
 
 # We can now use the factor scores just as we would any variable:
 data_scores <- predict(EFA, data = Harman74)
-colnames(data_scores) <- c(
-  "Verbal",
-  "Numeral",
-  "Visual",
-  "Math",
-  "Je Ne Sais Quoi"
-) # name the factors
+colnames(data_scores) <-
+  # name the factors
+  c(
+    "Verbal",
+    "Numeral",
+    "Visual",
+    "Math",
+    "Je Ne Sais Quoi"
+  )
 head(data_scores)
 
 
 ## Reliability -------------------------------------------------------------
 
 # We need a little function here...
-efa_reliability <- function(x, keys = NULL, threshold = 0, labels = NULL) {
-  #'         x - the result from psych::fa()
-  #'      keys - optional, see ?psych::make.keys
-  #' threshold - which values from the loadings should be used
-  #'    labels - factor labels
-
-  L <- unclass(x$loadings)
-  r <- x$r
-
-  if (is.null(keys)) {
-    keys <- sign(L) * (abs(L) > threshold)
-  }
-
-  out <- data.frame(
-    Factor = colnames(L),
-    Omega = colSums(keys * L)^2 / diag(t(keys) %*% r %*% keys)
-  )
-
-  if (!is.null(labels)) {
-    out$Factor <- labels
-  } else {
-    rownames(out) <- NULL
-  }
-
-  out
-}
-
-efa_reliability(
+# install.packages(
+#   'MSBMisc',
+#   repos = c('https://mattansb.r-universe.dev', 'https://cloud.r-project.org')
+# )
+MSBMisc::fa_reliability(
   EFA,
-  threshold = 0.45,
+  threshold = 0.45, # What loadings should be used to compute reliability?
   labels = c("Verbal", "Numeral", "Visual", "Math", "Je Ne Sais Quoi")
 )
 # These are interpretable similarly to Cronbach's alpha
