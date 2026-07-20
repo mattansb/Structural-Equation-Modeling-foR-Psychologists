@@ -1,4 +1,3 @@
-
 # Model Equivalence -------------------------------------------------------
 
 library(lavaan)
@@ -11,7 +10,6 @@ head(child_dev)
 # We want to understand the common factors and effect of child development.
 # Let's consider two models:
 
-
 mod1 <- "
   DEVELOPMENT =~ inhibition + language + dexterity + walking
 
@@ -23,11 +21,10 @@ fit1 <- sem(mod1, data = child_dev)
 # 2. Additionally, there is unique covariance between dexterity & walking (both
 #   motor).
 
-
 mod2 <- "
   NEURAL_DEV =~ dexterity + walking
      BHV_DEV =~ inhibition + language
-  
+
   BHV_DEV ~ NEURAL_DEV
 "
 fit2 <- sem(mod2, data = child_dev)
@@ -35,17 +32,26 @@ fit2 <- sem(mod2, data = child_dev)
 # 1. There are two factors of development: neural and behavioral.
 # 2. Neural development drives behavioral development.
 
-
-p1 <- graph_sem(fit1, angle = 90, 
-                edges = get_edges(fit1, label = "est_std"),
-                layout = get_layout(
-                  NA,           "DEVELOPMENT", NA,          NA,
-                  "inhibition", "language",    "dexterity", "walking", rows = 2))
-p2 <- graph_sem(fit2, angle = 90, 
-                edges = get_edges(fit2, label = "est_std"),
-                layout = get_layout(
-                  NA,           "BHV_DEV",  "NEURAL_DEV", NA,
-                  "inhibition", "language", "dexterity",  "walking", rows = 2))
+p1 <- graph_sem(
+  fit1,
+  angle = 90,
+  edges = get_edges(fit1, label = "est_std"),
+  layout = get_layout(
+    NA           , "DEVELOPMENT" , NA          , NA        ,
+    "inhibition" , "language"    , "dexterity" , "walking" ,
+    rows = 2
+  )
+)
+p2 <- graph_sem(
+  fit2,
+  angle = 90,
+  edges = get_edges(fit2, label = "est_std"),
+  layout = get_layout(
+    NA           , "BHV_DEV"  , "NEURAL_DEV" , NA        ,
+    "inhibition" , "language" , "dexterity"  , "walking" ,
+    rows = 2
+  )
+)
 p1 / p2
 
 
@@ -53,9 +59,17 @@ p1 / p2
 #
 # However...
 # There are indistinguishable:
-fit.measures <- c("nfi", "nnfi", "tli", "cfi",
-                  "gfi", "rmsea", 
-                  "chisq", "df","pvalue")
+fit.measures <- c(
+  "nfi",
+  "nnfi",
+  "tli",
+  "cfi",
+  "gfi",
+  "rmsea",
+  "chisq",
+  "df",
+  "pvalue"
+)
 data.frame(
   fit1 = fitMeasures(fit1, fit.measures = fit.measures),
   fit2 = fitMeasures(fit2, fit.measures = fit.measures)

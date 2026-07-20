@@ -11,14 +11,17 @@ dexterity ~~ 0.4 * walking
 lavaanify(m)
 
 set.seed(4)
-d <- simulateData(m, model.type = "sem",
-                  sample.nobs = 197,
-                  empirical = TRUE,
-                  standardized = FALSE,
-                  return.type = "data.frame")
+d <- simulateData(
+  m,
+  model.type = "sem",
+  sample.nobs = 197,
+  empirical = TRUE,
+  standardized = FALSE,
+  return.type = "data.frame"
+)
 
-d <- d %>% 
-  mutate(across(.fns = ~round(change_scale(.x, to = c(1, 10)))))
+d <- d %>%
+  mutate(across(.fns = ~ round(change_scale(.x, to = c(1, 10)))))
 
 cor(d)
 

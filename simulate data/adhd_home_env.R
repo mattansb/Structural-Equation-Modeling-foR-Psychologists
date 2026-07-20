@@ -21,16 +21,19 @@ acStim_t1 ~~ 0.8 * acStim_t2
 lavaanify(m, fixed.x = FALSE)
 
 set.seed(2)
-d <- simulateData(m, model.type = "sem",
-                  fixed.x = FALSE, 
-                  skewness = c(rep(0, 6), -0.5, -0.4),
-                  kurtosis = c(rep(0, 6), 0, 0),
-                  sample.nobs = 314,
-                  empirical = TRUE,
-                  standardized = FALSE,
-                  return.type = "data.frame")
+d <- simulateData(
+  m,
+  model.type = "sem",
+  fixed.x = FALSE,
+  skewness = c(rep(0, 6), -0.5, -0.4),
+  kurtosis = c(rep(0, 6), 0, 0),
+  sample.nobs = 314,
+  empirical = TRUE,
+  standardized = FALSE,
+  return.type = "data.frame"
+)
 
-d <- d %>% 
+d <- d %>%
   mutate(
     across(-starts_with("adhd"), ~ round(change_scale(.x, to = c(1, 7)))),
     across(starts_with("adhd"), ~ round(change_scale(.x, to = c(0, 6))))

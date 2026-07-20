@@ -1,7 +1,4 @@
-
-
 # ==== Defining a Measurement Model with Latent Variables ====
-
 
 # Today we will explore the relationship between ADHD and home-environment in
 # children, in a cross lagged panel design.
@@ -17,12 +14,6 @@ head(adhd_home_env)
 # (These 3 make up a scale of "home-environment".)
 # -    adhd: number of adhd symptoms.
 
-
-
-
-
-
-
 # Fitting a CFA / measurement model ----------------------------------------
 
 library(lavaan)
@@ -32,12 +23,12 @@ mod_meas <- '
   # The "=~" can be read as "is identified by"
   HOME_t1 =~ accept_t1 + variety_t1 + acStim_t1
   HOME_t2 =~ accept_t2 + variety_t2 + acStim_t2
-  
+
   ## covariances
   HOME_t1 ~~ HOME_t2 + adhd_t1 + adhd_t2 # many at once!
   HOME_t2 ~~ adhd_t1 + adhd_t2
   adhd_t1 ~~ adhd_t2
-  
+
   ## self-regression
   # We need these for the observed vars (only in the measurment model).
   # (This is silly, but needed, due to the LISREL frame work; no extra
@@ -49,21 +40,19 @@ mod_meas <- '
 fit_meas <- cfa(mod_meas, data = adhd_home_env)
 
 
-
-
 library(tidySEM)
 library(dplyr)
 
 lay <- get_layout(
-  "accept_t1", "variety_t1", "acStim_t1", NA, "accept_t2", "variety_t2", "acStim_t2",
-  NA,          "HOME_t1",    NA,          NA, NA,          "HOME_t2",    NA,
-  NA,          "adhd_t1",    NA,          NA, NA,          "adhd_t2",    NA,
+  "accept_t1" , "variety_t1" , "acStim_t1" , NA , "accept_t2" , "variety_t2" , "acStim_t2" ,
+  NA          , "HOME_t1"    , NA          , NA , NA          , "HOME_t2"    , NA          ,
+  NA          , "adhd_t1"    , NA          , NA , NA          , "adhd_t2"    , NA          ,
   rows = 3
 )
 
-g <- prepare_graph(fit_meas,  layout = lay, angle = 90)
+g <- prepare_graph(fit_meas, layout = lay, angle = 90)
 
-edges(g) <- edges(g) %>% 
+edges(g) <- edges(g) %>%
   mutate(
     label = est_std,
     label_location = 0.4 # need this to avoid overlap on path labels
@@ -82,7 +71,7 @@ standardizedSolution(fit_meas, output = "text")
 #   (but I recommend setting it manually as we did here.)
 # 2. All errors (prediction errors, unique variances, etc...) are estimated.
 # 3. The factor loading of the 1st indicator of a latent variable is fixed to 1,
-#   thereby fixing the scale of the latent variable... 
+#   thereby fixing the scale of the latent variable...
 #   (And fixed parameters are not tested.)
 
 # We can see this directly here:
@@ -90,30 +79,11 @@ parTable(fit_meas)
 # user - Was this parameter set by you (1)? Or automatically by the model (0)?
 # free - Does this parameter "eat" a degree of freedom (non-0), or not (0)?
 
-
-
-
-
-
 # We can also set `std.lv = TRUE` to set the scale of latent vars to 1:
-fit_meas <- cfa(mod_meas, data = adhd_home_env, 
-                std.lv = TRUE)
+fit_meas <- cfa(mod_meas, data = adhd_home_env, std.lv = TRUE)
 summary(fit_meas, standardize = TRUE)
 # But this can cause issues sometimes (often with structural models), so we will
 # not be using this much.
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Reliability -------------------------------------------------------------
 
@@ -128,19 +98,11 @@ semTools::compRelSEM(fit_meas)
 # https://doi.org/10.1037/met0000144
 # https://doi.org/10.1177%2F2515245920951747
 
-
 # === NOTE ===
 # to get a correct measure of reliability, all indicators must be in the
 # same "direction" (so all loadings should all be positive or all be negative).
 # If some indicator has a negative loading you need to reverse the variable for
 # the reliability measures to make sense!
-
-
-
-
-
-
-
 
 # we can also extract the scores of the latent variables, but note that these
 # mostly only make sense WITHIN a SEM model. (set `append.data = TRUE` to also
@@ -149,18 +111,7 @@ cfa_scores <- data.frame(lavPredict(fit_meas, append.data = FALSE))
 head(cfa_scores)
 
 
-
-
-
-
-
-
-
-
-
 # Equal Loadings ----------------------------------------------------------
-
-
 
 # If we have some prior knowledge about the structure of latent variables, we
 # might consider using equal factor loading. To do this, we simply give all the
@@ -174,12 +125,12 @@ mod_meas_eq_load <- '
   ## latent variable definitions (CFA)
   HOME_t1 =~ banana * accept_t1 + beer * variety_t1 + booger * acStim_t1
   HOME_t2 =~ banana * accept_t2 + beer * variety_t2 + booger * acStim_t2
-  
+
   ## covariances
   HOME_t1 ~~ HOME_t2 + adhd_t1 + adhd_t2
   HOME_t2 ~~ adhd_t1 + adhd_t2
   adhd_t1 ~~ adhd_t2
-  
+
   ## self-regression
   # We need these for the observed vars (only in the measurment model).
   # (This is a silly bug; no extra parameters are actully "used".)
@@ -190,23 +141,9 @@ mod_meas_eq_load <- '
 fit_meas_eq_load <- cfa(mod_meas_eq_load, data = adhd_home_env)
 # How many free parameters have we gained?
 
-
-
 summary(fit_meas_eq_load, standardize = TRUE)
 # Note that the standardized loadings are NOT equal!
 # (We will learn next time how to deal with that...)
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Exercise ----------------------------------------------------------------
 

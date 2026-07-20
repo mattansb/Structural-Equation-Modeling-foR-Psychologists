@@ -14,9 +14,9 @@ d <-
 
 head(d)
 
-d <- d %>% 
-  data.frame() %>% 
-  mutate(across(.fns = ~round(change_scale(.x, to = sort(runif(2, 50, 150))))))
+d <- d %>%
+  data.frame() %>%
+  mutate(across(.fns = ~ round(change_scale(.x, to = sort(runif(2, 50, 150))))))
 
 multi.hist(d)
 

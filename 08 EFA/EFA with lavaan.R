@@ -1,8 +1,6 @@
-
 Harman74 <- read.csv("Harman74.csv")
 
 library(lavaan)
-
 
 
 # EFA in lavaan -----------------------------------------------------------
@@ -24,9 +22,7 @@ efa_model <- "
                       WordClassification + FigureRecognition + ArithmeticProblems
 "
 
-efa_fit <- lavaan(efa_model, data = Harman74,  
-                  auto.var = TRUE, auto.efa = TRUE)
+efa_fit <- lavaan(efa_model, data = Harman74, auto.var = TRUE, auto.efa = TRUE)
 
 summary(efa_fit, standardize = TRUE)
 # We can see that these results are very similar to those from psych::fa.
-

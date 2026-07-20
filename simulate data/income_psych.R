@@ -10,13 +10,16 @@ shyness ~ 0.3 * anxiety
 lavaanify(m)
 
 set.seed(1)
-d <- simulateData(m, model.type = "sem",
-                  skewness = c(-1, 1, 2, 1)/2,
-                  kurtosis = rep(0, 4),
-                  sample.nobs = 431,
-                  empirical = FALSE,
-                  standardized = TRUE,
-                  return.type = "data.frame")
+d <- simulateData(
+  m,
+  model.type = "sem",
+  skewness = c(-1, 1, 2, 1) / 2,
+  kurtosis = rep(0, 4),
+  sample.nobs = 431,
+  empirical = FALSE,
+  standardized = TRUE,
+  return.type = "data.frame"
+)
 
 d$income <- standardize(d$income)
 d$neg_mood <- round(change_scale(d$neg_mood, to = c(1, 7)))
