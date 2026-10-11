@@ -20,7 +20,7 @@ head(Harman74)
 
 PCA_params <- principal_components(Harman74, n = "max")
 
-PCA_model <- attr(PCA_params, "model")
+PCA_model <- insight::get_model(PCA_params)
 
 
 ## How many components? ---------------------
@@ -114,7 +114,7 @@ as.data.frame(n)
 EFA <- fa(
   Harman74,
   nfactors = 5,
-  fm = "pa", # (principal factor solution), or use gm = "minres" (minimum residual method)
+  fm = "pa", # (principal factor solution), or use fm = "minres" (minimum residual method)
   rotate = "oblimin" # or rotate = "varimax"
 )
 # You can see a full list of rotation types here:
